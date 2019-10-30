@@ -1,0 +1,87 @@
+body {
+  background-color: #fff;
+  background-image:
+  linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+  linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+}
+/* https://leaverou.github.io/css3patterns/#lined-paper */
+
+p.welcome{
+  display: inline;
+	position: relative;
+	font: 80px Helvetica, Sans-Serif;
+	letter-spacing: -5px;
+	color: rgba(0,0,255,0.5);
+
+}
+p.welcome:after{
+  content: "Welcome to the Study Break Arcade!";
+  position: absolute; left: 3px; top: 5px;
+  color: rgba(255,0,0,0.5);
+}
+/* https://line25.com/tutorials/how-to-create-a-cool-anaglyphic-text-effect-with-css */
+p.catchphrase{
+  font-size: 30pt;
+  text-align: center;
+  font-family: cursive;
+  color: rgba(73,67,72,0.9);
+
+}
+p.topOfGame{
+display: inline-block;
+}
+div.topOfGame{
+  line-height: 0px;
+  width: 560px;
+  height: 200px;
+  background-color: black;
+  color: #04FF00;
+  font-size: 90pt;
+  border-radius: 8px;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+}
+img.gamePic{
+ border: 25px solid black;
+ padding: 35px 35px;
+ background-color: blue;
+ height: 350px;
+ width: 350px;
+}
+
+/* body{
+  background-color: #030C7B;
+} */
+img.gameControls{
+  height: 140px;
+  width: 550px;
+  border-radius: 8px;
+  border: 2px solid black;
+}
+button.nextButton{
+  height: 40px;
+  width: 80px;
+  background-color: yellow;
+  color: black;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-size: 15pt;
+
+}
+button.submitButton{
+  height: 40px;
+  width: 180px;
+  background-color: yellow;
+  color: black;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-size: 15pt;
+
+}
+button.previousButton{
+  height: 40px;
+  width: 80px;
+  background-color: yellow;
+  color: black;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-size: 15pt;
+
+}
