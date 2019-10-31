@@ -10,13 +10,13 @@ body {
 p.welcome{
   display: inline;
 	position: relative;
-	font: 80px Helvetica, Sans-Serif;
+	font: 100px Helvetica, Sans-Serif;
 	letter-spacing: -5px;
 	color: rgba(0,0,255,0.5);
 
 }
 p.welcome:after{
-  content: "Welcome to the Study Break Arcade!";
+  content: "(: Study Break Arcade :)";
   position: absolute; left: 3px; top: 5px;
   color: rgba(255,0,0,0.5);
 }
@@ -24,13 +24,14 @@ p.welcome:after{
 p.catchphrase{
   font-size: 30pt;
   text-align: center;
-  font-family: cursive;
+  font-family: SnellRoundhand, cursive;
   color: rgba(73,67,72,0.9);
 
 }
 p.topOfGame{
 display: inline-block;
 }
+
 div.topOfGame{
   line-height: 0px;
   width: 560px;
@@ -41,47 +42,45 @@ div.topOfGame{
   border-radius: 8px;
   font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
 }
+
 img.gamePic{
  border: 25px solid black;
  padding: 35px 35px;
  background-color: blue;
- height: 350px;
- width: 350px;
 }
 
-/* body{
-  background-color: #030C7B;
-} */
 img.gameControls{
   height: 140px;
   width: 550px;
   border-radius: 8px;
   border: 2px solid black;
 }
+
 button.nextButton{
   height: 40px;
   width: 80px;
-  background-color: yellow;
+  background-color: #FFFC8D;
   color: black;
-  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-family: Helvetica, Sans-Serif;
   font-size: 15pt;
 
 }
+
 button.submitButton{
   height: 40px;
   width: 180px;
-  background-color: yellow;
+  background-color: #FFFC8D;
   color: black;
-  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-family: Helvetica, Sans-Serif;
   font-size: 15pt;
 
 }
+
 button.previousButton{
   height: 40px;
   width: 80px;
-  background-color: yellow;
+  background-color: #FFFC8D;
   color: black;
-  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-family: Helvetica, Sans-Serif;
   font-size: 15pt;
-
 }
