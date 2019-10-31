@@ -1,19 +1,23 @@
-<!-- https://people.eecs.ku.edu/~g067s818/createAccount.html -->
+<!-- https://people.eecs.ku.edu/~g067s818/project4/accountLogin.html -->
 
 
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="account.css" rel="stylesheet"/>
   </head>
   <body>
-    <h1>Create an Account</h1>
-
+    <center>
+    <h1 class="createAccount">Create an Account</h1>
+    <h2 class="letFun">and Let the Fun Begin!</h2>
     <form action="createAccount.php" method="post">
-      <p>Enter a Username: </p><input type="text" name="username">
-      <br>
-      <p>Enter a Password: </p><input type="password" name="password" minlength="8">
-      <br>
-      <input type="submit"  value="Submit">
+      <p class="username">Enter a Username: <input type="text" name="username"></p>
+      <p class="password">Enter a Password: <input type="password" name="password" minlength="8"></p>
+      <input type="submit"  value="Create" class="createButton">
     </form>
+    <br><br><br><br><br><br>
+    <img src="procrastination1.gif"></img>
+    <!-- https://www.reddit.com/r/TrollXChromosomes/comments/3x5foh/procrastination_level_just_bought_myself_a/ -->
+    </center>
   </body>
 </html>
