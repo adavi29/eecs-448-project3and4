@@ -5,7 +5,6 @@ body {
   linear-gradient(#eee .1em, transparent .1em);
   background-size: 100% 1.2em;
 }
-/* https://leaverou.github.io/css3patterns/#lined-paper */
 
 p.welcome{
   display: inline;
@@ -13,21 +12,21 @@ p.welcome{
 	font: 100px Helvetica, Sans-Serif;
 	letter-spacing: -5px;
 	color: rgba(0,0,255,0.5);
-
 }
+
 p.welcome:after{
   content: "(: Study Break Arcade :)";
   position: absolute; left: 3px; top: 5px;
   color: rgba(255,0,0,0.5);
 }
-/* https://line25.com/tutorials/how-to-create-a-cool-anaglyphic-text-effect-with-css */
+
 p.catchphrase{
   font-size: 30pt;
   text-align: center;
   font-family: SnellRoundhand, cursive;
   color: rgba(73,67,72,0.9);
-
 }
+
 p.topOfGame{
 display: inline-block;
 }

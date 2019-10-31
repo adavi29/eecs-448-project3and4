@@ -7,3 +7,7 @@ Checkers pic on homepage: https://www.amazon.com/Checkers-and-Checkerboard-Board
 Procrastination GIF on create account: https://www.reddit.com/r/TrollXChromosomes/comments/3x5foh/procrastination_level_just_bought_myself_a/
 
 Procrastination GIF on login: https://giphy.com/gifs/share-procrastination-procrastinationgif-jkPTSxuolA5jy
+
+Notebook Background Effect created by Sarah Backhouse: https://leaverou.github.io/css3patterns/#lined-paper
+
+Text Effect on Homepage created using tutorial by Iggy: https://line25.com/tutorials/how-to-create-a-cool-anaglyphic-text-effect-with-css
