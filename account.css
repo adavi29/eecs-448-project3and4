@@ -1,0 +1,34 @@
+h1.createAccount{
+  display: inline;
+  position: relative;
+  font: 80px Helvetica, Sans-Serif;
+  letter-spacing: -5px;
+  color: rgba(0,0,255,0.5);
+}
+h2.letFun{
+  font: 30px Helvetica, Sans-Serif;
+  color: rgba(255,0,0,0.5);
+}
+body {
+  background-color: #fff;
+  background-image:
+  linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+  linear-gradient(#eee .1em, transparent .1em);
+  background-size: 100% 1.2em;
+}
+input.createButton{
+  height: 30px;
+  width: 90px;
+  background-color: #FFFC8D;
+  color: #535353;
+  font-family: Helvetica, Sans-Serif;
+  font-size: 13pt;
+}
+p.username{
+  font: 18px Helvetica, Sans-Serif;
+  color: black;
+}
+p.password{
+  font: 18px Helvetica, Sans-Serif;
+  color: black;
+}
