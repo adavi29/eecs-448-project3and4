@@ -86,7 +86,7 @@ function click(cell, n){
 				else{
 						jump(table.from, cell);
 						if(!table.canJump){
-							newTurn();
+							newTurn(); //no new turn if the piece can jump again
 						}
 				}
 			}
