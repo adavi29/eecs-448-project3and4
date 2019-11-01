@@ -23,7 +23,7 @@ function checkers() {
 				cell.hasPiece = ((cell.id>(n-3)*n-1)||(cell.id<3*n)); //assigns all
 			}
 
-			///////######Debug########//////////
+			/*//////######Debug########//////////
 			if(cell.id == 26){
 				cell.isRed = false;
 				cell.hasPiece = true;
