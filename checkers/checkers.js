@@ -169,7 +169,12 @@ function move(fromCell, toCell){
 		if((toCell.id < n)||(toCell.id >= n*(n-1))){
 			toCell.king = true;
 		}
-		(toCell.isRed) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
+		if(toCell.king){
+			(toCell.isRed) ? toCell.innerHTML = "❤️" : toCell.innerHTML =  "🖤";
+		}
+		else{
+			(toCell.isRed) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
+		}
 	}
 }
 
@@ -189,11 +194,16 @@ function jump(fromCell, toCell){
 		fromCell.hasPiece = false;
 		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
+		table.hasJumped = true;
 		if((toCell.id < n)||(toCell.id >= n*(n-1))){
 			toCell.king = true;
 		}
-		(toCell.isRed) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
-		table.hasJumped = true;
+		if(toCell.king){
+			(toCell.isRed) ? toCell.innerHTML = "❤️" : toCell.innerHTML =  "🖤";
+		}
+		else{
+			(toCell.isRed) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
+		}
 		resetOptions();
 		showOptions(toCell);
 		}
