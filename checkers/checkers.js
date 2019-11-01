@@ -65,7 +65,7 @@ function checkers() {
 
 function click(cell, n){
 	console.log("click!", cell.id);
-	if(!table.hasJumped){
+//	if(!table.hasJumped){
 		if(!table.shown){
 			if(cell.hasPiece){
 				if(cell.isRed==table.redTurn){
@@ -90,7 +90,7 @@ function click(cell, n){
 						}
 				}
 			}
-		}
+	//	}
 	}
 	/*	while(table.canJump){
 			jump(table.from, cell);
