@@ -21,18 +21,18 @@
     else
     {
 
-      $query = "SELECT * FROM AccountInfo WHERE username='$username' AND password='$password'";
+      $query = "SELECT EXISTS(SELECT * FROM AccountInfo WHERE username='$username' AND password='$password')";
       if ($result = $mysqli->query($query))
       {
 
-        $row = $result->fetch_assoc();
-        printf($row["user_id"]);
-        if($row["user_id"] >= 100){
-           echo "Username name and password found. You are logged in.";
+        // $row = $result->fetch_assoc();
+        // printf($row["user_id"]);
+        // if($row["user_id"] >= 100){
+           // echo "Username name and password found. You are logged in.";
            echo "<script>window.location.replace(homePage.html)</script>";
         }
         else{
-          echo "Username and password are incorrect.";
+          echo "<script>alert('Username and password are incorrect.'); window.history.go(-1);'";
         }
 
       }
