@@ -44,16 +44,13 @@
     $query = "INSERT INTO AccountInfo (username) VALUES ('" . $username . "')";
     if ($result = $mysqli->query($query))
     {
-        echo "New user " . $username . " created successfully.";
-        echo "<br>";
+      $query = "INSERT INTO AccountInfo (password) VALUES ('" . $password . "')";
+      if ($result = $mysqli->query($query))
+      {
+          echo "<script>window.location.replace(accountLogin.html)</script>";
+      }
     }
 
-
-    $query = "INSERT INTO AccountInfo (password) VALUES ('" . $password . "')";
-    if ($result = $mysqli->query($query))
-    {
-        echo "New password created successfully.";
-    }
 
   }
 

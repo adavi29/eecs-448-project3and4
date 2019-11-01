@@ -27,8 +27,9 @@
 
         $row = $result->fetch_assoc();
         printf($row["user_id"]);
-         if($row["user_id"] >= 100){
+        if($row["user_id"] >= 100){
            echo "Username name and password found. You are logged in.";
+           echo "<script>window.location.replace(homePage.html)</script>";
         }
         else{
           echo "Username and password are incorrect.";
