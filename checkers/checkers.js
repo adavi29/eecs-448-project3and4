@@ -189,6 +189,9 @@ function jump(fromCell, toCell){
 		fromCell.hasPiece = false;
 		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
+		if((toCell.id < n)||(toCell.id >= n*(n-1))){
+			toCell.king = true;
+		}
 		(toCell.isRed) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
 		table.hasJumped = true;
 		resetOptions();
