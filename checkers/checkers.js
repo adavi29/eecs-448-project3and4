@@ -65,7 +65,6 @@ function checkers() {
 
 function click(cell, n){
 	console.log("click!", cell.id);
-//	if(!table.hasJumped){
 		if(!table.shown){
 			if(cell.hasPiece){
 				if(cell.isRed==table.redTurn){
@@ -90,14 +89,8 @@ function click(cell, n){
 						}
 				}
 			}
-	//	}
 	}
-	/*	while(table.canJump){
-			jump(table.from, cell);
-		}
-		newTurn();
-	}
-	*/
+
 }
 
 
@@ -158,7 +151,6 @@ function showOptions(cell){
 
 function move(fromCell, toCell){
 	if(toCell.option){
-		console.log("moved");
 		toCell.isRed = fromCell.isRed;
 		toCell.king = fromCell.king;
 		fromCell.king = false;
@@ -181,7 +173,6 @@ function move(fromCell, toCell){
 function jump(fromCell, toCell){
 	if(toCell.option){
 		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(toCell.id-fromCell.id)/2)
-//		console.log(document.getElementById(parseInt(fromCell.id)+parseInt(toCell.id-fromCell.id)/2));
 
 		midCell.hasPiece = false;
 		midCell.king = false;
