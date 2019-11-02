@@ -11,3 +11,5 @@ Procrastination GIF on login: https://giphy.com/gifs/share-procrastination-procr
 Notebook Background Effect created by Sarah Backhouse: https://leaverou.github.io/css3patterns/#lined-paper
 
 Text Effect on Homepage created using tutorial by Iggy: https://line25.com/tutorials/how-to-create-a-cool-anaglyphic-text-effect-with-css
+
+Game 3 Matching Game: created by following tutorial on https://marina-ferreira.github.io/tutorials/js/memory-game/ written by Marina Ferreira 

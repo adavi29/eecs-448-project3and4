@@ -1,3 +1,17 @@
+body{
+  background: #e8e3fa;
+  font-family: didot;
+
+}
+p.title{
+  font-size: 30pt;
+  text-align: center;
+  font-weight: bold;
+}
+p.description{
+  font-size: 20pt;
+  text-align: center;
+}
 *{
   padding: : 0;
   margin: 0;
@@ -37,9 +51,6 @@
   border-radius: 5px;
   background: lightblue;
   backface-visibility: hidden;
-}
-body{
-  background: #ECECEC;
 }
 .front{
   transform: rotateY(180deg);
