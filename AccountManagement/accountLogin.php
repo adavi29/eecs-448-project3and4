@@ -27,7 +27,7 @@
         $row = $result->fetch_assoc();
         printf($row["user_id"]);
          if($row["user_id"] >= 0){
-           echo "Username name and password found. You are logged in.";
+           echo "<script>window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/homePage.html')";
         }
         else{
           echo "Username and password are incorrect.";
