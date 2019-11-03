@@ -47,7 +47,7 @@
       $query = "INSERT INTO AccountInfo (password) VALUES ('" . $password . "')";
       if ($result = $mysqli->query($query))
       {
-          echo "<script> alert('Your account was created successfully! Now login to enjoy the arcade!');window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/AccountManagement/accountLogin.html')</script>";
+          echo "<script> alert('Your account was created successfully! Now login to enjoy the arcade!');window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/index.html')</script>";
       }
     }
 
