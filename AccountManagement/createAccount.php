@@ -14,9 +14,9 @@
     }
 
 
-    if ($username == "")
+    if ($username == ""||$password == "")
     {
-      echo "Error: Cannot create user with empty username";
+      echo "<script> alert('Error: both username and password fields must be filled out to create account'); window.history.go(-1);";
     }
     else
     {
@@ -28,7 +28,7 @@
       if($row = $result->fetch_assoc())
       {
         $userFound = true;
-        echo "Error: User " . $username . " already exists";
+        echo "<script> alert('Error: Username already exists'); window.history.go(-1);</script>";
 
       }
       /* free result set */
@@ -47,7 +47,7 @@
       $query = "INSERT INTO AccountInfo (password) VALUES ('" . $password . "')";
       if ($result = $mysqli->query($query))
       {
-          echo "<script>window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/AccountManagement/accountLogin.html')</script>";
+          echo "<script> alert('Your account was created successfully! Now login to enjoy the arcade!');window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/AccountManagement/accountLogin.html')</script>";
       }
     }
 
