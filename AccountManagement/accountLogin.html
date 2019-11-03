@@ -3,18 +3,23 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="login.css" rel="stylesheet"/>
   </head>
   <body>
-    <h1>Login</h1>
-
+    <center>
+        <p class="welcome">Welcome to the Study Break Arcade!</p>
+        <h1 class="login">Login to continue..</h1>
     <form action="accountLogin.php" method="post">
-      <p>Username: </p><input type="text" name="username">
-      <br>
-      <p>Password: </p><input type="password" name="password" minlength="8">
-      <br>
-      <input type="submit"  value="Submit">
+      <p class="username">Username: <input type="text" name="username"></p>
+      <p class="password">Password: <input type="password" name="password" minlength="8"></p>
+      <input type="submit"  value="Login" class="loginButton">
     </form>
 
-    <a href='https://people.eecs.ku.edu/~g067s818/project4/createAccount.html'><button>Create Account</button></a>
+    <p class="createAccount">Don't have an account?
+      <a href='https://people.eecs.ku.edu/~g067s818/createAccount.html'><button class="createButton">Create Account</button></a></p>
+      <br><br>
+  <iframe src="https://giphy.com/embed/jkPTSxuolA5jy" width="480" height="359" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/share-procrastination-procrastinationgif-jkPTSxuolA5jy"></a></p>
+  <!-- https://giphy.com/gifs/share-procrastination-procrastinationgif-jkPTSxuolA5jy -->
+    </center>
   </body>
 </html>
