@@ -1,5 +1,5 @@
 let playerX=true;
-let playerY=false;
+let playerO=false;
 
 /**
 * ticTacToe()
@@ -89,12 +89,12 @@ function switchPlayer(){
     if(playerX==true)
     {
         playerX=false;
-        playerY=true;
+        playerO=true;
     }
     else
     {
         playerX=true;
-        playerY=false;
+        playerO=false;
     }
 }
 
@@ -207,7 +207,7 @@ function printWinner(){
     }
     else
     {
-        alert("Player Y wins!");
+        alert("Player O wins!");
     }
 }
 
