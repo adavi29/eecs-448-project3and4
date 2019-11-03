@@ -1,5 +1,5 @@
-let player1=true;
-let player2=false;
+let playerX=true;
+let playerY=false;
 
 function ticTacToe() {
     table = document.getElementById("gameBoard");
@@ -21,9 +21,6 @@ function ticTacToe() {
                 click(this); 
             };
 
-            cell.isAdjacent= function(){
-                if(this.id==3*i+j+1)
-            };
         }   
     } 
 }
@@ -37,34 +34,142 @@ function click(cell){
         return;
     }
 
-    if(player1==true)
+    if(playerX==true)
     {
         cell.innerHTML="&#88"; //X
         cell.hasValue=true;
         cell.isX=true;
+        if(winChoice(cell))
+        {
+            printWinner();
+            return;
+        }
     }
     else
     {
-        cell.innerHTML="&#79;"; //O
+        cell.innerHTML="&#79"; //O
         cell.hasValue=true;
         cell.isO=true;
+        if(winChoice(cell))
+        {
+            printWinner();
+            return;
+        }
     }
     switchPlayer();
 }
 
 function switchPlayer(){
-    if(player1==true)
+    if(playerX==true)
     {
-        player1=false;
-        player2=true;
+        playerX=false;
+        playerY=true;
     }
     else
     {
-        player1=true;
-        player2=false;
+        playerX=true;
+        playerY=false;
     }
 }
 
-function isAdjacent(cell){
-    
+function winChoice(cell){
+        
+        if(cell.isX)
+        {
+            if(document.getElementById(0).innerHTML=="X" && document.getElementById(1).innerHTML=="X" && document.getElementById(2).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(0).innerHTML=="X" && document.getElementById(3).innerHTML=="X" && document.getElementById(6).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(0).innerHTML=="X" && document.getElementById(1).innerHTML=="X" && document.getElementById(2).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(0).innerHTML=="X" && document.getElementById(4).innerHTML=="X" && document.getElementById(8).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(1).innerHTML=="X" && document.getElementById(4).innerHTML=="X" && document.getElementById(7).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(2).innerHTML=="X" && document.getElementById(4).innerHTML=="X" && document.getElementById(6).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(2).innerHTML=="X" && document.getElementById(5).innerHTML=="X" && document.getElementById(8).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(3).innerHTML=="X" && document.getElementById(4).innerHTML=="X" && document.getElementById(5).innerHTML=="X")
+            {
+                return(true);
+            }
+            else if(document.getElementById(6).innerHTML=="X" && document.getElementById(7).innerHTML=="X" && document.getElementById(8).innerHTML=="X")
+            {
+                return(true);
+            }
+            else
+            {
+                return(false);
+            }
+        }
+        else//isO
+        {
+            if(document.getElementById(0).innerHTML=="O" && document.getElementById(1).innerHTML=="O" && document.getElementById(2).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(0).innerHTML=="O" && document.getElementById(3).innerHTML=="O" && document.getElementById(6).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(0).innerHTML=="O" && document.getElementById(1).innerHTML=="O" && document.getElementById(2).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(0).innerHTML=="O" && document.getElementById(4).innerHTML=="O" && document.getElementById(8).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(1).innerHTML=="O" && document.getElementById(4).innerHTML=="O" && document.getElementById(7).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(2).innerHTML=="O" && document.getElementById(4).innerHTML=="O" && document.getElementById(6).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(2).innerHTML=="O" && document.getElementById(5).innerHTML=="O" && document.getElementById(8).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(3).innerHTML=="O" && document.getElementById(4).innerHTML=="O" && document.getElementById(5).innerHTML=="O")
+            {
+                return(true);
+            }
+            else if(document.getElementById(6).innerHTML=="O" && document.getElementById(7).innerHTML=="O" && document.getElementById(8).innerHTML=="O")
+            {
+                return(true);
+            }
+            else
+            {
+                return(false);
+            }
+        }
+
+}
+
+function printWinner(){
+    if(playerX==true)
+    {
+        alert("Player X wins!");
+    }
+    else
+    {
+        alert("Player Y wins!");
+    }
 }
