@@ -33,6 +33,6 @@ function previousGame(){
 * Increments gameIndex by one and accounts for index going out of bounds
 */
 function goToGame(){
-  htmlName = "game"+gameIndex+"/game"+gameIndex+".html";
+  htmlName = "https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/game"+gameIndex+"/game"+gameIndex+".html";
   window.location.replace(htmlName);
 }

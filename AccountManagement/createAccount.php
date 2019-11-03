@@ -47,7 +47,7 @@
       $query = "INSERT INTO AccountInfo (password) VALUES ('" . $password . "')";
       if ($result = $mysqli->query($query))
       {
-          echo "<script>window.location.replace(accountLogin.html)</script>";
+          echo "<script>window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/AccountManagement/accountLogin.html')</script>";
       }
     }
 
