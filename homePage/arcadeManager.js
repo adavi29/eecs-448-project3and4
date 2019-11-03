@@ -7,7 +7,7 @@ gameIndex=1;
 */
 function nextGame(){
   gameIndex++;
-  if(gameIndex==4){
+  if(gameIndex==5){
     gameIndex=1;
   }
   document.getElementById("gamePic").src= "homePage/game"+gameIndex+".jpg";
@@ -21,7 +21,7 @@ function nextGame(){
 function previousGame(){
   gameIndex--;
   if(gameIndex==0){
-    gameIndex=3;
+    gameIndex=4;
   }
   document.getElementById("gamePic").src= "homePage/game"+gameIndex+".jpg";
 
