@@ -1,6 +1,14 @@
 let playerX=true;
 let playerY=false;
 
+/**
+* ticTacToe()
+* post: Manages gameplay
+* post: Creates the table and adds cell attributes
+* post: Defines functions: cell.onclick and an anonymous function that is called when the new game button is clicked
+* cell.onclick() calls the click function when a cell is clicked
+* the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
+*/
 function ticTacToe() {
     table = document.getElementById("gameBoard");
 
@@ -16,18 +24,31 @@ function ticTacToe() {
             cell.isX = false;
             cell.isO = false;
             
-            cell.onmousedown =  function(){
+            cell.onclick =  function(){
                 document.getElementById(i*3+j).style.backgroundColor="beige";
                 click(this); 
             };
 
         }   
     } 
+
+    document.getElementById("newGame").onmousedown = function(){
+        for(let i=2; i>=0; i--){
+            table.deleteRow(i);
+        }
+        ticTacToe()};
 }
 
+/**
+* click(cell)
+* parameter: cell: the cell that is affected when click is called
+* pre: is called when a table cell is clicked
+* post: Updates cell contents with X or O, checks for winner, then switches players
+* exception: alert is called when user tries to click on a cell that has already been clicked
+* return: returns when a player wins
+*/
 function click(cell){
-    console.log("clicked cell # "+cell.id);
-
+    //console.log("clicked cell # "+cell.id);
     if(cell.hasValue)
     {
         alert("Cannot click here.");
@@ -59,6 +80,11 @@ function click(cell){
     switchPlayer();
 }
 
+/**
+* switchPlayer()
+* pre: player booleans are set
+* post: switches player booleans so that one is true while the other is false
+*/
 function switchPlayer(){
     if(playerX==true)
     {
@@ -72,6 +98,12 @@ function switchPlayer(){
     }
 }
 
+/**
+* winChoice(cell)
+* parameter: cell: the cell whose contents are examined for a win
+* post: Checks the whole board for a winning sequence
+* return: returns false if there is no winner; returns true if a winning sequence is on the board
+*/
 function winChoice(cell){
         
         if(cell.isX)
@@ -163,6 +195,11 @@ function winChoice(cell){
 
 }
 
+/**
+* printWinner()
+* pre: the board is full
+* post: Prints an alert for which player won
+*/
 function printWinner(){
     if(playerX==true)
     {
@@ -173,3 +210,12 @@ function printWinner(){
         alert("Player Y wins!");
     }
 }
+
+/**
+* backHome()
+* pre: the HTML button exists
+* post: Takes the user back to the home page of the arcade
+*/
+function backHome(){
+    window.location.replace("https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/homePage.html");
+  }
