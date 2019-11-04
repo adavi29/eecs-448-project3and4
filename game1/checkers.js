@@ -1,3 +1,10 @@
+/**
+* checkers()
+* parameter: none
+* pre: empty table must exist in HTML
+* post: generates board and cells
+*/
+
 function checkers() {
 	table = document.getElementById("table");
 	table.redTurn = true;
@@ -63,6 +70,14 @@ function checkers() {
 			checkers()};
 		}
 
+/**
+* click(cell, n)
+* parameter: cell: the cell that was clicked, n is size of the board
+* pre: board must exist with cells, click must have happened on a cell
+* post: decides what to do with click depending on what's within the cell,
+* 		whose turn it is, and if a piece has been clicked or jumped before
+* return : none
+*/
 function click(cell, n){
 	console.log("click!", cell.id);
 		if(!table.shown){
@@ -92,6 +107,15 @@ function click(cell, n){
 	}
 
 }
+
+/**
+* showOptions(cell)
+* parameter: cell: the cell that was clicked
+* pre: board must exist with cells, click must have happened on a cell that had a piece in it
+* post: shows any cells that the piece can move or jump to, marks them as options or jump, and
+* prepares the board for the next jump or move.
+* return : none
+*/
 
 
 function showOptions(cell){
@@ -148,6 +172,16 @@ function showOptions(cell){
 		}
 	}
 }
+
+/**
+* move(fromCell, toCell)
+* parameter: fromCell: the cell you're moving piece from; toCell: the cell you're moving it to
+* pre: board must exist with cells, click must have happened on a cell that had a piece in it
+* post: shows any cells that the piece can move or jump to, marks them as options or jump, and
+* prepares the board for the next jump or move.
+* return : none
+*/
+
 
 function move(fromCell, toCell){
 	if(toCell.option){
