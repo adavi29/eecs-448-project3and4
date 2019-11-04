@@ -23,14 +23,14 @@ function ticTacToe() {
             cell.hasValue = false;
             cell.isX = false;
             cell.isO = false;
-            
+
             cell.onclick =  function(){
                 document.getElementById(i*3+j).style.backgroundColor="beige";
-                click(this); 
+                click(this);
             };
 
-        }   
-    } 
+        }
+    }
 
     document.getElementById("newGame").onmousedown = function(){
         for(let i=2; i>=0; i--){
@@ -41,7 +41,7 @@ function ticTacToe() {
 
 /**
 * click(cell)
-* parameter: cell: the cell that is affected when click is called
+* @param cell the cell that is affected when click is called
 * pre: is called when a table cell is clicked
 * post: Updates cell contents with X or O, checks for winner, then switches players
 * exception: alert is called when user tries to click on a cell that has already been clicked
@@ -100,12 +100,12 @@ function switchPlayer(){
 
 /**
 * winChoice(cell)
-* parameter: cell: the cell whose contents are examined for a win
+* @param  cell the cell whose contents are examined for a win
 * post: Checks the whole board for a winning sequence
 * return: returns false if there is no winner; returns true if a winning sequence is on the board
 */
 function winChoice(cell){
-        
+
         if(cell.isX)
         {
             if(document.getElementById(0).innerHTML=="X" && document.getElementById(1).innerHTML=="X" && document.getElementById(2).innerHTML=="X")
