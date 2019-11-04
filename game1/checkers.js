@@ -1,6 +1,5 @@
 /**
 * checkers()
-* parameter: none
 * pre: empty table must exist in HTML
 * post: generates board and cells
 */
@@ -72,11 +71,11 @@ function checkers() {
 
 /**
 * click(cell, n)
-* parameter: cell: the cell that was clicked, n is size of the board
+* @param cell the cell that was clicked
+* @param n size of the board
 * pre: board must exist with cells, click must have happened on a cell
 * post: decides what to do with click depending on what's within the cell,
 * 		whose turn it is, and if a piece has been clicked or jumped before
-* return : none
 */
 function click(cell, n){
 	console.log("click!", cell.id);
@@ -110,11 +109,10 @@ function click(cell, n){
 
 /**
 * showOptions(cell)
-* parameter: cell: the cell that was clicked
+* @param cell the cell that was clicked
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
 * post: shows any cells that the piece can move or jump to, marks them as options or jump, and
 * prepares the board for the next jump or move.
-* return : none
 */
 
 
@@ -175,10 +173,10 @@ function showOptions(cell){
 
 /**
 * move(fromCell, toCell)
-* parameter: fromCell: the cell you're moving piece from; toCell: the cell you're moving it to
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
 * post: Gives the toCell the properties of the fromCell and then resets the fromCell
-* return : none
 */
 
 
@@ -205,10 +203,10 @@ function move(fromCell, toCell){
 
 /**
 * jump(fromCell, toCell)
-* parameter: fromCell: the cell you're moving piece from; toCell: the cell you're moving it to
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it, piece must be between from and to
 * post: Gives the toCell the properties of the fromCell and then resets the fromCell and the cell between them
-* return : none
 */
 
 function jump(fromCell, toCell){
@@ -243,10 +241,8 @@ function jump(fromCell, toCell){
 
 /**
 * newTurn()
-* parameter: none
 * pre: checkers() must have been run
 * post: Resets options, calls resetOPtions, resets the fromCell, toggles whose turn it is
-* return : none
 */
 
 function newTurn() {
@@ -259,10 +255,8 @@ function newTurn() {
 
 /**
 * newTurn()
-* parameter: none
 * pre: checkers() must have been run
 * post: goes through each cell and undoes everything that showOptions could have done to each cell
-* return : none
 */
 
 function resetOptions(){
