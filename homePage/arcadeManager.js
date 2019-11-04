@@ -1,6 +1,5 @@
 gameIndex=1;
 /**
-* nextGame()
 * Post: Changes slide picture to next game's picture.
 * Uses gameIndex to track which game's picture to display.
 * Increments gameIndex by one and accounts for index going out of bounds.
@@ -13,7 +12,6 @@ function nextGame(){
   document.getElementById("gamePic").src= "homePage/game"+gameIndex+".jpg";
 }
 /**
-* previousGame()
 * Post: Changes slide picture to previos game's picture.
 * Uses gameIndex to track which game's picture to display.
 * Decrements gameIndex by one and accounts for index going out of bounds.
@@ -27,9 +25,8 @@ function previousGame(){
 
 }
 /**
-*
-* Post: Takes player to corresponding game html
-* Uses gameIndex to track which game to go to
+* Post: Takes player to corresponding game html.
+* Uses gameIndex to track which game to go to.
 */
 function goToGame(){
   htmlName = "https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/game"+gameIndex+"/game"+gameIndex+".html";

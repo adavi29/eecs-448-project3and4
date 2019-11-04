@@ -2,7 +2,6 @@ let playerX=true;
 let playerO=false;
 
 /**
-* ticTacToe()
 * post: Manages gameplay
 * post: Creates the table and adds cell attributes
 * post: Defines functions: cell.onclick and an anonymous function that is called when the new game button is clicked
@@ -40,12 +39,11 @@ function ticTacToe() {
 }
 
 /**
-* click(cell)
-* @param cell the cell that is affected when click is called
 * pre: is called when a table cell is clicked
 * post: Updates cell contents with X or O, checks for winner, then switches players
 * exception: alert is called when user tries to click on a cell that has already been clicked
 * return: returns when a player wins
+* @param cell the cell that is affected when click is called
 */
 function click(cell){
     //console.log("clicked cell # "+cell.id);
@@ -81,7 +79,6 @@ function click(cell){
 }
 
 /**
-* switchPlayer()
 * pre: player booleans are set
 * post: switches player booleans so that one is true while the other is false
 */
@@ -99,10 +96,9 @@ function switchPlayer(){
 }
 
 /**
-* winChoice(cell)
-* @param  cell the cell whose contents are examined for a win
 * post: Checks the whole board for a winning sequence
 * return: returns false if there is no winner; returns true if a winning sequence is on the board
+* @param  cell the cell whose contents are examined for a win
 */
 function winChoice(cell){
 
@@ -196,7 +192,6 @@ function winChoice(cell){
 }
 
 /**
-* printWinner()
 * pre: the board is full
 * post: Prints an alert for which player won
 */
@@ -212,7 +207,6 @@ function printWinner(){
 }
 
 /**
-* backHome()
 * pre: the HTML button exists
 * post: Takes the user back to the home page of the arcade
 */
