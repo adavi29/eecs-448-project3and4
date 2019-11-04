@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: game1/checkers.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: game1/checkers.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+* pre: empty table must exist in HTML
+* post: generates board and cells
+*/
+
+function checkers() {
+	table = document.getElementById("table");
+	table.redTurn = true;
+	table.hasJumped = false;
+	table.from = null;
+	table.canJump = false;
+	n=8; //n is the size of the board
+	for(let i = 0; i &lt; n; i++){
+		table.insertRow(i);
+		for(let j = 0; j &lt; n; j++){
+			table.rows[i].insertCell(j);
+			cell = table.rows[i].cells[j];
+			cell.id = i*n+j;
+			cell.isRed = false;
+			cell.hasPiece = false;
+			cell.king = false;
+			cell.option = false;
+			cell.jump = false;
+
+			if((cell.id)%2 != i%2){
+				cell.style.backgroundColor="grey";
+				cell.isRed = (cell.id&lt;3*n); //assigns initial reds
+				cell.hasPiece = ((cell.id>(n-3)*n-1)||(cell.id&lt;3*n)); //assigns all
+			}
+
+			/*//////######Debug########//////////
+			if(cell.id == 26){
+				cell.isRed = false;
+				cell.hasPiece = true;
+				cell.king = true;
+			}
+			if(cell.id == 51)
+			cell.hasPiece = false;
+
+			////////////////////////////////////*/
+			cell.onmousedown =  function(){
+				for(let i = 0; i&lt;n; i++){
+					for(let j = 0; j &lt; n; j++){
+						if((i*n+j)%2 != i%2){
+							document.getElementById(i*n+j).style.backgroundColor="grey";
+						}
+					}
+				}
+				click(this, n); };
+			}
+		}
+
+
+
+		for(let i = 0; i &lt; n; i++){
+			for(let j = 0; j &lt; n; j++){
+				cell = table.rows[i].cells[j];
+				if(cell.hasPiece){
+					(cell.isRed) ? cell.innerHTML = "&amp;#128308" : cell.innerHTML =  "&amp;#9899";
+				}
+			}
+		}
+
+		document.getElementById("reset").onmousedown = function(){
+			for(let l = (n-1); l >= 0; l--){
+				table.deleteRow(l);
+			}
+			checkers()};
+		}
+
+/**
+* pre: board must exist with cells, click must have happened on a cell
+* post: decides what to do with click depending on what's within the cell,
+* 		whose turn it is, and if a piece has been clicked or jumped before
+* @param cell the cell that was clicked
+* @param n size of the board
+*/
+function click(cell, n){
+	console.log("click!", cell.id);
+		if(!table.shown){
+			if(cell.hasPiece){
+				if(cell.isRed==table.redTurn){
+					showOptions(cell);
+				}
+			}
+		}
+		else{
+			if((table.from.isRed==cell.isRed)&amp;&amp;(cell.hasPiece)){
+				resetOptions();
+				showOptions(cell);
+			}
+			if((cell.option)&amp;&amp;(!cell.hasPiece)){
+				if(!cell.jump){
+					move(table.from, cell);
+					newTurn();
+				}
+				else{
+						jump(table.from, cell);
+						if(!table.canJump){
+							newTurn(); //no new turn if the piece can jump again
+						}
+				}
+			}
+	}
+
+}
+
+/**
+* pre: board must exist with cells, click must have happened on a cell that had a piece in it
+* post: shows any cells that the piece can move or jump to, marks them as options or jump, and
+* prepares the board for the next jump or move.
+* @param cell the cell that was clicked
+*/
+
+
+function showOptions(cell){
+	table.shown = true;
+	table.from = cell;
+
+	let can = {bl:false, br:false, tl:false, tr:false};
+	let alg = {bl:-1+n, br:1+n, tl:-1-n, tr:1-n};
+	let far = {bl:false, br:false, tl:false, tr:false};
+	let dub = {bl:-2+2*n, br:2+2*n, tl:-2-2*n, tr:2-2*n};
+
+
+	if(cell.isRed||cell.king){
+		can.bl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) + n &lt; n*n));
+		can.br = ((parseInt(cell.id)%n != (n-1))&amp;&amp;(parseInt(cell.id) + n &lt; n*n));
+	}
+	if(!(cell.isRed)||cell.king){
+		can.tl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) - n >= 0));
+		can.tr = ((parseInt(cell.id)%n != (n-1))&amp;&amp;(parseInt(cell.id) - n >= 0));
+	}
+	for(let direction in can){
+		if(can[direction]){
+			nearCell = document.getElementById(parseInt(cell.id)+alg[direction]);
+			if(nearCell.hasPiece){
+				if(nearCell.isRed!=cell.isRed){
+					if(cell.isRed||cell.king){
+						far.bl = ((parseInt(nearCell.id)%n != 0)&amp;&amp;(parseInt(nearCell.id) + n &lt; n*n));
+						far.br = ((parseInt(nearCell.id)%n != (n-1))&amp;&amp;(parseInt(nearCell.id) + n &lt; n*n));
+					}
+					if(!(cell.isRed)||cell.king){
+						far.tl = ((parseInt(nearCell.id)%n != 0)&amp;&amp;(parseInt(nearCell.id) - n >= 0));
+						far.tr = ((parseInt(nearCell.id)%n != (n-1))&amp;&amp;(parseInt(nearCell.id) - n >= 0));
+					}
+					if(far[direction]){
+						farCell = document.getElementById(parseInt(cell.id)+dub[direction]);
+						if(!farCell.hasPiece){
+							farCell.style.backgroundColor="lightgrey";
+							farCell.option = true;
+							farCell.jump = true;
+							table.canJump = true;
+						}
+						else{
+							table.canJump = false;
+						}
+					}
+				}
+			}
+			else{
+				if(!table.hasJumped){
+					nearCell.style.backgroundColor="lightgrey";
+					nearCell.option=true;
+				}
+			}
+		}
+	}
+}
+
+/**
+* pre: board must exist with cells, click must have happened on a cell that had a piece in it
+* post: Gives the toCell the properties of the fromCell and then resets the fromCell
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
+*/
+
+
+function move(fromCell, toCell){
+	if(toCell.option){
+		toCell.isRed = fromCell.isRed;
+		toCell.king = fromCell.king;
+		fromCell.king = false;
+		fromCell.isRed = false;
+		fromCell.hasPiece = false;
+		toCell.hasPiece = true;
+		fromCell.innerHTML = "";
+		if((toCell.id &lt; n)||(toCell.id >= n*(n-1))){
+			toCell.king = true;
+		}
+		if(toCell.king){
+			(toCell.isRed) ? toCell.innerHTML = "❤️" : toCell.innerHTML =  "🖤";
+		}
+		else{
+			(toCell.isRed) ? toCell.innerHTML = "&amp;#128308" : toCell.innerHTML =  "&amp;#9899";
+		}
+	}
+}
+
+/**
+* pre: board must exist with cells, click must have happened on a cell that had a piece in it, piece must be between from and to
+* post: Gives the toCell the properties of the fromCell and then resets the fromCell and the cell between them
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
+*/
+
+function jump(fromCell, toCell){
+	if(toCell.option){
+		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(toCell.id-fromCell.id)/2)
+
+		midCell.hasPiece = false;
+		midCell.king = false;
+		midCell.innerHTML = "";
+
+		toCell.isRed = fromCell.isRed;
+		toCell.king = fromCell.king;
+		fromCell.king = false;
+		fromCell.isRed = false;
+		fromCell.hasPiece = false;
+		toCell.hasPiece = true;
+		fromCell.innerHTML = "";
+		table.hasJumped = true;
+		if((toCell.id &lt; n)||(toCell.id >= n*(n-1))){
+			toCell.king = true;
+		}
+		if(toCell.king){
+			(toCell.isRed) ? toCell.innerHTML = "❤️" : toCell.innerHTML =  "🖤";
+		}
+		else{
+			(toCell.isRed) ? toCell.innerHTML = "&amp;#128308" : toCell.innerHTML =  "&amp;#9899";
+		}
+		resetOptions();
+		showOptions(toCell);
+		}
+}
+
+/**
+* pre: checkers() must have been run
+* post: Resets options, calls resetOPtions, resets the fromCell, toggles whose turn it is
+*/
+
+function newTurn() {
+	table.from = null;
+	resetOptions();
+	table.hasJumped = false;
+	table.redTurn = !table.redTurn;
+	table.redTurn ? document.getElementById("body").style.backgroundColor = "darkRed" : document.getElementById("body").style.backgroundColor ="black";
+}
+
+/**
+* pre: checkers() must have been run
+* post: goes through each cell and undoes everything that showOptions could have done to each cell
+*/
+
+function resetOptions(){
+	for(let i = 0; i &lt; n; i++){
+		for(let j = 0; j &lt; n; j++){
+			document.getElementById(i*n+j).option = false;
+			document.getElementById(i*n+j).jump = false;
+		}
+	}
+	table.shown = false;
+	table.canJump = false;
+}
+
+/**
+* pre: the HTML button exists
+* post: Takes the user back to the home page of the arcade
+*/
+function backHome(){
+  window.location.replace("https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/homePage.html");
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 03 2019 19:27:31 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
