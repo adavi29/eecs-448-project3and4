@@ -17,6 +17,7 @@ function chess() {
 			cell.isWhite = false;
 			cell.pieceName = ''; //should line up with official chess notation
 			cell.option = false; //
+			cell.hasMoved = false;
 
 			cell.isWhite = (cell.id<2*n);  //assigns initial white
 			cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
@@ -24,33 +25,6 @@ function chess() {
 			if((cell.id)%2 != i%2){
 				cell.style.backgroundColor="grey";
 			}
-
-			if(((cell.id >= n)&&(cell.id < n*2))||((cell.id>=(n-2)*n)&&(cell.id<(n-1)*n))){
-				cell.pieceName = 'p';
-			}
-
-			else if((cell.id==0)||(cell.id==(n-1))||(cell.id==(n-1)*n)||(cell.id==(n*n-1))){
-				cell.pieceName = 'r';
-			}
-
-			else if((cell.id==1)||(cell.id==(n-2))||(cell.id==(n-1)*n+1)||(cell.id==(n*n-2))){
-				cell.pieceName = 'n';
-			}
-
-			else if((cell.id==2)||(cell.id==(n-3))||(cell.id==(n-1)*n+2)||(cell.id==(n*n-3))){
-				cell.pieceName = 'b';
-			}
-
-			else if((cell.id==4)||(cell.id==(n-1)*n+4)){
-				cell.pieceName = 'q';
-			}
-
-			else if((cell.id==3)||(cell.id==(n*n-5))){
-				cell.pieceName = 'k';
-			}
-
-			cell.innerHTML = cell.pieceName; ///temporary
-
 
 			/*//////######Debug########//////////
 			if(cell.id == 26){
@@ -62,34 +36,42 @@ function chess() {
 			cell.hasPiece = false;
 
 			////////////////////////////////////*/
-			cell.onmousedown =  function(){
-				for(let i = 0; i<n; i++){
-					for(let j = 0; j < n; j++){
-						if((i*n+j)%2 != i%2){
-							document.getElementById(i*n+j).style.backgroundColor="grey";
-						}
+		cell.onmousedown =  function(){
+			for(let i = 0; i<n; i++){
+				for(let j = 0; j < n; j++){
+					if((i*n+j)%2 != i%2){
+						document.getElementById(i*n+j).style.backgroundColor="grey";
 					}
 				}
-				click(this); };
+			}
+			click(this); };
+		}
+	}
+
+	for(let i = 0; i < 2*n; i++){
+			document.getElementById(i).pieceName = "rnbkqbnrpppppppp".charAt(i);
+			document.getElementById(n*n-i-1).pieceName = "rnbkqbnrpppppppp".charAt(i);
+			document.getElementById(i).innerHTML = document.getElementById(i).pieceName;
+			document.getElementById(n*n-i-1).innerHTML = document.getElementById(n*n-i-1).pieceName;
+	}
+
+
+
+
+	for(let i = 0; i < n; i++){
+		for(let j = 0; j < n; j++){
+			cell = table.rows[i].cells[j];
+			if(cell.hasPiece){
+		//		(cell.isWhite) ? cell.innerHTML = "&#128308" : cell.innerHTML =  "&#9899";
 			}
 		}
+	}
 
-
-
-		for(let i = 0; i < n; i++){
-			for(let j = 0; j < n; j++){
-				cell = table.rows[i].cells[j];
-				if(cell.hasPiece){
-			//		(cell.isWhite) ? cell.innerHTML = "&#128308" : cell.innerHTML =  "&#9899";
-				}
-			}
+	document.getElementById("reset").onmousedown = function(){
+		for(let l = (n-1); l >= 0; l--){
+			table.deleteRow(l);
 		}
-
-		document.getElementById("reset").onmousedown = function(){
-			for(let l = (n-1); l >= 0; l--){
-				table.deleteRow(l);
-			}
-			chess()};
+		chess()};
 }
 
 /**
@@ -194,26 +176,18 @@ function showOptions(cell){
 
 
 function move(fromCell, toCell){
-	/*
 	if(toCell.option){
 		toCell.isWhite = fromCell.isWhite;
-		toCell.king = fromCell.king;
-		fromCell.king = false;
+		toCell.pieceName = fromCell.pieceName;
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
 		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
-		if((toCell.id < n)||(toCell.id >= n*(n-1))){
-			toCell.king = true;
-		}
-		if(toCell.king){
-			(toCell.isWhite) ? toCell.innerHTML = "❤️" : toCell.innerHTML =  "🖤";
-		}
-		else{
-			(toCell.isWhite) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
+		toCell.innerHTML = toCell.pieceName;
+		if((toCell.id < n)||(toCell.id >= n*(n-1))){ //add pawn to piece function
+		//	toCell.king = true;
 		}
 	}
-	*/
 }
 
 /**
