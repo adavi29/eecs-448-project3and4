@@ -124,8 +124,8 @@ function showOptions(cell){
 
 
 	if(cell.isRed||cell.king){
-		can.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + n < n*n));
-		can.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + n < n*n));
+		can.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + parseInt(n) < n*n));
+		can.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + parseInt(n) < n*n));
 	}
 	if(!(cell.isRed)||cell.king){
 		can.tl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) - n >= 0));
@@ -133,19 +133,19 @@ function showOptions(cell){
 	}
 	for(let direction in can){
 		if(can[direction]){
-			nearCell = document.getElementById(parseInt(cell.id)+alg[direction]);
+			nearCell = document.getElementById(parseInt(cell.id)+parseInt(alg[direction]));
 			if(nearCell.hasPiece){
 				if(nearCell.isRed!=cell.isRed){
 					if(cell.isRed||cell.king){
-						far.bl = ((parseInt(nearCell.id)%n != 0)&&(parseInt(nearCell.id) + n < n*n));
-						far.br = ((parseInt(nearCell.id)%n != (n-1))&&(parseInt(nearCell.id) + n < n*n));
+						far.bl = ((parseInt(nearCell.id)%n != 0)&&(parseInt(nearCell.id) + parseInt(n) < n*n));
+						far.br = ((parseInt(nearCell.id)%n != (n-1))&&(parseInt(nearCell.id) + parseInt(n) < n*n));
 					}
 					if(!(cell.isRed)||cell.king){
 						far.tl = ((parseInt(nearCell.id)%n != 0)&&(parseInt(nearCell.id) - n >= 0));
 						far.tr = ((parseInt(nearCell.id)%n != (n-1))&&(parseInt(nearCell.id) - n >= 0));
 					}
 					if(far[direction]){
-						farCell = document.getElementById(parseInt(cell.id)+dub[direction]);
+						farCell = document.getElementById(parseInt(cell.id)+parseInt(dub[direction]));
 						if(!farCell.hasPiece){
 							farCell.style.backgroundColor="lightgrey";
 							farCell.option = true;
@@ -206,7 +206,8 @@ function move(fromCell, toCell){
 
 function jump(fromCell, toCell){
 	if(toCell.option){
-		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(toCell.id-fromCell.id)/2)
+
+		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(parseInt(toCell.id-fromCell.id)/2))
 
 		midCell.hasPiece = false;
 		midCell.king = false;
