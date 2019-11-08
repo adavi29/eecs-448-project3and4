@@ -56,17 +56,6 @@ function chess() {
 	}
 
 
-
-
-	for(let i = 0; i < n; i++){
-		for(let j = 0; j < n; j++){
-			cell = table.rows[i].cells[j];
-			if(cell.hasPiece){
-		//		(cell.isWhite) ? cell.innerHTML = "&#128308" : cell.innerHTML =  "&#9899";
-			}
-		}
-	}
-
 	document.getElementById("reset").onmousedown = function(){
 		for(let l = (n-1); l >= 0; l--){
 			table.deleteRow(l);
