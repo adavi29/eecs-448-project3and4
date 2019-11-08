@@ -153,7 +153,7 @@ function showOptions(cell){
 							table.canJump = true;
 						}
 						else{
-							table.canJump = false;
+							table.canJump = table.canJump||false;
 						}
 					}
 				}
