@@ -42,6 +42,10 @@ function chess() {
 					if((i*n+j)%2 != i%2){
 						document.getElementById(i*n+j).style.backgroundColor="grey";
 					}
+					else{
+						document.getElementById(i*n+j).style.backgroundColor="white";
+
+					}
 				}
 			}
 			click(this); };
@@ -84,7 +88,8 @@ function click(cell){
 			resetOptions();
 			showOptions(cell);
 		}
-		if((cell.option)&&(!cell.hasPiece)){
+	//	if((cell.option)&&(!cell.hasPiece)){
+		if(cell.option){
 			move(table.from, cell);
 			newTurn();
 		}
@@ -100,6 +105,60 @@ function click(cell){
 
 
 function showOptions(cell){
+	table.shown = true;
+	table.from = cell;
+	sign = (cell.isWhite) ? 1 : -1;
+
+	if(cell.pieceName=='p'){
+//		linOptions(up, false);
+		if(cell.isWhite){
+		diagOptions(cell, "br", true);
+		diagOptions(cell, "bl", true);
+		}
+		else{
+		diagOptions(cell, "tr", true);
+		diagOptions(cell, "tl", true);
+		}
+
+
+		if(!cell.hasMoved){
+			document.getElementById(parseInt(cell.id) + sign*2*n).option = true;
+		}
+	}
+
+}
+
+function diagOptions(cell, direction, recurse){
+	let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
+	let exists = {bl:false, br:false, tl:false, tr:false};
+	exists.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + parseInt(n) < n*n));
+	exists.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + parseInt(n) < n*n));
+	exists.tl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) - n >= 0));
+	exists.tr = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) - n >= 0));
+
+	if(exists[direction]){
+		console.log(parseInt(cell.id)+parseInt(diagonals[direction]));
+		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
+		if(nearCell.hasPiece){
+			if(nearCell.isWhite != cell.isWhite){
+				nearCell.option = true;
+				nearCell.style.backgroundColor="lightPink";
+			}
+		}
+		else{
+			nearCell.option = true;
+			nearCell.style.backgroundColor="lightPink";
+			if(recurse){
+				diagOptions(nearCell, direction, recurse);
+			}
+		}
+	}
+}
+
+function linOptions(direction, recurse){
+	let cardinals =  {up:-n, rt:1, dn:n, lf:-1};
+
+}
 	/*
 	table.shown = true;
 	table.from = cell;
@@ -153,8 +212,9 @@ function showOptions(cell){
 			}
 		}
 	}
-	*/
+
 }
+	*/
 
 /**
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
@@ -173,50 +233,10 @@ function move(fromCell, toCell){
 		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
 		toCell.innerHTML = toCell.pieceName;
-		if((toCell.id < n)||(toCell.id >= n*(n-1))){ //add pawn to piece function
+		if((toCell.id < n)||(toCell.id >= n*(n-1))){ //promote pawn
 		//	toCell.king = true;
 		}
 	}
-}
-
-/**
-* pre: board must exist with cells, click must have happened on a cell that had a piece in it, piece must be between from and to
-* post: Gives the toCell the properties of the fromCell and then resets the fromCell and the cell between them
-* @param fromCell the cell you're moving piece from
-* @param toCell the cell you're moving it to
-*/
-
-function jump(fromCell, toCell){
-	/*
-	if(toCell.option){
-
-		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(parseInt(toCell.id-fromCell.id)/2))
-
-		midCell.hasPiece = false;
-		midCell.king = false;
-		midCell.innerHTML = "";
-
-		toCell.isWhite = fromCell.isWhite;
-		toCell.king = fromCell.king;
-		fromCell.king = false;
-		fromCell.isWhite = false;
-		fromCell.hasPiece = false;
-		toCell.hasPiece = true;
-		fromCell.innerHTML = "";
-		table.hasJumped = true;
-		if((toCell.id < n)||(toCell.id >= n*(n-1))){
-			toCell.king = true;
-		}
-		if(toCell.king){
-			(toCell.isWhite) ? toCell.innerHTML = "❤️" : toCell.innerHTML =  "🖤";
-		}
-		else{
-			(toCell.isWhite) ? toCell.innerHTML = "&#128308" : toCell.innerHTML =  "&#9899";
-		}
-		resetOptions();
-		showOptions(toCell);
-		}
-		*/
 }
 
 /**
@@ -225,13 +245,10 @@ function jump(fromCell, toCell){
 */
 
 function newTurn() {
-	/*
 	table.from = null;
 	resetOptions();
-	table.hasJumped = false;
 	table.whiteTurn = !table.whiteTurn;
-	table.whiteTurn ? document.getElementById("body").style.backgroundColor = "darkRed" : document.getElementById("body").style.backgroundColor ="black";
-	*/
+	table.whiteTurn ? document.getElementById("body").style.backgroundColor = "darkgray" : document.getElementById("body").style.backgroundColor ="black";
 }
 
 /**
@@ -240,16 +257,12 @@ function newTurn() {
 */
 
 function resetOptions(){
-	/*
 	for(let i = 0; i < n; i++){
 		for(let j = 0; j < n; j++){
 			document.getElementById(i*n+j).option = false;
-			document.getElementById(i*n+j).jump = false;
 		}
 	}
 	table.shown = false;
-	table.canJump = false;
-	*/
 }
 
 /**
