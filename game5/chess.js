@@ -22,23 +22,10 @@ function chess() {
 			cell.isWhite = (cell.id<2*n);  //assigns initial white
 			cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
 
-	//		cell.hasPiece = ((cell.id == 0)||(cell.id == n*n-1));
-
-
 			if((cell.id)%2 != i%2){
 				cell.style.backgroundColor="grey";
 			}
 
-			/*//////######Debug########//////////
-			if(cell.id == 26){
-				cell.isWhite = false;
-				cell.hasPiece = true;
-				cell.king = true;
-			}
-			if(cell.id == 51)
-			cell.hasPiece = false;
-
-			////////////////////////////////////*/
 		cell.onmousedown =  function(){
 			for(let i = 0; i<n; i++){
 				for(let j = 0; j < n; j++){
@@ -61,12 +48,6 @@ function chess() {
 			document.getElementById(n*n-i-1).pieceName = "rnbkqbnrpppppppp".charAt(i);
 			document.getElementById(i).innerHTML = "rnbkqbnrpppppppp".charAt(i);
 			document.getElementById(n*n-i-1).innerHTML = "RNBKQBNRPPPPPPPP".charAt(i); //temporary to show difference in colors
-			/*
-			document.getElementById(i).pieceName = "b".charAt(i);
-			document.getElementById(n*n-i-1).pieceName = "b".charAt(i);
-			document.getElementById(i).innerHTML = "b".charAt(i);
-			document.getElementById(n*n-i-1).innerHTML = "B".charAt(i); //temporary to show difference in colors
-*/
 	}
 
 
@@ -98,7 +79,6 @@ function click(cell){
 			resetOptions();
 			showOptions(cell);
 		}
-	//	if((cell.option)&&(!cell.hasPiece)){
 		if(cell.option){
 			move(table.from, cell);
 			newTurn();
@@ -141,10 +121,6 @@ function showOptions(cell){
 				linOptions(enpassantCell, "up", false);
 			}
 			enpassantCell.pieceName = ''; //could also be a bad idea
-			/*
-			enpassantCell.option = true;
-			enpassantCell.style.backgroundColor="lightBlue";
-			*/
 		}
 	}
 
@@ -211,7 +187,7 @@ function diagOptions(cell, direction, recurse){
 			}
 		}
 		else{
-			if(cell.pieceName != 'p'){
+			if(cell.pieceName != 'p'){ //pawns can only move diagonally if where they're taking a piece
 				nearCell.option = true;
 				nearCell.style.backgroundColor="lightBlue";
 				if(recurse){
@@ -234,7 +210,7 @@ function linOptions(cell, direction, recurse){
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
 		if(nearCell.hasPiece){
-			if(cell.pieceName != 'p'){
+			if(cell.pieceName != 'p'){ //pawns can't take pieces in front of them
 				if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
 					nearCell.option = true;
 					nearCell.style.backgroundColor="lightBlue";
@@ -252,39 +228,51 @@ function linOptions(cell, direction, recurse){
 }
 
 function knightOptions(cell){
-	let twoStep =  {up:-2*n, rt:2, dn:2*n, lf:-2};
-	let oneStep =  {up:-n, rt:1, dn:n, lf:-1};
-
-	let exists = {up:false, rt:false, dn:false, lf:false};
-
-	exists.up = (parseInt(cell.id) - cardinals.up >= 0);
-	exists.rt = (parseInt(cell.id)%n != (n-1));
-	exists.dn = (parseInt(cell.id) + parseInt(cardinals.dn) < n*n);
-	exists.lf = (parseInt(cell.id)%n != 0);
-
-	for(direction in cardinals){
-		if(exists[direction]){
-			console.log(direction);
-			console.log(parseInt(cell.id)+parseInt(cardinals[direction]));
-			nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
-			if(nearCell.hasPiece){
-				if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
-					nearCell.option = true;
-					nearCell.style.backgroundColor="lightBlue";
-				}
-			}
-			else{
-				nearCell.option = true;
-				nearCell.style.backgroundColor="lightBlue";
-				if(recurse){
-					linOptions(nearCell, direction, recurse);
-				}
-			}
-		}
+	cell_j = cell.id%n;
+	cell_i=Math.floor(cell.id/n);
+	if(cell_i>=2){
+		if(cell_j>=1)
+			knightSet(table.rows[cell_i-2].cells[cell_j-1]);
+		if(cell_j<(n-1))
+			knightSet(table.rows[cell_i-2].cells[cell_j+1]);
 	}
+
+	if(cell_i>=1){
+		if(cell_j>=2)
+			knightSet(table.rows[cell_i-1].cells[cell_j-2]);
+		if(cell_j<(n-2))
+			knightSet(table.rows[cell_i-1].cells[cell_j+2]);
+	}
+
+	if(cell_i<(n-1)){
+		if(cell_j>=2)
+			knightSet(table.rows[cell_i+1].cells[cell_j-2]);
+		if(cell_j<(n-2))
+			knightSet(table.rows[cell_i+1].cells[cell_j+2]);
+	}
+
+	if(cell_i<(n-2)){
+		if(cell_j>=1)
+			knightSet(table.rows[cell_i+2].cells[cell_j-1]);
+		if(cell_j<(n-1))
+			knightSet(table.rows[cell_i+2].cells[cell_j+1]);
+	}
+
+
 }
 
-
+function knightSet(cell){
+	if(cell.hasPiece){
+			if(cell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+				cell.option = true;
+				cell.style.backgroundColor="lightBlue";
+			}
+		}
+	else{
+		cell.option = true;
+		cell.style.backgroundColor="lightBlue";
+		}
+	}
 
 /**
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
@@ -305,15 +293,14 @@ function move(fromCell, toCell){
 		fromCell.hasPiece = false;
 		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
-	//	toCell.innerHTML = toCell.pieceName; //this is the proper code
-		if((toCell.id < n)||(toCell.id >= n*(n-1))){ //promote pawn
+		if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
 		//	toCell.king = true;
 		}
 	}
 }
 
 /**
-* pre: checkers() must have been run
+* pre: chess() must have been run
 * post: Resets options, calls resetOPtions, resets the fromCell, toggles whose turn it is
 */
 
@@ -325,7 +312,7 @@ function newTurn() {
 }
 
 /**
-* pre: checkers() must have been run
+* pre: chess() must have been run
 * post: goes through each cell and undoes everything that showOptions could have done to each cell
 */
 
