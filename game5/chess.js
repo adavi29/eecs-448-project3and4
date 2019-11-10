@@ -297,7 +297,7 @@ function checkcheck(){
 	table.checkingcheck = true;
 	for(let i = 0; i < n*n; i++){
 		cell = document.getElementById(i);
-		if((cell.hasPiece)&&(cell.isWhite == table.whiteTurn)){
+		if((cell.hasPiece)&&(cell.isWhite != table.whiteTurn)){
 			if(cell.pieceName != 'p'){
 				showOptions(cell);
 			}
