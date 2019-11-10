@@ -22,6 +22,9 @@ function chess() {
 			cell.isWhite = (cell.id<2*n);  //assigns initial white
 			cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
 
+	//		cell.hasPiece = ((cell.id == 0)||(cell.id == n*n-1));
+
+
 			if((cell.id)%2 != i%2){
 				cell.style.backgroundColor="grey";
 			}
@@ -53,17 +56,17 @@ function chess() {
 	}
 
 	for(let i = 0; i < 2*n; i++){
-/*
+
 			document.getElementById(i).pieceName = "rnbkqbnrpppppppp".charAt(i);
 			document.getElementById(n*n-i-1).pieceName = "rnbkqbnrpppppppp".charAt(i);
 			document.getElementById(i).innerHTML = "rnbkqbnrpppppppp".charAt(i);
 			document.getElementById(n*n-i-1).innerHTML = "RNBKQBNRPPPPPPPP".charAt(i); //temporary to show difference in colors
-			*/
-			document.getElementById(i).pieceName = "r".charAt(i);
-		//	document.getElementById(n*n-i-1).pieceName = "rnbkqbnr".charAt(i);
-			document.getElementById(i).innerHTML = "r".charAt(i);
-	//		document.getElementById(n*n-i-1).innerHTML = "RNBKQBNR".charAt(i); //temporary to show difference in colors
-
+			/*
+			document.getElementById(i).pieceName = "b".charAt(i);
+			document.getElementById(n*n-i-1).pieceName = "b".charAt(i);
+			document.getElementById(i).innerHTML = "b".charAt(i);
+			document.getElementById(n*n-i-1).innerHTML = "B".charAt(i); //temporary to show difference in colors
+*/
 	}
 
 
@@ -116,7 +119,7 @@ function showOptions(cell){
 	table.from = cell;
 	sign = (cell.isWhite) ? 1 : -1;
 
-	if(cell.pieceName=='p'){
+	if(cell.pieceName=='p'){ //PAWN
 		let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 		if(cell.isWhite){
 			linOptions(cell, "dn", false);
@@ -135,22 +138,32 @@ function showOptions(cell){
 		}
 	}
 
-	if(cell.pieceName=='r'){
-		console.log("rook");
+	if(cell.pieceName=='r'){ //ROOK
 		linOptions(cell, "up", true);
 		linOptions(cell, "rt", true);
 		linOptions(cell, "dn", true);
 		linOptions(cell, "lf", true);
 	}
+
+	if(cell.pieceName=='b'){ //BISHOP
+		diagOptions(cell, "tr", true);
+		diagOptions(cell, "br", true);
+		diagOptions(cell, "bl", true);
+		diagOptions(cell, "tl", true);
+	}
+
+
+
+
 }
 
 function diagOptions(cell, direction, recurse){
 	let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 	let exists = {bl:false, br:false, tl:false, tr:false};
-	exists.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + parseInt(n) < n*n));
-	exists.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + parseInt(n) < n*n));
-	exists.tl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) - n >= 0));
 	exists.tr = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) - n >= 0));
+	exists.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + parseInt(n) < n*n));
+	exists.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + parseInt(n) < n*n));
+	exists.tl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) - n >= 0));
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
@@ -178,7 +191,7 @@ function linOptions(cell, direction, recurse){
 
 	exists.up = (parseInt(cell.id) - parseInt(n) >= 0);
 	exists.rt = (parseInt(cell.id)%n != (n-1));
-	exists.dn = (parseInt(cell.id) + parseInt(n) >= 0);
+	exists.dn = (parseInt(cell.id) + parseInt(n) < n*n);
 	exists.lf = (parseInt(cell.id)%n != 0);
 
 	if(exists[direction]){
@@ -271,6 +284,7 @@ function move(fromCell, toCell){
 		toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
 		toCell.isWhite = fromCell.isWhite;
 		toCell.pieceName = fromCell.pieceName;
+		fromCell.pieceName = '';
 		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
