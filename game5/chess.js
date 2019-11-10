@@ -117,10 +117,8 @@ function click(cell){
 function showOptions(cell){
 	table.shown = true;
 	table.from = cell;
-	sign = (cell.isWhite) ? 1 : -1;
 
 	if(cell.pieceName=='p'){ //PAWN
-		let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 		if(cell.isWhite){
 			linOptions(cell, "dn", false);
 			diagOptions(cell, "br", false);
@@ -132,9 +130,21 @@ function showOptions(cell){
 			diagOptions(cell, "tr", false);
 		}
 		if(!cell.hasMoved){ //don't need to check for end bounds because it can't get there without moving at least once
-			enpassantCell = document.getElementById(parseInt(cell.id) + sign*2*n);
+			//need to implement taking en passant
+			sign = (cell.isWhite) ? 1 : -1;
+			enpassantCell = document.getElementById(parseInt(cell.id) + sign*n);
+			enpassantCell.pieceName = 'p'; //possibly a bad idea
+			if(cell.isWhite){
+				linOptions(enpassantCell, "dn", false);
+			}
+			else{
+				linOptions(enpassantCell, "up", false);
+			}
+			enpassantCell.pieceName = ''; //could also be a bad idea
+			/*
 			enpassantCell.option = true;
 			enpassantCell.style.backgroundColor="lightBlue";
+			*/
 		}
 	}
 
@@ -163,7 +173,9 @@ function showOptions(cell){
 		diagOptions(cell, "tl", true);
 	}
 
-	if(cell.pieceName=='k'){ //QUEEN
+	if(cell.pieceName=='k'){ //KING
+		//need to make sure they're not moving into check
+		//need to implement castling
 		linOptions(cell, "up", false);
 		linOptions(cell, "rt", false);
 		linOptions(cell, "dn", false);
@@ -173,6 +185,11 @@ function showOptions(cell){
 		diagOptions(cell, "bl", false);
 		diagOptions(cell, "tl", false);
 	}
+
+	if(cell.pieceName=='n'){ //KNIGHT
+		knightOptions(cell);
+	}
+
 
 
 }
@@ -215,13 +232,13 @@ function linOptions(cell, direction, recurse){
 	exists.lf = (parseInt(cell.id)%n != 0);
 
 	if(exists[direction]){
-		console.log(direction);
-		console.log(parseInt(cell.id)+parseInt(cardinals[direction]));
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
 		if(nearCell.hasPiece){
-			if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
-				nearCell.option = true;
-				nearCell.style.backgroundColor="lightBlue";
+			if(cell.pieceName != 'p'){
+				if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+					nearCell.option = true;
+					nearCell.style.backgroundColor="lightBlue";
+				}
 			}
 		}
 		else{
@@ -232,64 +249,42 @@ function linOptions(cell, direction, recurse){
 			}
 		}
 	}
-
 }
-	/*
-	table.shown = true;
-	table.from = cell;
 
-	let can = {bl:false, br:false, tl:false, tr:false};
-	let alg = {bl:-1+n, br:1+n, tl:-1-n, tr:1-n};
-	let far = {bl:false, br:false, tl:false, tr:false};
-	let dub = {bl:-2+2*n, br:2+2*n, tl:-2-2*n, tr:2-2*n};
+function knightOptions(cell){
+	let twoStep =  {up:-2*n, rt:2, dn:2*n, lf:-2};
+	let oneStep =  {up:-n, rt:1, dn:n, lf:-1};
 
+	let exists = {up:false, rt:false, dn:false, lf:false};
 
-	if(cell.isWhite||cell.king){
-		can.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + parseInt(n) < n*n));
-		can.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + parseInt(n) < n*n));
-	}
-	if(!(cell.isWhite)||cell.king){
-		can.tl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) - n >= 0));
-		can.tr = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) - n >= 0));
-	}
-	for(let direction in can){
-		if(can[direction]){
-			nearCell = document.getElementById(parseInt(cell.id)+parseInt(alg[direction]));
+	exists.up = (parseInt(cell.id) - cardinals.up >= 0);
+	exists.rt = (parseInt(cell.id)%n != (n-1));
+	exists.dn = (parseInt(cell.id) + parseInt(cardinals.dn) < n*n);
+	exists.lf = (parseInt(cell.id)%n != 0);
+
+	for(direction in cardinals){
+		if(exists[direction]){
+			console.log(direction);
+			console.log(parseInt(cell.id)+parseInt(cardinals[direction]));
+			nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
 			if(nearCell.hasPiece){
-				if(nearCell.isWhite!=cell.isWhite){
-					if(cell.isWhite||cell.king){
-						far.bl = ((parseInt(nearCell.id)%n != 0)&&(parseInt(nearCell.id) + parseInt(n) < n*n));
-						far.br = ((parseInt(nearCell.id)%n != (n-1))&&(parseInt(nearCell.id) + parseInt(n) < n*n));
-					}
-					if(!(cell.isWhite)||cell.king){
-						far.tl = ((parseInt(nearCell.id)%n != 0)&&(parseInt(nearCell.id) - n >= 0));
-						far.tr = ((parseInt(nearCell.id)%n != (n-1))&&(parseInt(nearCell.id) - n >= 0));
-					}
-					if(far[direction]){
-						farCell = document.getElementById(parseInt(cell.id)+parseInt(dub[direction]));
-						if(!farCell.hasPiece){
-							farCell.style.backgroundColor="lightgrey";
-							farCell.option = true;
-							farCell.jump = true;
-							table.canJump = true;
-						}
-						else{
-							table.canJump = table.canJump||false;
-						}
-					}
+				if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+					nearCell.option = true;
+					nearCell.style.backgroundColor="lightBlue";
 				}
 			}
 			else{
-				if(!table.hasJumped){
-					nearCell.style.backgroundColor="lightgrey";
-					nearCell.option=true;
+				nearCell.option = true;
+				nearCell.style.backgroundColor="lightBlue";
+				if(recurse){
+					linOptions(nearCell, direction, recurse);
 				}
 			}
 		}
 	}
-
 }
-	*/
+
+
 
 /**
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
