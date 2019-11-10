@@ -152,7 +152,27 @@ function showOptions(cell){
 		diagOptions(cell, "tl", true);
 	}
 
+	if(cell.pieceName=='q'){ //QUEEN
+		linOptions(cell, "up", true);
+		linOptions(cell, "rt", true);
+		linOptions(cell, "dn", true);
+		linOptions(cell, "lf", true);
+		diagOptions(cell, "tr", true);
+		diagOptions(cell, "br", true);
+		diagOptions(cell, "bl", true);
+		diagOptions(cell, "tl", true);
+	}
 
+	if(cell.pieceName=='k'){ //QUEEN
+		linOptions(cell, "up", false);
+		linOptions(cell, "rt", false);
+		linOptions(cell, "dn", false);
+		linOptions(cell, "lf", false);
+		diagOptions(cell, "tr", false);
+		diagOptions(cell, "br", false);
+		diagOptions(cell, "bl", false);
+		diagOptions(cell, "tl", false);
+	}
 
 
 }
