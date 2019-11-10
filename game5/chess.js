@@ -366,7 +366,17 @@ function resetCheck(){
 	}
 }
 
-
+function showCheck(){
+	checkcheck()
+	for(let i = 0; i < n; i++){
+		for(let j = 0; j < n; j++){
+			cell = document.getElementById(i*n+j);
+			if(cell.check){
+				cell.style.backgroundColor="red";
+			}
+		}
+	}
+}
 
 
 /**
