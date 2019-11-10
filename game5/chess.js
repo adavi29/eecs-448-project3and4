@@ -336,6 +336,7 @@ function newTurn() {
 	resetOptions();
 	resetCheck();
 	table.whiteTurn = !table.whiteTurn;
+	checkcheck();
 	table.whiteTurn ? document.getElementById("body").style.backgroundColor = "darkgray" : document.getElementById("body").style.backgroundColor ="black";
 }
 
