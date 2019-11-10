@@ -27,9 +27,7 @@ function chess() {
 				cell.style.backgroundColor="grey";
 			}
 
-		cell.onmousedown =  function(){
-
-			click(this); };
+		cell.onmousedown =  function(){ click(this); };
 		}
 	}
 
@@ -179,10 +177,12 @@ function diagOptions(cell, direction, recurse){
 		}
 		else{
 			if((cell.pieceName != 'p')||table.checkingcheck){ //pawns can only move diagonally if where they're taking a piece
-				nearCell.option = true;
-				nearCell.style.backgroundColor="lightBlue";
-				if(recurse){
-					diagOptions(nearCell, direction, recurse);
+				if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+					nearCell.option = true;
+					nearCell.style.backgroundColor="lightBlue";
+					if(recurse){
+						diagOptions(nearCell, direction, recurse);
+					}
 				}
 			}
 		}
@@ -210,13 +210,12 @@ function linOptions(cell, direction, recurse){
 		}
 		else{
 			if((cell.pieceName != 'p')||!table.checkingcheck){
-
-
-				nearCell.option = true;
-
-				nearCell.style.backgroundColor="lightBlue";
-				if(recurse){
-					linOptions(nearCell, direction, recurse);
+				if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+					nearCell.option = true;
+					nearCell.style.backgroundColor="lightBlue";
+					if(recurse){
+						linOptions(nearCell, direction, recurse);
+					}
 				}
 			}
 		}
@@ -367,7 +366,7 @@ function resetCheck(){
 }
 
 function showCheck(){
-	checkcheck()
+	checkcheck();
 	for(let i = 0; i < n; i++){
 		for(let j = 0; j < n; j++){
 			cell = document.getElementById(i*n+j);
