@@ -6,6 +6,7 @@
 function chess() {
 	table = document.getElementById("table");
 	table.whiteTurn = true;
+	table.checkingcheck = false;
 	table.from = null;
 	n=8; //n is the size of the board
 	for(let i = 0; i < n; i++){
@@ -18,7 +19,7 @@ function chess() {
 			cell.pieceName = ''; //should line up with official chess notation
 			cell.option = false; //
 			cell.hasMoved = false;
-
+			cell.check = false;
 			cell.isWhite = (cell.id<2*n);  //assigns initial white
 			cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
 
@@ -181,13 +182,13 @@ function diagOptions(cell, direction, recurse){
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
 		if(nearCell.hasPiece){
-			if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+			if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
 				nearCell.option = true;
 				nearCell.style.backgroundColor="lightBlue";
 			}
 		}
 		else{
-			if(cell.pieceName != 'p'){ //pawns can only move diagonally if where they're taking a piece
+			if((cell.pieceName != 'p')||table.checkingcheck){ //pawns can only move diagonally if where they're taking a piece
 				nearCell.option = true;
 				nearCell.style.backgroundColor="lightBlue";
 				if(recurse){
@@ -211,17 +212,22 @@ function linOptions(cell, direction, recurse){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
 		if(nearCell.hasPiece){
 			if(cell.pieceName != 'p'){ //pawns can't take pieces in front of them
-				if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+				if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
 					nearCell.option = true;
 					nearCell.style.backgroundColor="lightBlue";
 				}
 			}
 		}
 		else{
-			nearCell.option = true;
-			nearCell.style.backgroundColor="lightBlue";
-			if(recurse){
-				linOptions(nearCell, direction, recurse);
+			if((cell.pieceName != 'p')||!table.checkingcheck){
+
+
+				nearCell.option = true;
+
+				nearCell.style.backgroundColor="lightBlue";
+				if(recurse){
+					linOptions(nearCell, direction, recurse);
+				}
 			}
 		}
 	}
@@ -263,7 +269,7 @@ function knightOptions(cell){
 
 function knightSet(cell){
 	if(cell.hasPiece){
-			if(cell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+			if((cell.isWhite != table.whiteTurn)||table.checkingcheck){ //if the piece in the toCell is the fromCell's opposite color
 				cell.option = true;
 				cell.style.backgroundColor="lightBlue";
 			}
@@ -280,7 +286,6 @@ function knightSet(cell){
 * @param fromCell the cell you're moving piece from
 * @param toCell the cell you're moving it to
 */
-
 
 function move(fromCell, toCell){
 	if(toCell.option){
@@ -299,6 +304,39 @@ function move(fromCell, toCell){
 	}
 }
 
+function checkcheck(){
+	table.checkingcheck = true;
+	for(let i = 0; i < n*n; i++){
+		cell = document.getElementById(i);
+		if((cell.hasPiece)&&(cell.isWhite == table.whiteTurn)){
+			if(cell.pieceName != 'p'){
+				showOptions(cell);
+			}
+			else{ //PAWN
+				if(cell.isWhite){
+					diagOptions(cell, "br", false);
+					diagOptions(cell, "bl", false);
+					}
+				else{
+					diagOptions(cell, "tl", false);
+					diagOptions(cell, "tr", false);
+				}
+			}
+		}
+	}
+	for(let i = 0; i < n*n; i++){
+		cell = document.getElementById(i);
+		cell.check = cell.option;
+	}
+	resetOptions();
+	table.checkingcheck = false;
+}
+
+
+
+
+
+
 /**
 * pre: chess() must have been run
 * post: Resets options, calls resetOPtions, resets the fromCell, toggles whose turn it is
@@ -307,6 +345,7 @@ function move(fromCell, toCell){
 function newTurn() {
 	table.from = null;
 	resetOptions();
+	resetCheck();
 	table.whiteTurn = !table.whiteTurn;
 	table.whiteTurn ? document.getElementById("body").style.backgroundColor = "darkgray" : document.getElementById("body").style.backgroundColor ="black";
 }
@@ -319,11 +358,26 @@ function newTurn() {
 function resetOptions(){
 	for(let i = 0; i < n; i++){
 		for(let j = 0; j < n; j++){
-			document.getElementById(i*n+j).option = false;
+			cell = document.getElementById(i*n+j);
+			cell.option = false;
+			((i*n+j)%2 != i%2) ? cell.style.backgroundColor="grey" : cell.style.backgroundColor="white";
 		}
 	}
 	table.shown = false;
 }
+
+
+function resetCheck(){
+	for(let i = 0; i < n; i++){
+		for(let j = 0; j < n; j++){
+			cell = document.getElementById(i*n+j);
+			cell.check = false;
+		}
+	}
+}
+
+
+
 
 /**
 * pre: the HTML button exists
