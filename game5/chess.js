@@ -28,17 +28,7 @@ function chess() {
 			}
 
 		cell.onmousedown =  function(){
-			for(let i = 0; i<n; i++){
-				for(let j = 0; j < n; j++){
-					if((i*n+j)%2 != i%2){
-						document.getElementById(i*n+j).style.backgroundColor="grey";
-					}
-					else{
-						document.getElementById(i*n+j).style.backgroundColor="white";
 
-					}
-				}
-			}
 			click(this); };
 		}
 	}
