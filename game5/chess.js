@@ -53,10 +53,17 @@ function chess() {
 	}
 
 	for(let i = 0; i < 2*n; i++){
+/*
 			document.getElementById(i).pieceName = "rnbkqbnrpppppppp".charAt(i);
 			document.getElementById(n*n-i-1).pieceName = "rnbkqbnrpppppppp".charAt(i);
-			document.getElementById(i).innerHTML = document.getElementById(i).pieceName;
-			document.getElementById(n*n-i-1).innerHTML = document.getElementById(n*n-i-1).pieceName;
+			document.getElementById(i).innerHTML = "rnbkqbnrpppppppp".charAt(i);
+			document.getElementById(n*n-i-1).innerHTML = "RNBKQBNRPPPPPPPP".charAt(i); //temporary to show difference in colors
+			*/
+			document.getElementById(i).pieceName = "r".charAt(i);
+		//	document.getElementById(n*n-i-1).pieceName = "rnbkqbnr".charAt(i);
+			document.getElementById(i).innerHTML = "r".charAt(i);
+	//		document.getElementById(n*n-i-1).innerHTML = "RNBKQBNR".charAt(i); //temporary to show difference in colors
+
 	}
 
 
@@ -110,22 +117,31 @@ function showOptions(cell){
 	sign = (cell.isWhite) ? 1 : -1;
 
 	if(cell.pieceName=='p'){
-//		linOptions(up, false);
+		let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 		if(cell.isWhite){
-		diagOptions(cell, "br", true);
-		diagOptions(cell, "bl", true);
-		}
+			linOptions(cell, "dn", false);
+			diagOptions(cell, "br", false);
+			diagOptions(cell, "bl", false);
+			}
 		else{
-		diagOptions(cell, "tr", true);
-		diagOptions(cell, "tl", true);
+			linOptions(cell, "up", false);
+			diagOptions(cell, "tl", false);
+			diagOptions(cell, "tr", false);
 		}
-
-
-		if(!cell.hasMoved){
-			document.getElementById(parseInt(cell.id) + sign*2*n).option = true;
+		if(!cell.hasMoved){ //don't need to check for end bounds because it can't get there without moving at least once
+			enpassantCell = document.getElementById(parseInt(cell.id) + sign*2*n);
+			enpassantCell.option = true;
+			enpassantCell.style.backgroundColor="lightBlue";
 		}
 	}
 
+	if(cell.pieceName=='r'){
+		console.log("rook");
+		linOptions(cell, "up", true);
+		linOptions(cell, "rt", true);
+		linOptions(cell, "dn", true);
+		linOptions(cell, "lf", true);
+	}
 }
 
 function diagOptions(cell, direction, recurse){
@@ -137,26 +153,52 @@ function diagOptions(cell, direction, recurse){
 	exists.tr = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) - n >= 0));
 
 	if(exists[direction]){
-		console.log(parseInt(cell.id)+parseInt(diagonals[direction]));
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
 		if(nearCell.hasPiece){
-			if(nearCell.isWhite != cell.isWhite){
+			if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
 				nearCell.option = true;
-				nearCell.style.backgroundColor="lightPink";
+				nearCell.style.backgroundColor="lightBlue";
 			}
 		}
 		else{
-			nearCell.option = true;
-			nearCell.style.backgroundColor="lightPink";
-			if(recurse){
-				diagOptions(nearCell, direction, recurse);
+			if(cell.pieceName != 'p'){
+				nearCell.option = true;
+				nearCell.style.backgroundColor="lightBlue";
+				if(recurse){
+					diagOptions(nearCell, direction, recurse);
+				}
 			}
 		}
 	}
 }
 
-function linOptions(direction, recurse){
-	let cardinals =  {up:-n, rt:1, dn:n, lf:-1};
+function linOptions(cell, direction, recurse){
+	let cardinals =  {up:(-n), rt:1, dn:n, lf:(-1)};
+	let exists = {up:false, rt:false, dn:false, lf:false};
+
+	exists.up = (parseInt(cell.id) - parseInt(n) >= 0);
+	exists.rt = (parseInt(cell.id)%n != (n-1));
+	exists.dn = (parseInt(cell.id) + parseInt(n) >= 0);
+	exists.lf = (parseInt(cell.id)%n != 0);
+
+	if(exists[direction]){
+		console.log(direction);
+		console.log(parseInt(cell.id)+parseInt(cardinals[direction]));
+		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
+		if(nearCell.hasPiece){
+			if(nearCell.isWhite != table.whiteTurn){ //if the piece in the toCell is the fromCell's opposite color
+				nearCell.option = true;
+				nearCell.style.backgroundColor="lightBlue";
+			}
+		}
+		else{
+			nearCell.option = true;
+			nearCell.style.backgroundColor="lightBlue";
+			if(recurse){
+				linOptions(nearCell, direction, recurse);
+			}
+		}
+	}
 
 }
 	/*
@@ -226,13 +268,15 @@ function linOptions(direction, recurse){
 
 function move(fromCell, toCell){
 	if(toCell.option){
+		toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
 		toCell.isWhite = fromCell.isWhite;
 		toCell.pieceName = fromCell.pieceName;
+		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
 		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
-		toCell.innerHTML = toCell.pieceName;
+	//	toCell.innerHTML = toCell.pieceName; //this is the proper code
 		if((toCell.id < n)||(toCell.id >= n*(n-1))){ //promote pawn
 		//	toCell.king = true;
 		}
