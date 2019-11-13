@@ -29,6 +29,6 @@ function previousGame(){
 * Uses gameIndex to track which game to go to.
 */
 function goToGame(){
-  htmlName = "https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/game"+gameIndex+"/game"+gameIndex+".html";
+  htmlName = "game"+gameIndex+"/game"+gameIndex+".html";
   window.location.replace(htmlName);
 }
