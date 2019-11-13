@@ -69,6 +69,7 @@ function shuffleCards(){
 }
 
 function clearBoard(){
+  document.getElementById('youWin').innerText = "";
   hasFlippedCard=false;
   firstCard, secondCard=null;
   lockBoard=false;
