@@ -62,7 +62,7 @@ button.nextButton{
   color: black;
   font-family: Helvetica, Sans-Serif;
   font-size: 15pt;
-
+  border-radius: 8px;
 }
 
 button.submitButton{
@@ -72,7 +72,7 @@ button.submitButton{
   color: black;
   font-family: Helvetica, Sans-Serif;
   font-size: 15pt;
-
+  border-radius: 8px;
 }
 
 button.previousButton{
@@ -82,4 +82,11 @@ button.previousButton{
   color: black;
   font-family: Helvetica, Sans-Serif;
   font-size: 15pt;
+  border-radius: 8px;
+}
+
+button.testButton{
+  border-radius: 8px;
+  background-color: lightgrey;
+  font-family: Helvetica, Sans-Serif;
 }
