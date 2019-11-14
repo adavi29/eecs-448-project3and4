@@ -87,5 +87,5 @@ function clearBoard(){
 * post: Takes the user back to the home page of the arcade
 */
 function backHome(){
-  window.location.replace("homePage.html");
+  window.location.replace("../homePage.html");
 }
