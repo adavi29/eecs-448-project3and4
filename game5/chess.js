@@ -169,15 +169,15 @@ function diagOptions(cell, direction, recurse){
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
-		if(nearCell.hasPiece){
-			if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
-				nearCell.option = true;
-				nearCell.style.backgroundColor="lightBlue";
+		if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+			if(nearCell.hasPiece){
+				if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
+					nearCell.option = true;
+					nearCell.style.backgroundColor="lightBlue";
+				}
 			}
-		}
-		else{
-			if((cell.pieceName != 'p')||table.checkingcheck){ //pawns can only move diagonally if where they're taking a piece
-				if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+			else{
+				if((cell.pieceName != 'p')||table.checkingcheck){ //pawns can only move diagonally if where they're taking a piece
 					nearCell.option = true;
 					nearCell.style.backgroundColor="lightBlue";
 					if(recurse){
@@ -200,17 +200,17 @@ function linOptions(cell, direction, recurse){
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
-		if(nearCell.hasPiece){
-			if(cell.pieceName != 'p'){ //pawns can't take pieces in front of them
-				if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
-					nearCell.option = true;
-					nearCell.style.backgroundColor="lightBlue";
+		if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+			if(nearCell.hasPiece){
+				if(cell.pieceName != 'p'){ //pawns can't take pieces in front of them
+					if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
+						nearCell.option = true;
+						nearCell.style.backgroundColor="lightBlue";
+					}
 				}
 			}
-		}
-		else{
-			if((cell.pieceName != 'p')||!table.checkingcheck){
-				if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+			else{
+				if((cell.pieceName != 'p')||!table.checkingcheck){
 					nearCell.option = true;
 					nearCell.style.backgroundColor="lightBlue";
 					if(recurse){
@@ -281,17 +281,33 @@ function move(fromCell, toCell){
 		toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
 		toCell.isWhite = fromCell.isWhite;
 		toCell.pieceName = fromCell.pieceName;
-		fromCell.pieceName = '';
 		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
+		toCell.hasPiece = true;
+		fromCell.pieceName = '';
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
-		toCell.hasPiece = true;
 		fromCell.innerHTML = "";
+
+
+
 		if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
 		//	toCell.king = true;
 		}
 	}
 }
+
+function tentativeMove(fromCell, toCell){
+		toCell.isWhite = fromCell.isWhite;
+		toCell.pieceName = fromCell.pieceName;
+//		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
+		toCell.hasPiece = true;
+		fromCell.pieceName = '';
+		fromCell.isWhite = false;
+		fromCell.hasPiece = false;
+//		fromCell.innerHTML = "";
+}
+
+
 
 function checkcheck(){
 	table.checkingcheck = true;
