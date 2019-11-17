@@ -1,5 +1,5 @@
-let playerR=true; //red
-let playerY=false; //yellow
+let playerRed=true; //red
+let playerYellow=false; //yellow
 
 function connectFour() {
     table = document.getElementById("gameBoard");
@@ -11,7 +11,6 @@ function connectFour() {
             //console.log("got here col"+j);
 			table.rows[i].insertCell(j);
             cell = table.rows[i].cells[j];
-            //col = table.cells[i];
             cell.id = i*7+j;
             cell.hasValue = false;
             cell.isRed = false;
@@ -22,9 +21,9 @@ function connectFour() {
             };*/
 
             cell.onclick =  function(){
-                this.style.backgroundColor="beige";
+                //this.style.backgroundColor="beige";
                 //document.getElementById(i*7+j).style.backgroundColor="beige";
-                click(this);
+                click(this, j);
             };
 
         }
@@ -37,7 +36,7 @@ function connectFour() {
         connectFour()};
 }
 
-function click(cell){
+function click(cell, col){
     //console.log("clicked cell # "+cell.id);
     if(cell.hasValue)
     {
@@ -45,27 +44,71 @@ function click(cell){
         return;
     }
 
-    if(playerR==true) //player red
+    if(playerRed==true) //player red
     {
-        cell.innerHTML="&#x1F534;"; //red
-        cell.hasValue=true;
-        cell.isRed=true;
-        if(winChoice(cell))
+        
+        selectCell(cell, col);
+
+        /*if(winChoice(cell))
         {
             printWinner();
             return;
-        }
+        }*/
     }
     else //player yellow
     {
-        cell.innerHTML="&#x1F601"; //yellow
-        cell.hasValue=true;
-        cell.isYellow=true;
-        if(winChoice(cell))
+        selectCell(cell, col);
+
+        /*if(winChoice(cell))
         {
             printWinner();
             return;
-        }
+        }*/
     }
     switchPlayer();
+}
+
+function selectCell(cell, col){
+    for(let i=0; i<5; i++)
+    {
+        for(let j=0; j<7; j++)
+        {
+            if(j==col)
+            {
+                if(cell.hasValue==false && table.rows[i+1].cells[j].hasValue==false) //if cell has no value yet, move down to the next cell
+                {
+                    cell=table.rows[i+1].cells[j]; //this will move it to the bottom of the table
+                }
+            }
+        }
+    }
+
+    cell.hasValue=true;
+    if(playerRed==true)
+    {
+        cell.innerHTML="&#x1F534;"; //red
+        cell.isRed=true;
+    }
+    else //if yellow turn
+    {
+        cell.innerHTML="&#x1F601"; //yellow
+        cell.isYellow=true;
+    }
+}
+
+/**
+* pre: player booleans are set
+* post: switches player booleans so that one is true while the other is false
+*/
+function switchPlayer(){
+    if(playerRed==true)
+    {
+        playerRed=false;
+        playerYellow=true;
+    }
+    else
+    {
+        playerRed=true;
+        playerYellow=false;
+    }
 }
