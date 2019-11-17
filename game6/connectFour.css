@@ -1,0 +1,25 @@
+table{
+	background-color: rgb(16, 5, 46);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+td{
+	background-color: rgb(253, 232, 112);
+	width: 100;
+	height: 100;
+	text-align:center;
+	font-size: 80;
+    font-weight: 800;
+    color: rgb(29, 78, 13);
+}
+
+body{
+	background-color: rgb(230, 98, 94);
+	text-align: center;
+}
+
+p{
+	font-size: 60;
+    color : rgb(0, 0, 0);
+}

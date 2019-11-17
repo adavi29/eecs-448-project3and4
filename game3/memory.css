@@ -7,10 +7,14 @@ p.title{
   font-size: 30pt;
   text-align: center;
   font-weight: bold;
+  color: black;
+  text-shadow: 3px 3px #C2FFC3
 }
 p.description{
   font-size: 20pt;
   text-align: center;
+  color: black;
+  text-shadow: 3px 3px #C2FFC3
 }
 *{
   padding: : 0;
@@ -54,4 +58,19 @@ p.description{
 }
 .front{
   transform: rotateY(180deg);
+}
+
+button.newGame{
+  height: 30px;
+  width: 150px;
+  font-family: didot;
+  border-radius: 8px;
+  font-size: 15pt;
+}
+button.backToHome{
+  height: 30px;
+  width: 200px;
+  font-family: didot;
+  border-radius: 8px;
+  font-size: 15pt;
 }
