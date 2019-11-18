@@ -279,20 +279,6 @@ function knightSet(cell){
 * @param toCell the cell you're moving it to
 */
 
-function move(fromCell, toCell){
-	if(toCell.option){
-		toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
-		toCell.isWhite = fromCell.isWhite;
-		toCell.pieceName = fromCell.pieceName;
-		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
-		toCell.hasPiece = true;
-		fromCell.pieceName = '';
-		fromCell.isWhite = false;
-		fromCell.hasPiece = false;
-		fromCell.innerHTML = "";
-	}
-}
-
 function tentativeMove(fromCell, toCell){
 	if(toCell.option){
 		let tempisWhite = toCell.isWhite;
@@ -303,7 +289,7 @@ function tentativeMove(fromCell, toCell){
 
 		toCell.isWhite = fromCell.isWhite;
 		toCell.pieceName = fromCell.pieceName;
-		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
+		toCell.innerHTML = fromCell.innerHTML;
 		toCell.hasPiece = true;
 		fromCell.pieceName = '';
 		fromCell.isWhite = false;
