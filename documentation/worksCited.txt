@@ -13,3 +13,7 @@ Notebook Background Effect created by Sarah Backhouse: https://leaverou.github.i
 Text Effect on Homepage created using tutorial by Iggy: https://line25.com/tutorials/how-to-create-a-cool-anaglyphic-text-effect-with-css
 
 Game 3 Matching Game: created by following tutorial on https://marina-ferreira.github.io/tutorials/js/memory-game/ written by Marina Ferreira 
+
+Emoji Unicode for Connect 4: https://www.quackit.com/character_sets/emoji/emoji_v3.0/unicode_emoji_v3.0_characters_all.cfm
+
+Diagonal Connect 4 win Algorithms: Loosely followed the diagonal algorithms on the following stack overflow page: https://stackoverflow.com/questions/32770321/connect-4-check-for-a-win-algorithm
