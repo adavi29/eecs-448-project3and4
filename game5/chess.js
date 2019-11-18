@@ -172,7 +172,7 @@ function diagOptions(cell, direction, recurse){
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
-	//	if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+		if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
 			if(nearCell.hasPiece){
 				if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
 					nearCell.option = true;
@@ -188,7 +188,7 @@ function diagOptions(cell, direction, recurse){
 					}
 				}
 			}
-	//	}
+		}
 	}
 }
 
@@ -203,7 +203,7 @@ function linOptions(cell, direction, recurse){
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
-	//	if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+		if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
 			if(nearCell.hasPiece){
 				if(cell.pieceName != 'p'){ //pawns can't take pieces in front of them
 					if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
@@ -221,7 +221,7 @@ function linOptions(cell, direction, recurse){
 					}
 				}
 			}
-	//	}
+		}
 	}
 }
 
