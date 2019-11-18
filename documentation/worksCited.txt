@@ -17,3 +17,5 @@ Game 3 Matching Game: created by following tutorial on https://marina-ferreira.g
 Emoji Unicode for Connect 4: https://www.quackit.com/character_sets/emoji/emoji_v3.0/unicode_emoji_v3.0_characters_all.cfm
 
 Diagonal Connect 4 win Algorithms: Loosely followed the diagonal algorithms on the following stack overflow page: https://stackoverflow.com/questions/32770321/connect-4-check-for-a-win-algorithm
+
+Game 2 2048 Game: created by the following tutorial on https://www.youtube.com/watch?v=tveTp3w3Wsg written by Criticaster
