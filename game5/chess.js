@@ -8,6 +8,7 @@ function chess() {
 	table.whiteTurn = true;
 	table.checkingcheck = false;
 	table.from = null;
+	table.inCheck = false;
 	n=8; //n is the size of the board
 	for(let i = 0; i < n; i++){
 		table.insertRow(i);
@@ -32,11 +33,13 @@ function chess() {
 	}
 
 	for(let i = 0; i < 2*n; i++){
+			whitePiece = document.getElementById(i);
+			blackPiece = document.getElementById(n*n-i-1);
+			whitePiece.pieceName = "rnbkqbnrpppppppp".charAt(i);
+			blackPiece.pieceName = "rnbqkbnrpppppppp".charAt(i);
 
-			document.getElementById(i).pieceName = "rnbkqbnrpppppppp".charAt(i);
-			document.getElementById(n*n-i-1).pieceName = "rnbkqbnrpppppppp".charAt(i);
-			document.getElementById(i).innerHTML = "rnbkqbnrpppppppp".charAt(i);
-			document.getElementById(n*n-i-1).innerHTML = "RNBKQBNRPPPPPPPP".charAt(i); //temporary to show difference in colors
+			whitePiece.innerHTML = "<img src=\"img/w" + "rnbkqbnrpppppppp".charAt(i) + ".png\">";
+			blackPiece.innerHTML = "<img src=\"img/b" + "rnbqkbnrpppppppp".charAt(i) + ".png\">";
 	}
 
 
@@ -55,7 +58,7 @@ function chess() {
 * @param n size of the board
 */
 function click(cell){
-	console.log("click!", cell.id);
+	console.log("cell #", cell.id, "option: ", cell.option, "check: ", cell.check, "white: ", cell.isWhite);
 	if(!table.shown){
 		if(cell.hasPiece){
 			if(cell.isWhite==table.whiteTurn){
@@ -69,8 +72,8 @@ function click(cell){
 			showOptions(cell);
 		}
 		if(cell.option){
-			move(table.from, cell);
-			newTurn();
+			tentativeMove(table.from, cell);
+		//	newTurn();
 		}
 	}
 }
@@ -82,11 +85,9 @@ function click(cell){
 * @param cell the cell that was clicked
 */
 
-
 function showOptions(cell){
 	table.shown = true;
 	table.from = cell;
-
 	if(cell.pieceName=='p'){ //PAWN
 		if(cell.isWhite){
 			linOptions(cell, "dn", false);
@@ -169,7 +170,7 @@ function diagOptions(cell, direction, recurse){
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
-		if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+	//	if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
 			if(nearCell.hasPiece){
 				if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
 					nearCell.option = true;
@@ -185,7 +186,7 @@ function diagOptions(cell, direction, recurse){
 					}
 				}
 			}
-		}
+	//	}
 	}
 }
 
@@ -200,7 +201,7 @@ function linOptions(cell, direction, recurse){
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(cardinals[direction]));
-		if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
+	//	if((cell.pieceName != 'k')||(nearCell.check != true)||(table.checkingcheck)){
 			if(nearCell.hasPiece){
 				if(cell.pieceName != 'p'){ //pawns can't take pieces in front of them
 					if((nearCell.isWhite != table.whiteTurn)||(table.checkingcheck)){ //if the piece in the toCell is the fromCell's opposite color
@@ -218,7 +219,7 @@ function linOptions(cell, direction, recurse){
 					}
 				}
 			}
-		}
+	//	}
 	}
 }
 
@@ -287,33 +288,54 @@ function move(fromCell, toCell){
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
 		fromCell.innerHTML = "";
-
-
-
-		if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
-		//	toCell.king = true;
-		}
 	}
 }
 
 function tentativeMove(fromCell, toCell){
+	if(toCell.option){
+		let tempisWhite = toCell.isWhite;
+		let temppieceName = toCell.pieceName;
+		let temphasPiece = toCell.hasPiece;
+		let tempinnerHTML = toCell.innerHTML;
+
+
 		toCell.isWhite = fromCell.isWhite;
 		toCell.pieceName = fromCell.pieceName;
-//		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
+		toCell.innerHTML = fromCell.innerHTML; //temporary to show capitalness instead of color
 		toCell.hasPiece = true;
 		fromCell.pieceName = '';
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
-//		fromCell.innerHTML = "";
+		fromCell.innerHTML = "";
+		checkcheck(fromCell.isWhite);
+		if(table.inCheck){
+			fromCell.pieceName = toCell.pieceName;
+			fromCell.isWhite = toCell.isWhite;
+			fromCell.hasPiece = true;
+			fromCell.innerHTML = toCell.innerHTML;
+			toCell.isWhite = tempisWhite;
+			toCell.pieceName = temppieceName;
+			toCell.hasPiece = temphasPiece;
+			toCell.innerHTML = tempinnerHTML; 
+		}
+		else{
+			toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
+			if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
+			//	toCell.king = true;
+		}
+			newTurn();
+		}
+	}
 }
 
 
 
-function checkcheck(){
+function checkcheck(isWhite){
 	table.checkingcheck = true;
+	resetCheck();
 	for(let i = 0; i < n*n; i++){
 		cell = document.getElementById(i);
-		if((cell.hasPiece)&&(cell.isWhite != table.whiteTurn)){
+		if((cell.hasPiece)&&(cell.isWhite != isWhite)){
 			if(cell.pieceName != 'p'){
 				showOptions(cell);
 			}
@@ -332,6 +354,10 @@ function checkcheck(){
 	for(let i = 0; i < n*n; i++){
 		cell = document.getElementById(i);
 		cell.check = cell.option;
+		if ((cell.isWhite == isWhite)&&cell.check&&(cell.pieceName == 'k')){
+			table.inCheck = true;
+			console.log("king's in check!");
+		}
 	}
 	resetOptions();
 	table.checkingcheck = false;
@@ -374,6 +400,7 @@ function resetOptions(){
 
 
 function resetCheck(){
+	table.inCheck = false;
 	for(let i = 0; i < n; i++){
 		for(let j = 0; j < n; j++){
 			cell = document.getElementById(i*n+j);
@@ -382,8 +409,9 @@ function resetCheck(){
 	}
 }
 
+
 function showCheck(){
-	checkcheck();
+	checkcheck(table.whiteTurn);
 	for(let i = 0; i < n; i++){
 		for(let j = 0; j < n; j++){
 			cell = document.getElementById(i*n+j);
