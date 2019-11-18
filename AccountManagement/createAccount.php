@@ -56,29 +56,8 @@
 	
 	
 	
-    echo "<script> alert('Your account was created successfully! Now login to enjoy the arcade!');window.location.replace('../index.html')</script>";
+    echo "<script> alert('Your account was created successfully! Now login to enjoy the arcade!');window.location.replace('https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/index.html')</script>";
   	//echo "Your account was created successfully!";
-  }
-
-    /* close connection */
-    $mysqli->close();
-
-?>
-
-
-
-  if($userFound == false && $username != ""){
-
-    $query = "INSERT INTO AccountInfo (username) VALUES ('" . $username . "')";
-    if ($result = $mysqli->query($query))
-    {
-      $query = "INSERT INTO AccountInfo (password) VALUES ('" . $password . "')";
-      if ($result = $mysqli->query($query))
-      {
-
-      }
-    }
-    echo "<script> alert('Your account was created successfully! Now login to enjoy the arcade!');window.location.replace('../index.html')</script>";
   }
 
     /* close connection */
