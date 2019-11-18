@@ -103,14 +103,16 @@ function showOptions(cell){
 			//need to implement taking en passant
 			sign = (cell.isWhite) ? 1 : -1;
 			enpassantCell = document.getElementById(parseInt(cell.id) + sign*n);
-			enpassantCell.pieceName = 'p'; //possibly a bad idea
-			if(cell.isWhite){
-				linOptions(enpassantCell, "dn", false);
+			if(!enpassantCell.hasPiece){
+				enpassantCell.pieceName = 'p'; //possibly a bad idea
+				if(cell.isWhite){
+					linOptions(enpassantCell, "dn", false);
+				}
+				else{
+					linOptions(enpassantCell, "up", false);
+				}
+				enpassantCell.pieceName = ''; //could also be a bad idea
 			}
-			else{
-				linOptions(enpassantCell, "up", false);
-			}
-			enpassantCell.pieceName = ''; //could also be a bad idea
 		}
 	}
 
