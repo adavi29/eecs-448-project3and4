@@ -9,6 +9,7 @@ function chess() {
 	table.checkingcheck = false;
 	table.from = null;
 	table.inCheck = false;
+	table.isCastling = false;
 	n=8; //n is the size of the board
 	for(let i = 0; i < n; i++){
 		table.insertRow(i);
@@ -21,6 +22,7 @@ function chess() {
 			cell.option = false; //
 			cell.hasMoved = false;
 			cell.check = false;
+			cell.castle = false;
 			cell.isWhite = (cell.id<2*n);  //assigns initial white
 			cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
 
@@ -31,7 +33,6 @@ function chess() {
 		cell.onmousedown =  function(){ click(this); };
 		}
 	}
-
 	for(let i = 0; i < 2*n; i++){
 			whitePiece = document.getElementById(i);
 			blackPiece = document.getElementById(n*n-i-1);
@@ -47,7 +48,7 @@ function chess() {
 		for(let l = (n-1); l >= 0; l--){
 			table.deleteRow(l);
 		}
-		document.getElementById("body").style.backgroundColor = "darkgray"
+		document.getElementById("body").style.backgroundColor = "darkgray";
 		chess()};
 }
 
@@ -73,8 +74,12 @@ function click(cell){
 			showOptions(cell);
 		}
 		if(cell.option){
-			tentativeMove(table.from, cell);
-		//	newTurn();
+			if(cell.castle){
+				doCastle(table.from, cell)
+			}
+			else{
+				tentativeMove(table.from, cell);
+			}
 		}
 	}
 }
@@ -153,6 +158,7 @@ function showOptions(cell){
 		diagOptions(cell, "br", false);
 		diagOptions(cell, "bl", false);
 		diagOptions(cell, "tl", false);
+		castleOptions(cell);
 	}
 
 	if(cell.pieceName=='n'){ //KNIGHT
@@ -226,6 +232,45 @@ function linOptions(cell, direction, recurse){
 	}
 }
 
+function castleOptions(cell){
+	if(!(cell.hasMoved||table.inCheck)){
+		if(!(document.getElementById(parseInt(cell.id)-1).hasPiece||document.getElementById(parseInt(cell.id)-2).hasPiece)){
+			if(!(document.getElementById(parseInt(cell.id)-1).check||document.getElementById(parseInt(cell.id)-2).check)){
+				if(!document.getElementById(parseInt(cell.id)-3).hasMoved){
+					document.getElementById(parseInt(cell.id)-2).option = true;
+					document.getElementById(parseInt(cell.id)-2).castle = true;
+					document.getElementById(parseInt(cell.id)-2).style.backgroundColor="lightBlue";
+
+				}
+			}
+		}
+		if(!(document.getElementById(parseInt(cell.id)+1).hasPiece||document.getElementById(parseInt(cell.id)+2).hasPiece||document.getElementById(parseInt(cell.id)+3).hasPiece)){
+			if(!(document.getElementById(parseInt(cell.id)+1).check||document.getElementById(parseInt(cell.id)+2).check||document.getElementById(parseInt(cell.id)+3).check)){
+				if(!document.getElementById(parseInt(cell.id)+4).hasMoved){
+					document.getElementById(parseInt(cell.id)+2).option = true;
+					document.getElementById(parseInt(cell.id)+2).castle = true;
+					document.getElementById(parseInt(cell.id)+2).style.backgroundColor="lightBlue";
+
+				}
+			}
+		}
+	}
+}
+
+function doCastle(fromCell, toCell){
+	table.isCastling = true;
+	tentativeMove(fromCell, toCell);
+	table.isCastling = false;
+	if(toCell.id % 8 == 5){
+		tentativeMove(document.getElementById(parseInt(fromCell.id)+4), document.getElementById(parseInt(fromCell.id)+1));
+	}
+	else if(toCell.id % 8 == 1){
+		tentativeMove(document.getElementById(parseInt(fromCell.id)-3), document.getElementById(parseInt(fromCell.id)-1));
+	}
+}
+
+
+
 function knightOptions(cell){
 	cell_j = cell.id%n;
 	cell_i=Math.floor(cell.id/n);
@@ -262,14 +307,14 @@ function knightOptions(cell){
 
 function knightSet(cell){
 	if(cell.hasPiece){
-			if((cell.isWhite != table.whiteTurn)||table.checkingcheck){ //if the piece in the toCell is the fromCell's opposite color
-				cell.option = true;
-				cell.style.backgroundColor="lightBlue";
-			}
+		if((cell.isWhite != table.whiteTurn)||table.checkingcheck){ //if the piece in the toCell is the fromCell's opposite color
+			cell.option = true;
+			cell.style.backgroundColor="lightBlue";
 		}
+	}
 	else{
-		cell.option = true;
-		cell.style.backgroundColor="lightBlue";
+			cell.option = true;
+			cell.style.backgroundColor="lightBlue";
 		}
 	}
 
@@ -281,7 +326,7 @@ function knightSet(cell){
 */
 
 function tentativeMove(fromCell, toCell){
-	if(toCell.option){
+//	if(toCell.option){
 		let tempisWhite = toCell.isWhite;
 		let temppieceName = toCell.pieceName;
 		let temphasPiece = toCell.hasPiece;
@@ -309,12 +354,14 @@ function tentativeMove(fromCell, toCell){
 		}
 		else{
 			toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
+			fromCell.hasMoved = true;
 			if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
 			//	toCell.king = true;
 		}
+		if(!table.isCastling)
 			newTurn();
 		}
-	}
+	//}
 }
 
 
@@ -382,6 +429,7 @@ function resetOptions(){
 		for(let j = 0; j < n; j++){
 			cell = document.getElementById(i*n+j);
 			cell.option = false;
+			cell.castle = false;
 			((i*n+j)%2 != i%2) ? cell.style.backgroundColor="grey" : cell.style.backgroundColor="white";
 		}
 	}
