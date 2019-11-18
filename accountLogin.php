@@ -19,21 +19,23 @@
     }
     else
     {
-
-      $query = "SELECT * FROM AccountInfo WHERE username='$username' AND password='$password'";
-      if ($result = $mysqli->query($query))
-      {
-
-        $row = $result->fetch_assoc();
-        printf($row["user_id"]);
-         if($row["user_id"] >= 0){
-           echo "<script> window.location.replace('homePage.html');</script>";
-        }
-        else{
-            echo "<script>alert('Username or password is incorrect.');window.history.go(-1);</script>";
-        }
-
-      }
+      
+      $query = "SELECT * FROM AccountInfo WHERE username='$username'";
+       if ($result = $mysqli->query($query))
+       {
+      
+         $row = $result->fetch_assoc();
+         //printf($row["user_id"]);
+         if(password_verify($password, $row["password"])){
+            echo "<script> window.location.replace('homePage.html');</script>";
+	    
+         }
+         else{
+             echo "<script>alert('Username or password is incorrect.');window.history.go(-1);</script>";
+	     
+         }
+      
+       }
 
 
 
