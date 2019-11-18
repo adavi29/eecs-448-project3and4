@@ -43,7 +43,7 @@ function ticTacToe() {
 * post: Updates cell contents with X or O, checks for winner, then switches players
 * exception: alert is called when user tries to click on a cell that has already been clicked
 * return: returns when a player wins
-* @param cell the cell that is affected when click is called
+* param: cell: the cell that is affected when click is called
 */
 function click(cell){
     //console.log("clicked cell # "+cell.id);
