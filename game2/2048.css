@@ -1,0 +1,27 @@
+body
+{
+  background-color: gray;
+}
+
+h1
+{
+  font : georgia;
+  text-align: center;
+  color: lightblue;
+}
+p
+{
+  text-align: center;
+  color: lightblue;
+}
+
+
+#myCanvas{
+    margin-left: -250px;
+    padding-left: 50%;
+
+}
+
+#canvas{
+    background-color: lightblue;
+}

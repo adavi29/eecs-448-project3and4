@@ -3,42 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>2048</title>
-    <style>
-      table
-      {
-        background-color: green
-      }
-      td
-      {
-        background-color: lightblue
-      }
-    </style>
   </head>
   <body>
     <h1>2048</h1>
-
-    <table>
-      <tr>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-        <td>2</td>
-      </tr>
-
-    </table><br>
-    <table>
-      <tr>
-        <th>score:</th>
-        <th>best:</th>
-      </tr>
-    </table>
-    <button type="button" name="backToHome" onclick="backHome()">Back To Home Page</button>
-    <script src="2048.js"></script>
+    <p id="score">Score:<p>
+      <div id="myCanvas">
+        <canvas id="canvas" width="500" height="500"></canvas>
+      </div>
+      <center><button type="button" name="backToHome" onclick="backHome()">Back To Home Page</button></center>
   </body>
+  <script src="2048.js"> </script>
+  <link rel="stylesheet" href="2048.css">
 </html>
