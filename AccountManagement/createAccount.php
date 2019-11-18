@@ -46,8 +46,8 @@
 
 
   if($userFound == false && $username != "" && $password != "" && $passwordsMatch == true){
-
-    $query = "INSERT INTO AccountInfo (username, password) VALUES ('" . $username ."', '" . $password . "');";
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);	
+    $query = "INSERT INTO AccountInfo (username, password) VALUES ('" . $username ."', '" . $hashedPassword . "');";
     if ($result = $mysqli->query($query))
     {
       
