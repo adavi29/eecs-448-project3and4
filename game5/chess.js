@@ -307,7 +307,7 @@ function tentativeMove(fromCell, toCell){
 		fromCell.isWhite = false;
 		fromCell.hasPiece = false;
 		fromCell.innerHTML = "";
-		checkcheck(fromCell.isWhite);
+		checkcheck(table.whiteTurn);
 		if(table.inCheck){
 			fromCell.pieceName = toCell.pieceName;
 			fromCell.isWhite = toCell.isWhite;
@@ -316,7 +316,7 @@ function tentativeMove(fromCell, toCell){
 			toCell.isWhite = tempisWhite;
 			toCell.pieceName = temppieceName;
 			toCell.hasPiece = temphasPiece;
-			toCell.innerHTML = tempinnerHTML; 
+			toCell.innerHTML = tempinnerHTML;
 		}
 		else{
 			toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
@@ -333,6 +333,7 @@ function tentativeMove(fromCell, toCell){
 function checkcheck(isWhite){
 	table.checkingcheck = true;
 	resetCheck();
+	resetOptions();
 	for(let i = 0; i < n*n; i++){
 		cell = document.getElementById(i);
 		if((cell.hasPiece)&&(cell.isWhite != isWhite)){
@@ -378,7 +379,7 @@ function newTurn() {
 	resetOptions();
 	resetCheck();
 	table.whiteTurn = !table.whiteTurn;
-	checkcheck();
+	checkcheck(table.whiteTurn);
 	table.whiteTurn ? document.getElementById("body").style.backgroundColor = "darkgray" : document.getElementById("body").style.backgroundColor ="black";
 }
 
