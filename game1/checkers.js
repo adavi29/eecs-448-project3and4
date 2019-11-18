@@ -65,6 +65,7 @@ function checkers() {
 			for(let l = (n-1); l >= 0; l--){
 				table.deleteRow(l);
 			}
+			document.getElementById("body").style.backgroundColor = "darkRed";
 			checkers()};
 		}
 
