@@ -1,6 +1,7 @@
 const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard=false;
-let firstCard, secondCard;
+let hasFlippedSecondCard=false;
+let firstCard, secondCard, thirdCard;
 let lockBoard=false;
 let numCorrect=0;
 
@@ -23,16 +24,24 @@ function flipCard(){
     firstCard=this;
     return;
   }
-  secondCard=this;
+  if(!hasFlippedSecondCard){
+    if(this === firstCard){
+      return;
+    }
+    hasFlippedSecondCard=true;
+    secondCard=this;
+    return;
+  }
+  thirdCard=this;
 
   checkForMatch();
 }
 
 function checkForMatch(){
-  if(firstCard.dataset.framework == secondCard.dataset.framework){
+  if(firstCard.dataset.framework == secondCard.dataset.framework && firstCard.dataset.framework == thirdCard.dataset.framework && thirdCard.dataset.framework == secondCard.dataset.framework){
     disableCards();
     numCorrect++;
-    if(numCorrect==6){
+    if(numCorrect==4){
       document.getElementById('youWin').innerText = "You Win!";
     }
     return;
@@ -52,13 +61,15 @@ function unflipCards(){
   setTimeout(() => {
     firstCard.classList.remove('flip');
     secondCard.classList.remove('flip');
+    thirdCard.classList.remove('flip');
     resetBoard();}, 1200);
 }
 
 function resetBoard(){
   hasFlippedCard=false;
+  hasFlippedSecondCard=false;
   lockBoard=false;
-  firstCard,secondCard=null;
+  firstCard,secondCard,thirdCard=null;
 }
 
 function shuffleCards(){
@@ -71,7 +82,8 @@ function shuffleCards(){
 function clearBoard(){
   document.getElementById('youWin').innerText = "";
   hasFlippedCard=false;
-  firstCard, secondCard=null;
+  hasFlippedSecondCard=false;
+  firstCard, secondCard,thirdCard=null;
   lockBoard=false;
   numCorrect=0;
   cards.forEach((card) => {
@@ -88,4 +100,15 @@ function clearBoard(){
 */
 function backHome(){
   window.location.replace("../homePage.html");
+}
+
+function runMemoryTests(){
+  //test 1 on click card turns
+  document.getElementById("card1").click()
+  let test1 = "Test 1: hasFlippedCard is true when a card is clicked: "
+  if(hasFlippedCard==true){
+    document.getElementById("test1").innerText = test1 + "PASSED";
+  } else {
+    document.getElementById("test1").innerText = test1 + "FAILED";
+  }
 }
