@@ -9,6 +9,7 @@ let playerO=false;
 * the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
 */
 function ticTacToe() {
+    playerX=true;
     table = document.getElementById("gameBoard");
 
     for(let i = 0; i < 3; i++){
@@ -35,6 +36,13 @@ function ticTacToe() {
         for(let i=2; i>=0; i--){
             table.deleteRow(i);
         }
+
+        document.getElementById("test1").innerHTML="";
+        document.getElementById("test2").innerHTML="";
+        document.getElementById("test3").innerHTML="";
+        document.getElementById("test4").innerHTML="";
+        document.getElementById("test5").innerHTML="";
+
         ticTacToe()};
 }
 
@@ -222,4 +230,77 @@ function test(){
 function test2(){
     console.log("Hello");
     document.write("<br>HELLLLLLOOOOOOO.");
+}
+
+function ticTacToeTestSuite(){
+    let test1="Test 1: Clicking a cell changes inner text to X when it is X's turn: ";
+    let test2="Test 2: Clicking a cell changes inner text to O when it is O's turn: ";
+    let test3="Test 3: Each time a click occurs, it becomes the other player's turn: ";
+    let test4="Test 4: Three X's in a row results in X winning and prints win alert: ";
+    let test5="Test 5: Three O's in a row results in O winning: ";
+
+    //test 1
+    cell = table.rows[0].cells[0];
+    click(cell);
+    if(cell.innerHTML=="X")
+    {
+        document.getElementById("test1").innerHTML=test1 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test1").innerHTML=test1 + "FAILED";
+    }
+
+    //test 2
+    cell = table.rows[0].cells[1];
+    click(cell);
+    if(cell.innerHTML=="O")
+    {
+        document.getElementById("test2").innerHTML=test2 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test2").innerHTML=test2 + "FAILED";
+    }
+
+    //test 3
+    if(playerX==true)
+    {
+        cell=table.rows[0].cells[2];
+        click(cell);
+        if(playerO==true)
+        {
+            document.getElementById("test3").innerHTML=test3 + "PASSED";
+        }
+        else
+        {
+            document.getElementById("test3").innerHTML=test3 + "FAILED";
+        }
+    }
+    else
+    {
+        document.getElementById("test3").innerHTML=test3 + "FAILED";
+    }
+
+    //test 4
+    clearBoard();
+    cell=table.rows[0].cells[0]; //X
+    click(cell);
+    cell=table.rows[0].cells[1]; //O
+    click(cell);
+    cell=table.rows[1].cells[0]; //X
+    click(cell);
+    cell=table.rows[2].cells[1]; //O
+    click(cell);
+    cell=table.rows[2].cells[0]; //X
+    click(cell);
+
+}
+
+function clearBoard(){
+        for(let i=2; i>=0; i--){
+            table.deleteRow(i);
+        }
+    
+        ticTacToe();
 }
