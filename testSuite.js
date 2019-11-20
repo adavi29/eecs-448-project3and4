@@ -1,12 +1,16 @@
 function run(){
+  ticTacToeTests();
+}
+
+function ticTacToeTests(){
+  ticTacToe();
 
 }
 
 /**
-* Post: Takes player to corresponding game html.
-* Uses gameIndex to track which game to go to.
+* pre: the HTML button exists
+* post: Takes the user back to the home page of the arcade
 */
-function goToGame(){
-  htmlName = "game"+gameIndex+"/game"+gameIndex+".html";
-  window.location.replace(htmlName);
+function backHome(){
+  window.location.replace("../homePage.html");
 }
