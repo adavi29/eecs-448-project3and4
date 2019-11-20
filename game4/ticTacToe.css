@@ -24,3 +24,8 @@ p{
     color : beige;
 }
 
+p.tests{
+	font-size: 12;
+	color: black;
+}
+

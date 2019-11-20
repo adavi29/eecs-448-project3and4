@@ -1,5 +1,5 @@
 function run(){
-  ticTacToeTests();
+
 }
 
 function ticTacToeTests(){
