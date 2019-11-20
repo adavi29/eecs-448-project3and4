@@ -213,3 +213,13 @@ function printWinner(){
 function backHome(){
     window.location.replace("../homePage.html");
   }
+
+function test(){
+    console.log("Hello");
+    document.write("Text to display.");
+}
+
+function test2(){
+    console.log("Hello");
+    document.write("<br>HELLLLLLOOOOOOO.");
+}
