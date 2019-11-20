@@ -1,5 +1,6 @@
 let playerX=true;
 let playerO=false;
+let winner=false;
 
 /**
 * post: Manages gameplay
@@ -9,6 +10,7 @@ let playerO=false;
 * the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
 */
 function ticTacToe() {
+    winner=false;
     playerX=true;
     table = document.getElementById("gameBoard");
 
@@ -69,6 +71,7 @@ function click(cell){
         if(winChoice(cell))
         {
             printWinner();
+            winner=true;
             return;
         }
     }
@@ -80,6 +83,7 @@ function click(cell){
         if(winChoice(cell))
         {
             printWinner();
+            winner=true;
             return;
         }
     }
@@ -222,22 +226,13 @@ function backHome(){
     window.location.replace("../homePage.html");
   }
 
-function test(){
-    console.log("Hello");
-    document.write("Text to display.");
-}
-
-function test2(){
-    console.log("Hello");
-    document.write("<br>HELLLLLLOOOOOOO.");
-}
-
 function ticTacToeTestSuite(){
+    clearBoard();
     let test1="Test 1: Clicking a cell changes inner text to X when it is X's turn: ";
     let test2="Test 2: Clicking a cell changes inner text to O when it is O's turn: ";
     let test3="Test 3: Each time a click occurs, it becomes the other player's turn: ";
     let test4="Test 4: Three X's in a row results in X winning and prints win alert: ";
-    let test5="Test 5: Three O's in a row results in O winning: ";
+    let test5="Test 5: Three O's in a row results in O winning and prints win alert: ";
 
     //test 1
     cell = table.rows[0].cells[0];
@@ -294,6 +289,37 @@ function ticTacToeTestSuite(){
     click(cell);
     cell=table.rows[2].cells[0]; //X
     click(cell);
+    if(winner==true)
+    {
+        document.getElementById("test4").innerHTML=test4 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test4").innerHTML=test4 + "FAILED";
+    }
+
+     //test 4
+     clearBoard();
+     cell=table.rows[0].cells[1]; //X
+     click(cell);
+     cell=table.rows[0].cells[0]; //O
+     click(cell);
+     cell=table.rows[0].cells[2]; //X
+     click(cell);
+     cell=table.rows[1].cells[1]; //O
+     click(cell);
+     cell=table.rows[2].cells[0]; //X
+     click(cell);
+     cell=table.rows[2].cells[2]; //O
+     click(cell);
+     if(winner==true)
+     {
+         document.getElementById("test5").innerHTML=test5 + "PASSED";
+     }
+     else
+     {
+         document.getElementById("test5").innerHTML=test5 + "FAILED";
+     }
 
 }
 

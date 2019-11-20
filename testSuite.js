@@ -1,7 +1,5 @@
 function run(){
-  test();
-  test2();
-  ticTacToetestSuite();
+
 }
 
 function ticTacToeTests(){
