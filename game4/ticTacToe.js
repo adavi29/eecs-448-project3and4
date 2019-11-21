@@ -226,6 +226,10 @@ function backHome(){
     window.location.replace("../homePage.html");
   }
 
+/**
+* pre: winner bool is initialized, BoardReset is implemented, tic tac toe game is fully implemented 
+* post: Runs the test suite when the button is pressed and prints results to the webpage
+*/
 function ticTacToeTestSuite(){
     clearBoard();
     let test1="Test 1: Clicking a cell changes inner text to X when it is X's turn: ";
@@ -298,7 +302,7 @@ function ticTacToeTestSuite(){
         document.getElementById("test4").innerHTML=test4 + "FAILED";
     }
 
-     //test 4
+     //test 5
      clearBoard();
      cell=table.rows[0].cells[1]; //X
      click(cell);
@@ -323,6 +327,10 @@ function ticTacToeTestSuite(){
 
 }
 
+/**
+* pre: the ticTacToe method is implemented
+* post: Clears the table and reruns the game
+*/
 function clearBoard(){
         for(let i=2; i>=0; i--){
             table.deleteRow(i);

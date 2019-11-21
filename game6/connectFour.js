@@ -35,6 +35,18 @@ function connectFour() {
         for(let i=5; i>=0; i--){
             table.deleteRow(i);
         }
+
+        document.getElementById("test1").innerHTML="";
+        document.getElementById("test2").innerHTML="";
+        document.getElementById("test3").innerHTML="";
+        document.getElementById("test4").innerHTML="";
+        document.getElementById("test5").innerHTML="";
+        document.getElementById("test6").innerHTML="";
+        document.getElementById("test7").innerHTML="";
+        document.getElementById("test8").innerHTML="";
+        document.getElementById("test9").innerHTML="";
+        document.getElementById("test10").innerHTML="";
+
         connectFour()};
 }
 
@@ -319,3 +331,173 @@ function printWinner(){
 function backHome(){
     window.location.replace("../homePage.html");
   }
+
+/**
+* pre: the ticTacToe method is implemented
+* post: Clears the table and reruns the game
+*/
+function clearBoard(){
+    for(let i=5; i>=0; i--){
+        table.deleteRow(i);
+    }
+
+    connectFour();
+}
+
+/**
+* pre: winner bool is initialized, BoardReset is implemented, connect Four game is fully implemented 
+* post: Runs the test suite when the button is pressed and prints results to the webpage
+*/
+let test5Bool=false;
+let test6Bool=false;
+function connectFourTestSuite(){
+    clearBoard();
+    let test1="Test 1: Clicking any cell places a piece at the bottom of the column clicked simulating a piece dropped into the board: ";
+    let test2="Test 2: Clicking a cell changes inner text to red circle when it is red's turn: ";
+    let test3="Test 3: Clicking a cell changes inner text to yellow emoji when it is yellow's turn: ";
+    let test4="Test 4: Once the bottom position of a column is taken, the next piece is placed above it when that column is selected again: ";
+    let test5="Test 5: Four red vertical pieces triggers a win for red: ";
+    let test6="Test 6: Four yellow vertical pieces triggers a win for yellow: ";
+    
+
+    //test 1
+    cell = table.rows[0].cells[0];
+    let cellSelected=selectCell(cell, 0);
+    console.log("inner html:" + cellSelected.innerHTML);
+    if(cellSelected.hasValue==true && cellSelected==table.rows[5].cells[0])
+    {
+        document.getElementById("test1").innerHTML=test1 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test1").innerHTML=test1 + "FAILED";
+    }
+    //test 2
+    if(cellSelected.innerHTML=="🔴")
+    {
+        document.getElementById("test2").innerHTML=test2 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test2").innerHTML=test2 + "FAILED";
+    }
+
+    //test3
+    switchPlayer();
+    cell = table.rows[3].cells[4];
+    cellSelected=selectCell(cell, 4);
+    console.log("inner html:" + cellSelected.innerHTML);
+    if(cellSelected.innerHTML=="😁" && cellSelected==table.rows[5].cells[4])
+    {
+        document.getElementById("test3").innerHTML=test3 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test3").innerHTML=test3 + "FAILED";
+    }
+    
+    //test4
+    switchPlayer();
+    cell = table.rows[3].cells[4];
+    cellSelected=selectCell(cell, 4);
+    console.log("inner html:" + cellSelected.innerHTML);
+    if(cellSelected.innerHTML=="🔴" && cellSelected==table.rows[4].cells[4])
+    {
+        document.getElementById("test4").innerHTML=test4 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test4").innerHTML=test4 + "FAILED";
+    }
+
+    //test5
+    test5Bool=true;
+    clearBoard();
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test5); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test5); //yellow
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test5); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test5); //yellow
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test5); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test5); //yellow
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test5); //red
+    test5Bool=false;
+
+    //test6
+    test6Bool=true;
+    clearBoard();
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test6); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test6); //yellow
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test6); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test6); //yellow
+    cell = table.rows[0].cells[1];
+    clickTestMode(cell, 1, test6); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test6); //yellow
+    cell = table.rows[0].cells[0];
+    clickTestMode(cell, 0, test6); //red
+    cell = table.rows[0].cells[3];
+    clickTestMode(cell, 3, test6); //yellow
+    test6Bool=false;
+
+}
+
+function clickTestMode(cell, col, testNum){
+    
+    //console.log("clicked cell # "+cell.id);
+    if(cell.hasValue)
+    {
+        alert("Cannot click here.");
+        return;
+    }
+
+    if(playerRed==true) //player red
+    {
+        
+        let cellSelected=selectCell(cell, col); //finds next available cell at bottom of column and adds emoji to the board
+
+        if(winChoice())
+        {
+            //printWinner();
+            if(test5Bool==true)
+            {
+                document.getElementById("test5").innerHTML=testNum + "PASSED";
+            }
+            return;
+        }
+        else if(test5Bool==true)
+        {
+            document.getElementById("test5").innerHTML=testNum + "FAILED";
+        }
+        
+    }
+    else //player yellow
+    {
+        let cellSelected=selectCell(cell, col);
+
+        if(winChoice())
+        {
+            //printWinner();
+            if(test6Bool==true)
+            {
+                document.getElementById("test6").innerHTML=testNum + "PASSED";
+            }
+            return;
+        }
+        else if(test6Bool==true)
+        {
+            document.getElementById("test6").innerHTML=testNum + "FAILED";
+        }
+    }
+    switchPlayer();
+}
