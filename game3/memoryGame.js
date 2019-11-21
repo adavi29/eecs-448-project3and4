@@ -4,6 +4,10 @@ let hasFlippedSecondCard=false;
 let firstCard, secondCard, thirdCard;
 let lockBoard=false;
 let numCorrect=0;
+let testing=false;
+let madeToDisable=false;
+let madeToUnflip=false;
+let madeToReset=false;
 
 cards.forEach(card => card.addEventListener('click', flipCard));
 shuffleCards();
@@ -17,7 +21,7 @@ function flipCard(){
   if(lockBoard){
     return;
   }
-  if(this === firstCard){
+  if(this === firstCard || this === secondCard){
     return;
   }
   this.classList.add('flip');
@@ -27,9 +31,6 @@ function flipCard(){
     return;
   }
   if(!hasFlippedSecondCard){
-    if(this === firstCard){
-      return;
-    }
     hasFlippedSecondCard=true;
     secondCard=this;
     return;
@@ -65,6 +66,9 @@ function disableCards(){
   firstCard.removeEventListener('click', flipCard);
   secondCard.removeEventListener('click', flipCard);
   thirdCard.removeEventListener('click', flipCard);
+  if(testing=true){
+    madeToDisable=true;
+  }
   resetBoard();
 }
 
@@ -73,6 +77,9 @@ function disableCards(){
 *Post: Locks board, unflips the three cards, and resets board.
 */
 function unflipCards(){
+  if(testing=true){
+    madeToUnflip=true;
+  }
   lockBoard=true;
   setTimeout(() => {
     firstCard.classList.remove('flip');
@@ -90,6 +97,9 @@ function resetBoard(){
   hasFlippedSecondCard=false;
   lockBoard=false;
   firstCard,secondCard,thirdCard=null;
+  if(testing){
+    madeToReset=true;
+  }
 }
 
 /**
@@ -132,14 +142,108 @@ function backHome(){
 }
 
 /**
-*Post: Runs all tests.
+*Post: Runs first round of tests.
 */
 function runMemoryTests(){
-  document.getElementById("card1").click()
-  let test1 = "Test 1: hasFlippedCard is true and hasFlippedSecondCard is false when one card is clicked: "
+  testing=true;
+  document.getElementById("test").disabled = true;
+  document.getElementById("card1").click();
+  let test1 = "Test 1: hasFlippedCard is true and hasFlippedSecondCard is false when one card is clicked: ";
+  let test2 = "Test 2: firstCard is not null after one card has been clicked: ";
+  let test3 = "Test 3: secondCard and thirdCard are null if same first card is clicked again: ";
+  let test4 = "Test 4: firstCard and secondCard are not null after two cards have been clicked: ";
+  let test5 = "Test 5: Disable function is called when three of the same card were flipped: ";
+  let test6 = "Test 6: Reset function is called from disable function: ";
+
   if(hasFlippedCard==true && hasFlippedSecondCard==false){
     document.getElementById("test1").innerText = test1 + "PASSED";
   } else {
     document.getElementById("test1").innerText = test1 + "FAILED";
   }
+  if(firstCard!=null){
+    document.getElementById("test2").innerText = test2 + "PASSED";
+  }else {
+    document.getElementById("test2").innerText = test2 + "FAILED";
+  }
+
+  document.getElementById("card1").click();
+  if(firstCard!=null && secondCard==null && thirdCard==null){
+    document.getElementById("test3").innerText = test3 + "PASSED";
+  }else {
+    document.getElementById("test3").innerText = test3 + "FAILED";
+  }
+
+  document.getElementById("card2").click();
+  if(firstCard!=null && secondCard!=null && thirdCard==null){
+    document.getElementById("test4").innerText = test4 + "PASSED";
+  }else {
+    document.getElementById("test4").innerText = test4 + "FAILED";
+  }
+  document.getElementById("card3").click();
+  if(madeToDisable){
+    document.getElementById("test5").innerText = test5 + "PASSED";
+  }else {
+    document.getElementById("test5").innerText = test5 + "FAILED";
+  }
+  if(madeToReset){
+    document.getElementById("test6").innerText = test6 + "PASSED";
+  } else {
+    document.getElementById("test6").innerText = test6 + "FAILED";
+  }
+setTimeout(()=>{runTests2();}, 2000);
+
+
+}
+
+/**
+*Pre: Initial tests are complete.
+*Post: Runs second round of tests.
+*/
+function runTests2(){
+  let test7 = "Test 7: Unflip function is called after three unmatching cards were flipped: ";
+  let test8 = "Test 8: All cards are unflipped after calling clearBoard: ";
+  let test9 = "Test 9: Cards have a different order after calling clearBoard: ";
+
+  document.getElementById("card4").click();
+  document.getElementById("card7").click();
+  document.getElementById("card8").click();
+
+  if(madeToUnflip){
+    document.getElementById("test7").innerText = test7 + "PASSED";
+  } else {
+    document.getElementById("test7").innerText = test7 + "FAILED";
+  }
+  setTimeout(()=>{
+    let cardOrderBefore=[];
+    cards.forEach((card) => {
+      cardOrderBefore.push(card.style.order);
+    });
+    clearBoard();
+    let cardsUnflipped=true;
+    cards.forEach((card) => {
+      if(card.classList.contains('flip')){
+        cardsUnflipped=false;
+      }
+    });
+    if(cardsUnflipped){
+      document.getElementById("test8").innerText = test8 + "PASSED";
+    }else {
+      document.getElementById("test8").innerText = test8 + "FAILED";
+    }
+    document.getElementById("card4").click();
+    let cardOrderAfter=[];
+    cards.forEach((card) => {
+      cardOrderAfter.push(card.style.order);
+    });
+    if(cardOrderBefore != cardOrderAfter){
+      document.getElementById("test9").innerText = test9 + "PASSED";
+    }else {
+      document.getElementById("test9").innerText = test9 + "FAILED";
+    }
+  }, 2000);
+
+
+  madeToUnflip=false;
+  madeToDisable=false;
+  testing=false;
 }
