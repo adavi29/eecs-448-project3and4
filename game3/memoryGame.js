@@ -203,6 +203,7 @@ function runTests2(){
   let test7 = "Test 7: Unflip function is called after three unmatching cards were flipped: ";
   let test8 = "Test 8: All cards are unflipped after calling clearBoard: ";
   let test9 = "Test 9: Cards have a different order after calling clearBoard: ";
+  let test10 = "Test 10: Three cards can be chosen after calling clearBoard: ";
 
   document.getElementById("card4").click();
   document.getElementById("card7").click();
@@ -213,6 +214,8 @@ function runTests2(){
   } else {
     document.getElementById("test7").innerText = test7 + "FAILED";
   }
+  madeToUnflip=false;
+  madeToDisable=false;
   setTimeout(()=>{
     let cardOrderBefore=[];
     cards.forEach((card) => {
@@ -240,6 +243,17 @@ function runTests2(){
     }else {
       document.getElementById("test9").innerText = test9 + "FAILED";
     }
+    setTimeout(()=>{
+      document.getElementById("card3").click();
+      document.getElementById("card6").click();
+      document.getElementById("card9").click();
+      if(madeToUnflip || madeToDisable){
+        document.getElementById("test10").innerText = test10 + "PASSED";
+      } else {
+        document.getElementById("test10").innerText = test10 + "FAILED";
+      }
+    }, 1000);
+
   }, 2000);
 
 
