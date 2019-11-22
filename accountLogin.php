@@ -15,7 +15,7 @@
 
     if ($username == ""||$password == "")
     {
-      echo "<script>alert('Error: Username and password can not be empty.');window.history.go(-1);";
+      echo "<script>alert('Error: Username and password can not be empty.');window.history.go(-1);</script>";
     }
     else
     {
