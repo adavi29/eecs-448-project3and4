@@ -4,6 +4,12 @@
 */
 
 function chess() {
+	buildTable();
+	placePieces();
+	document.getElementById("reset").onmousedown = function(){ reset() };
+}
+
+function buildTable(){
 	table = document.getElementById("table");
 	table.whiteTurn = true;
 	table.checkingcheck = false;
@@ -33,6 +39,9 @@ function chess() {
 		cell.onmousedown =  function(){ click(this); };
 		}
 	}
+}
+
+function placePieces(){
 	for(let i = 0; i < 2*n; i++){
 			whitePiece = document.getElementById(i);
 			blackPiece = document.getElementById(n*n-i-1);
@@ -42,16 +51,15 @@ function chess() {
 			whitePiece.innerHTML = "<img src=\"img/w" + "rnbkqbnrpppppppp".charAt(i) + ".png\">";
 			blackPiece.innerHTML = "<img src=\"img/b" + "rnbqkbnrpppppppp".charAt(i) + ".png\">";
 	}
+}
 
-
-	document.getElementById("reset").onmousedown = function(){
+function reset(){
 		for(let l = (n-1); l >= 0; l--){
 			table.deleteRow(l);
 		}
 		document.getElementById("body").style.backgroundColor = "darkgray";
-		chess()};
+		chess();
 }
-
 /**
 * pre: board must exist with cells, click must have happened on a cell
 * post: decides what to do with click depending on what's within the cell,
