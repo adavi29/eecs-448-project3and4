@@ -6,7 +6,7 @@ let playerYellow=false; //yellow
 * post: Creates the table and adds cell attributes
 * post: Defines functions: cell.onclick and an anonymous function that is called when the new game button is clicked
 * cell.onclick() calls the click function when a cell is clicked
-* the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
+* the anonymous function deletes the table when 'new game' is clicked and then calls connectFour() function again to start a new game.
 */
 function connectFour() {
     playerRed=true; //red
@@ -59,6 +59,7 @@ function connectFour() {
 * exception: alert is called when user tries to click on a column that is full
 * return: returns when a player wins
 * param: cell: the cell that is affected when click is called
+* param: col: the column of the cell that is clicked
 */
 function click(cell, col){
     //console.log("clicked cell # "+cell.id);
@@ -119,15 +120,11 @@ function selectCell(cell, col){
     {
         cell.innerHTML="&#x1F534;"; //red
         cell.isRed=true;
-        //cell.adjCounter++; //increase count for the cell you're hitting
-        //adjustCounters(cell);//increase cell adjCounter for all cells adjacent
     }
     else //if yellow turn
     {
         cell.innerHTML="&#x1F601"; //yellow
         cell.isYellow=true;
-        //cell.adjCounter++;
-        //adjustCounters(cell);//increase cell adjCounter for all cells adjacent
     }
     return(cell);
 }
@@ -336,8 +333,8 @@ function backHome(){
   }
 
 /**
-* pre: the ticTacToe method is implemented
-* post: Clears the table and reruns the game
+* pre: the connectFour method is implemented
+* post: Clears the table and reruns the game: used for testing
 */
 function clearBoard(){
     for(let i=5; i>=0; i--){
@@ -582,8 +579,19 @@ function connectFourTestSuite(){
             document.getElementById("test11").innerHTML=test11 + "FAILED";
         }
 
+        clearBoard();
+
 }
 
+/**
+* pre: must be in test mode
+* post: Only used for testing: places a piece on the board and checks for winners then switches players
+* return: returns when a player wins
+* param: cell: the cell that is affected when click is called
+* param: col: the column of the cell that is clicked
+* param: testNum: takes in the variable that contains a string that is used to print to the screen by changing the innerHTML
+* difference from click(cell, col): suppresses the winner alerts and takes an extra parameter
+*/
 function clickTestMode(cell, col, testNum){
     
     //console.log("clicked cell # "+cell.id);
