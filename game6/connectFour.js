@@ -6,9 +6,11 @@ let playerYellow=false; //yellow
 * post: Creates the table and adds cell attributes
 * post: Defines functions: cell.onclick and an anonymous function that is called when the new game button is clicked
 * cell.onclick() calls the click function when a cell is clicked
-* the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
+* the anonymous function deletes the table when 'new game' is clicked and then calls connectFour() function again to start a new game.
 */
 function connectFour() {
+    playerRed=true; //red
+    playerYellow=false; //yellow
     table = document.getElementById("gameBoard");
 
     for(let i = 0; i < 6; i++){
@@ -46,6 +48,7 @@ function connectFour() {
         document.getElementById("test8").innerHTML="";
         document.getElementById("test9").innerHTML="";
         document.getElementById("test10").innerHTML="";
+        document.getElementById("test11").innerHTML="";
 
         connectFour()};
 }
@@ -56,6 +59,7 @@ function connectFour() {
 * exception: alert is called when user tries to click on a column that is full
 * return: returns when a player wins
 * param: cell: the cell that is affected when click is called
+* param: col: the column of the cell that is clicked
 */
 function click(cell, col){
     //console.log("clicked cell # "+cell.id);
@@ -116,15 +120,11 @@ function selectCell(cell, col){
     {
         cell.innerHTML="&#x1F534;"; //red
         cell.isRed=true;
-        //cell.adjCounter++; //increase count for the cell you're hitting
-        //adjustCounters(cell);//increase cell adjCounter for all cells adjacent
     }
     else //if yellow turn
     {
         cell.innerHTML="&#x1F601"; //yellow
         cell.isYellow=true;
-        //cell.adjCounter++;
-        //adjustCounters(cell);//increase cell adjCounter for all cells adjacent
     }
     return(cell);
 }
@@ -333,8 +333,8 @@ function backHome(){
   }
 
 /**
-* pre: the ticTacToe method is implemented
-* post: Clears the table and reruns the game
+* pre: the connectFour method is implemented
+* post: Clears the table and reruns the game: used for testing
 */
 function clearBoard(){
     for(let i=5; i>=0; i--){
@@ -350,6 +350,10 @@ function clearBoard(){
 */
 let test5Bool=false;
 let test6Bool=false;
+let test7Bool=false;
+let test8Bool=false;
+let test9Bool=false;
+let test10Bool=false;
 function connectFourTestSuite(){
     clearBoard();
     let test1="Test 1: Clicking any cell places a piece at the bottom of the column clicked simulating a piece dropped into the board: ";
@@ -358,7 +362,11 @@ function connectFourTestSuite(){
     let test4="Test 4: Once the bottom position of a column is taken, the next piece is placed above it when that column is selected again: ";
     let test5="Test 5: Four red vertical pieces triggers a win for red: ";
     let test6="Test 6: Four yellow vertical pieces triggers a win for yellow: ";
-    
+    let test7="Test 7: Four red horizontal pieces triggers a win for red: ";
+    let test8="Test 8: Four yellow horizontal pieces triggers a win for yellow: ";
+    let test9="Test 9: Four red diagonal pieces triggers a win for red: ";
+    let test10="Test 10: Four yellow diagonal pieces triggers a win for yellow: ";
+    let test11="Test 11: After one player places a piece, it becomes the other player's turn: ";
 
     //test 1
     cell = table.rows[0].cells[0];
@@ -450,8 +458,140 @@ function connectFourTestSuite(){
     clickTestMode(cell, 3, test6); //yellow
     test6Bool=false;
 
+      //test7
+      test7Bool=true;
+      clearBoard();
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test7); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test7); //yellow
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test7); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test7); //yellow
+      cell = table.rows[0].cells[3];
+      clickTestMode(cell, 3, test7); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test7); //yellow
+      cell = table.rows[0].cells[4];
+      clickTestMode(cell, 4, test7); //red
+      test7Bool=false;
+
+      //test8
+      test8Bool=true;
+      clearBoard();
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test8); //red
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test8); //yellow
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test8); //red
+      cell = table.rows[0].cells[3];
+      clickTestMode(cell, 3, test8); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test8); //red
+      cell = table.rows[0].cells[4];
+      clickTestMode(cell, 4, test8); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test8); //red
+      cell = table.rows[0].cells[5];
+      clickTestMode(cell, 5, test8); //yellow
+      test8Bool=false;
+
+      //test9
+      test9Bool=true;
+      clearBoard();
+      cell = table.rows[0].cells[3];
+      clickTestMode(cell, 3, test9); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //red
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test9); //yellow
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test9); //red
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test9); //yellow
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test9); //red
+      cell = table.rows[0].cells[5];
+      clickTestMode(cell, 5, test9); //yellow
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test9); //red
+      test9Bool=false;
+
+        //test10
+        test10Bool=true;
+        clearBoard();
+        cell = table.rows[0].cells[3];
+        clickTestMode(cell, 3, test10); //red
+        cell = table.rows[0].cells[3];
+        clickTestMode(cell, 3, test10); //yellow
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //red
+        cell = table.rows[0].cells[4];
+        clickTestMode(cell, 4, test10); //yellow
+        cell = table.rows[0].cells[4];
+        clickTestMode(cell, 4, test10); //red
+        cell = table.rows[0].cells[4];
+        clickTestMode(cell, 4, test10); //yellow
+        cell = table.rows[0].cells[1];
+        clickTestMode(cell, 1, test10); //red
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //yellow
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //red
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //yellow
+        cell = table.rows[0].cells[0];
+        clickTestMode(cell, 0, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        cell = table.rows[0].cells[0];
+        clickTestMode(cell, 0, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        cell = table.rows[0].cells[0];
+        clickTestMode(cell, 0, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        test10Bool=false;
+
+        //test 11
+        clearBoard();
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //red
+        if(playerYellow==true)
+        {
+            document.getElementById("test11").innerHTML=test11 + "PASSED";
+        }
+        else
+        {
+            document.getElementById("test11").innerHTML=test11 + "FAILED";
+        }
+
+        clearBoard();
+
 }
 
+/**
+* pre: must be in test mode
+* post: Only used for testing: places a piece on the board and checks for winners then switches players
+* return: returns when a player wins
+* param: cell: the cell that is affected when click is called
+* param: col: the column of the cell that is clicked
+* param: testNum: takes in the variable that contains a string that is used to print to the screen by changing the innerHTML
+* difference from click(cell, col): suppresses the winner alerts and takes an extra parameter
+*/
 function clickTestMode(cell, col, testNum){
     
     //console.log("clicked cell # "+cell.id);
@@ -473,11 +613,27 @@ function clickTestMode(cell, col, testNum){
             {
                 document.getElementById("test5").innerHTML=testNum + "PASSED";
             }
+            else if(test7Bool==true)
+            {
+                document.getElementById("test7").innerHTML=testNum + "PASSED";
+            }
+            else if(test9Bool==true)
+            {
+                document.getElementById("test9").innerHTML=testNum + "PASSED";
+            }
             return;
         }
         else if(test5Bool==true)
         {
             document.getElementById("test5").innerHTML=testNum + "FAILED";
+        }
+        else if(test7Bool==true)
+        {
+            document.getElementById("test7").innerHTML=testNum + "FAILED";
+        }
+        else if(test9Bool==true)
+        {
+            document.getElementById("test9").innerHTML=testNum + "FAILED";
         }
         
     }
@@ -492,11 +648,27 @@ function clickTestMode(cell, col, testNum){
             {
                 document.getElementById("test6").innerHTML=testNum + "PASSED";
             }
+            else if(test8Bool==true)
+            {
+                document.getElementById("test8").innerHTML=testNum + "PASSED";
+            }
+            else if(test10Bool==true)
+            {
+                document.getElementById("test10").innerHTML=testNum + "PASSED";
+            }
             return;
         }
         else if(test6Bool==true)
         {
             document.getElementById("test6").innerHTML=testNum + "FAILED";
+        }
+        else if(test8Bool==true)
+        {
+            document.getElementById("test8").innerHTML=testNum + "FAILED";
+        }
+        else if(test10Bool==true)
+        {
+            document.getElementById("test10").innerHTML=testNum + "FAILED";
         }
     }
     switchPlayer();
