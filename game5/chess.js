@@ -164,9 +164,6 @@ function showOptions(cell){
 	if(cell.pieceName=='n'){ //KNIGHT
 		knightOptions(cell);
 	}
-
-
-
 }
 
 function diagOptions(cell, direction, recurse){
@@ -261,10 +258,10 @@ function doCastle(fromCell, toCell){
 	table.isCastling = true;
 	tentativeMove(fromCell, toCell);
 	table.isCastling = false;
-	if(toCell.id % 8 == 5){
+	if(toCell.id % 8 == 5){ //queenside
 		tentativeMove(document.getElementById(parseInt(fromCell.id)+4), document.getElementById(parseInt(fromCell.id)+1));
 	}
-	else if(toCell.id % 8 == 1){
+	else if(toCell.id % 8 == 1){ //kingside
 		tentativeMove(document.getElementById(parseInt(fromCell.id)-3), document.getElementById(parseInt(fromCell.id)-1));
 	}
 }
@@ -326,7 +323,6 @@ function knightSet(cell){
 */
 
 function tentativeMove(fromCell, toCell){
-//	if(toCell.option){
 		let tempisWhite = toCell.isWhite;
 		let temppieceName = toCell.pieceName;
 		let temphasPiece = toCell.hasPiece;
@@ -356,14 +352,14 @@ function tentativeMove(fromCell, toCell){
 			toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
 			fromCell.hasMoved = true;
 			if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
-			//	toCell.king = true;
+				toCell.pieceName = 'q';
+				(table.whiteTurn) ? toCell.innerHTML = "<img src=\"img/wq.png\">" : 	toCell.innerHTML = "<img src=\"img/bq.png\">";
+			}
+			if(!table.isCastling){
+				newTurn();
+			}
 		}
-		if(!table.isCastling)
-			newTurn();
-		}
-	//}
 }
-
 
 
 function checkcheck(isWhite){
@@ -399,10 +395,6 @@ function checkcheck(isWhite){
 	resetOptions();
 	table.checkingcheck = false;
 }
-
-
-
-
 
 
 /**
