@@ -149,6 +149,7 @@ function backHome(){
 *Post: Runs first round of tests.
 */
 function runMemoryTests(){
+  clearBoard();
   testing=true;
   document.getElementById("test").disabled = true;
   document.getElementById("card1").click();
