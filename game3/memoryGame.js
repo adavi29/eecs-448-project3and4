@@ -96,7 +96,9 @@ function resetBoard(){
   hasFlippedCard=false;
   hasFlippedSecondCard=false;
   lockBoard=false;
-  firstCard,secondCard,thirdCard=null;
+  firstCard=null;
+  secondCard= null;
+  thirdCard=null;
   if(testing){
     madeToReset=true;
   }
@@ -121,7 +123,9 @@ function clearBoard(){
   document.getElementById('youWin').innerText = "";
   hasFlippedCard=false;
   hasFlippedSecondCard=false;
-  firstCard, secondCard,thirdCard=null;
+  firstCard=null;
+  secondCard= null;
+  thirdCard=null;
   lockBoard=false;
   numCorrect=0;
   cards.forEach((card) => {
@@ -154,6 +158,7 @@ function runMemoryTests(){
   let test4 = "Test 4: firstCard and secondCard are not null after two cards have been clicked: ";
   let test5 = "Test 5: Disable function is called when three of the same card were flipped: ";
   let test6 = "Test 6: Reset function is called from disable function: ";
+  let test7 = "Test 7: firstCard, secondCard, and thirdCard are null after reset has been called: ";
 
   if(hasFlippedCard==true && hasFlippedSecondCard==false){
     document.getElementById("test1").innerText = test1 + "PASSED";
@@ -190,6 +195,11 @@ function runMemoryTests(){
   } else {
     document.getElementById("test6").innerText = test6 + "FAILED";
   }
+  if(firstCard==null && secondCard==null && thirdCard==null){
+    document.getElementById("test7").innerText = test7 + "PASSED";
+  } else {
+    document.getElementById("test7").innerText = test7 + "FAILED";
+  }
 setTimeout(()=>{runTests2();}, 2000);
 
 
@@ -200,19 +210,19 @@ setTimeout(()=>{runTests2();}, 2000);
 *Post: Runs second round of tests.
 */
 function runTests2(){
-  let test7 = "Test 7: Unflip function is called after three unmatching cards were flipped: ";
-  let test8 = "Test 8: All cards are unflipped after calling clearBoard: ";
-  let test9 = "Test 9: Cards have a different order after calling clearBoard: ";
-  let test10 = "Test 10: Three cards can be chosen after calling clearBoard: ";
+  let test8 = "Test 8: Unflip function is called after three unmatching cards were flipped: ";
+  let test9 = "Test 9: All cards are unflipped after calling clearBoard: ";
+  let test10 = "Test 10: Cards have a different order after calling clearBoard: ";
+  let test11 = "Test 11: Three cards can be chosen after calling clearBoard: ";
 
   document.getElementById("card4").click();
   document.getElementById("card7").click();
   document.getElementById("card8").click();
 
   if(madeToUnflip){
-    document.getElementById("test7").innerText = test7 + "PASSED";
+    document.getElementById("test8").innerText = test8 + "PASSED";
   } else {
-    document.getElementById("test7").innerText = test7 + "FAILED";
+    document.getElementById("test8").innerText = test8 + "FAILED";
   }
   madeToUnflip=false;
   madeToDisable=false;
@@ -229,9 +239,9 @@ function runTests2(){
       }
     });
     if(cardsUnflipped){
-      document.getElementById("test8").innerText = test8 + "PASSED";
+      document.getElementById("test9").innerText = test9 + "PASSED";
     }else {
-      document.getElementById("test8").innerText = test8 + "FAILED";
+      document.getElementById("test9").innerText = test9 + "FAILED";
     }
     document.getElementById("card4").click();
     let cardOrderAfter=[];
@@ -239,18 +249,18 @@ function runTests2(){
       cardOrderAfter.push(card.style.order);
     });
     if(cardOrderBefore != cardOrderAfter){
-      document.getElementById("test9").innerText = test9 + "PASSED";
+      document.getElementById("test10").innerText = test10 + "PASSED";
     }else {
-      document.getElementById("test9").innerText = test9 + "FAILED";
+      document.getElementById("test10").innerText = test10 + "FAILED";
     }
     setTimeout(()=>{
       document.getElementById("card3").click();
       document.getElementById("card6").click();
       document.getElementById("card9").click();
       if(madeToUnflip || madeToDisable){
-        document.getElementById("test10").innerText = test10 + "PASSED";
+        document.getElementById("test11").innerText = test11 + "PASSED";
       } else {
-        document.getElementById("test10").innerText = test10 + "FAILED";
+        document.getElementById("test11").innerText = test11 + "FAILED";
       }
     }, 1000);
 
