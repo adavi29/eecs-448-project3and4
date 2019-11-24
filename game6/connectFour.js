@@ -9,6 +9,8 @@ let playerYellow=false; //yellow
 * the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
 */
 function connectFour() {
+    playerRed=true; //red
+    playerYellow=false; //yellow
     table = document.getElementById("gameBoard");
 
     for(let i = 0; i < 6; i++){
@@ -46,6 +48,7 @@ function connectFour() {
         document.getElementById("test8").innerHTML="";
         document.getElementById("test9").innerHTML="";
         document.getElementById("test10").innerHTML="";
+        document.getElementById("test11").innerHTML="";
 
         connectFour()};
 }
@@ -350,6 +353,10 @@ function clearBoard(){
 */
 let test5Bool=false;
 let test6Bool=false;
+let test7Bool=false;
+let test8Bool=false;
+let test9Bool=false;
+let test10Bool=false;
 function connectFourTestSuite(){
     clearBoard();
     let test1="Test 1: Clicking any cell places a piece at the bottom of the column clicked simulating a piece dropped into the board: ";
@@ -358,7 +365,11 @@ function connectFourTestSuite(){
     let test4="Test 4: Once the bottom position of a column is taken, the next piece is placed above it when that column is selected again: ";
     let test5="Test 5: Four red vertical pieces triggers a win for red: ";
     let test6="Test 6: Four yellow vertical pieces triggers a win for yellow: ";
-    
+    let test7="Test 7: Four red horizontal pieces triggers a win for red: ";
+    let test8="Test 8: Four yellow horizontal pieces triggers a win for yellow: ";
+    let test9="Test 9: Four red diagonal pieces triggers a win for red: ";
+    let test10="Test 10: Four yellow diagonal pieces triggers a win for yellow: ";
+    let test11="Test 11: After one player places a piece, it becomes the other player's turn: ";
 
     //test 1
     cell = table.rows[0].cells[0];
@@ -450,6 +461,127 @@ function connectFourTestSuite(){
     clickTestMode(cell, 3, test6); //yellow
     test6Bool=false;
 
+      //test7
+      test7Bool=true;
+      clearBoard();
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test7); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test7); //yellow
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test7); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test7); //yellow
+      cell = table.rows[0].cells[3];
+      clickTestMode(cell, 3, test7); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test7); //yellow
+      cell = table.rows[0].cells[4];
+      clickTestMode(cell, 4, test7); //red
+      test7Bool=false;
+
+      //test8
+      test8Bool=true;
+      clearBoard();
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test8); //red
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test8); //yellow
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test8); //red
+      cell = table.rows[0].cells[3];
+      clickTestMode(cell, 3, test8); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test8); //red
+      cell = table.rows[0].cells[4];
+      clickTestMode(cell, 4, test8); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test8); //red
+      cell = table.rows[0].cells[5];
+      clickTestMode(cell, 5, test8); //yellow
+      test8Bool=false;
+
+      //test9
+      test9Bool=true;
+      clearBoard();
+      cell = table.rows[0].cells[3];
+      clickTestMode(cell, 3, test9); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //red
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //yellow
+      cell = table.rows[0].cells[0];
+      clickTestMode(cell, 0, test9); //red
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test9); //yellow
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test9); //red
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test9); //yellow
+      cell = table.rows[0].cells[1];
+      clickTestMode(cell, 1, test9); //red
+      cell = table.rows[0].cells[5];
+      clickTestMode(cell, 5, test9); //yellow
+      cell = table.rows[0].cells[2];
+      clickTestMode(cell, 2, test9); //red
+      test9Bool=false;
+
+        //test10
+        test10Bool=true;
+        clearBoard();
+        cell = table.rows[0].cells[3];
+        clickTestMode(cell, 3, test10); //red
+        cell = table.rows[0].cells[3];
+        clickTestMode(cell, 3, test10); //yellow
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //red
+        cell = table.rows[0].cells[4];
+        clickTestMode(cell, 4, test10); //yellow
+        cell = table.rows[0].cells[4];
+        clickTestMode(cell, 4, test10); //red
+        cell = table.rows[0].cells[4];
+        clickTestMode(cell, 4, test10); //yellow
+        cell = table.rows[0].cells[1];
+        clickTestMode(cell, 1, test10); //red
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //yellow
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //red
+        cell = table.rows[0].cells[5];
+        clickTestMode(cell, 5, test10); //yellow
+        cell = table.rows[0].cells[0];
+        clickTestMode(cell, 0, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        cell = table.rows[0].cells[0];
+        clickTestMode(cell, 0, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        cell = table.rows[0].cells[0];
+        clickTestMode(cell, 0, test10); //red
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //yellow
+        test10Bool=false;
+
+        //test 11
+        clearBoard();
+        cell = table.rows[0].cells[6];
+        clickTestMode(cell, 6, test10); //red
+        if(playerYellow==true)
+        {
+            document.getElementById("test11").innerHTML=test11 + "PASSED";
+        }
+        else
+        {
+            document.getElementById("test11").innerHTML=test11 + "FAILED";
+        }
+
 }
 
 function clickTestMode(cell, col, testNum){
@@ -473,11 +605,27 @@ function clickTestMode(cell, col, testNum){
             {
                 document.getElementById("test5").innerHTML=testNum + "PASSED";
             }
+            else if(test7Bool==true)
+            {
+                document.getElementById("test7").innerHTML=testNum + "PASSED";
+            }
+            else if(test9Bool==true)
+            {
+                document.getElementById("test9").innerHTML=testNum + "PASSED";
+            }
             return;
         }
         else if(test5Bool==true)
         {
             document.getElementById("test5").innerHTML=testNum + "FAILED";
+        }
+        else if(test7Bool==true)
+        {
+            document.getElementById("test7").innerHTML=testNum + "FAILED";
+        }
+        else if(test9Bool==true)
+        {
+            document.getElementById("test9").innerHTML=testNum + "FAILED";
         }
         
     }
@@ -492,11 +640,27 @@ function clickTestMode(cell, col, testNum){
             {
                 document.getElementById("test6").innerHTML=testNum + "PASSED";
             }
+            else if(test8Bool==true)
+            {
+                document.getElementById("test8").innerHTML=testNum + "PASSED";
+            }
+            else if(test10Bool==true)
+            {
+                document.getElementById("test10").innerHTML=testNum + "PASSED";
+            }
             return;
         }
         else if(test6Bool==true)
         {
             document.getElementById("test6").innerHTML=testNum + "FAILED";
+        }
+        else if(test8Bool==true)
+        {
+            document.getElementById("test8").innerHTML=testNum + "FAILED";
+        }
+        else if(test10Bool==true)
+        {
+            document.getElementById("test10").innerHTML=testNum + "FAILED";
         }
     }
     switchPlayer();
