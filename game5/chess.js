@@ -6,7 +6,9 @@
 function chess() {
 	buildTable();
 	placePieces();
-	document.getElementById("reset").onmousedown = function(){ reset() };
+	document.getElementById("reset").onmousedown = function(){ reset()
+		document.getElementById("body").style.backgroundColor = "darkgray";
+		chess(); };
 }
 
 function buildTable(){
@@ -29,8 +31,6 @@ function buildTable(){
 			cell.hasMoved = false;
 			cell.check = false;
 			cell.castle = false;
-			cell.isWhite = (cell.id<2*n);  //assigns initial white
-			cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
 
 			if((cell.id)%2 != i%2){
 				cell.style.backgroundColor="grey";
@@ -43,8 +43,16 @@ function buildTable(){
 
 function placePieces(){
 	for(let i = 0; i < 2*n; i++){
+	 // 	cell.isWhite = (cell.id<2*n);  //assigns initial white
+	 // 	cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
 			whitePiece = document.getElementById(i);
 			blackPiece = document.getElementById(n*n-i-1);
+			whitePiece.isWhite = true;
+			blackPiece.isWhite = false;
+
+			whitePiece.hasPiece = true;
+			blackPiece.hasPiece = true;
+
 			whitePiece.pieceName = "rnbkqbnrpppppppp".charAt(i);
 			blackPiece.pieceName = "rnbqkbnrpppppppp".charAt(i);
 
@@ -57,8 +65,6 @@ function reset(){
 		for(let l = (n-1); l >= 0; l--){
 			table.deleteRow(l);
 		}
-		document.getElementById("body").style.backgroundColor = "darkgray";
-		chess();
 }
 /**
 * pre: board must exist with cells, click must have happened on a cell
@@ -467,4 +473,76 @@ function showCheck(){
 */
 function backHome(){
   window.location.replace("../homePage.html");
+}
+
+function test(){
+	test = document.getElementById("test");
+	test.style.fontSize = "10px";
+	let u = 0;
+	let p = [];
+	for(m = 0; m < 10; m++){
+		p[m] = document.createElement('p');
+		p[m].style.fontSize = "10px";
+	}
+	reset();
+	buildTable();
+
+	let testCell = document.getElementById(0);
+	testCell.hasPiece = true;
+  testCell.pieceName = 'p';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wp.png\">";
+
+	p[u].innerHTML += "Testing piece placement: ";
+	(testCell.hasPiece&&(testCell.pieceName == 'p')) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing linear non-recursive options: ";
+	testCell.onmousedown();
+	(table.rows[1].cells[0].option == true) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing pawn initially being able to move two spaces: ";
+	(table.rows[2].cells[0].option == true) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing tentativeMove() function: ";
+	testCell = table.rows[1].cells[0];
+	testCell.onmousedown();
+	(testCell.hasPiece&&(testCell.pieceName == 'p')) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that turn did switch to black's after white pawn moved: ";
+	(table.whiteTurn == false) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that black player cannot move or get options for white's piece: ";
+	testCell.onmousedown();
+	(table.rows[2].cells[0].option == false) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that pawn can only move once after having been moved previously: ";
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkgray";
+	testCell.onmousedown();
+	(table.rows[3].cells[0].option == false) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that pawn can only move once after having been moved previously: ";
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkgray";
+	testCell.onmousedown();
+	(table.rows[3].cells[0].option == false) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	
+
 }
