@@ -11,13 +11,19 @@ initBoard();
 drawBoard();
 refreshBoard();
 refreshBoard();
-
+/**
+* pre: the gameboard cometains 16 cells
+* post: giving each cell a value and an axis on HTML
+*/
 function initCell(x,y) {
   this.value = 0;
   this.x = y*width + (y+1)*5;
   this.y = x*width + (x+1)*5;
 }
-
+/**
+* pre: the game board is an existed empty array
+* post: initialized the gameboard like a 2D array contians 16 cells
+*/
 function initBoard () {
   for (var i = 0; i < 4; i++) {
     board[i] = [];
@@ -26,48 +32,67 @@ function initBoard () {
     }
   }
 }
-
+/**
+* pre: every cell on the gameboard contain 0 or higher value
+* post: switch the certain emoji when catch different number
+*/
 function draw(board) {
   ctx.beginPath();
   ctx.rect(board.x, board.y, width, width);
+  var fillEmoji;
   switch (board.value){
     case 0 : ctx.fillStyle = '#ffffff';
       break;
     case 2 : ctx.fillStyle = '#03fc90';
+    fillEmoji ='😁';
       break;
     case 4 : ctx.fillStyle = '#7bfc03';
+    fillEmoji ='😀';
       break;
     case 8 : ctx.fillStyle = '#b6e312';
+    fillEmoji ='😂';
       break;
     case 16 : ctx.fillStyle = '#bfff00';
+    fillEmoji ='😎';
      break;
     case 32 : ctx.fillStyle = '#f0ec16';
+    fillEmoji ='😍';
       break;
     case 64 : ctx.fillStyle = '#d4ad2c';
+    fillEmoji ='😙';
       break;
     case 128 : ctx.fillStyle = '#ed7505';
+    fillEmoji ='🤗';
       break;
     case 256 : ctx.fillStyle = '#d43a17';
+    fillEmoji ='😶';
       break;
     case 512 : ctx.fillStyle = '#d41798';
+    fillEmoji ='🙄';
       break;
     case 1024 : ctx.fillStyle = '#ab17d4';
+    fillEmoji ='😏';
       break;
     case 2048 : ctx.fillStyle = '#4a13bf';
+    fillEmoji ='😮';
       break;
     case 4096 : ctx.fillStyle = '#1e204a';
+    fillEmoji ='😝';
       break;
     default : ctx.fillStyle = '#000111';
   }
   ctx.fill();
   if (board.value != 0) {
-    ctx.font = '45px georgia';
+    ctx.font = '50px normal';
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText(board.value, board.x + width/2 , board.y + width/2 +10);
+    ctx.fillText(fillEmoji, board.x + width/2 , board.y + width/2 +10);
   }
 }
-
+/**
+* pre: every cell on the gameboard contain 0 or higher value
+* post: switch the certain emoji when catch different number
+*/
 function drawBoard() {
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 4; j++) {
@@ -75,6 +100,7 @@ function drawBoard() {
     }
   }
 }
+
 
 document.onkeydown = function (event) {
   if(!gameIsOver)
@@ -96,9 +122,15 @@ document.onkeydown = function (event) {
   }
 }
 
-
+/**
+* pre: the game board is created on HTML
+* post: check if all cells are filled then end gameboard
+*check if all cells are filled but some two cells can be combained then don't end the game
+*if the board is not full filed then return a new random cell on the board
+*/
 function refreshBoard() {
   var ableCells = 0;
+  //var sameCells = 0;
   for(var i = 0; i < 4; i++) {
     for(var j = 0; j < 4; j++) {
       if(board[i][j].value == 0 ) {
@@ -106,7 +138,17 @@ function refreshBoard() {
       }
     }
   }
-  if(ableCells == 0) {
+  /*
+  for(var i = 0; i < 3; i++) {
+    for(var j = 0; j < 3; j++) {
+      if (board[i][j].value == board[i][j+1].value ||board[i+1][j].value == board[i][j].value)
+      {
+
+      }
+    }
+  }
+*/
+  if(ableCells == 0 ) {  //&& sameCells == 0
     canvas.style.opacity = '0.7';
     alert("game Is Over!!!! your score is:"+ scoreCounter);
     gameIsOver = true;
@@ -125,16 +167,21 @@ function refreshBoard() {
   }
 
 }
-
+/**
+* pre: the game is begined
+* post: Takes all the cells to the top side, if two same cells are meeted, then add then together
+*/
 function boardMoveUp(){
   var x;
-  for (var i = 1; i < 4; i++) {
+
     for (var j = 0; j < 4; j++) {
+        for (var i = 1; i < 4; i++) {
       if (board[i][j].value != 0) {
         x = i;
         while (x-1 >= 0) {
           if (board[x-1][j].value == board[x][j].value) {
-            board[x-1][j].value *= 2;
+            board[x-1][j].value = board[x-1][j].value + board[x][j].value;
+            scoreCounter =  board[x-1][j].value + scoreCounter;
             board[x][j].value = 0;
             break;
           }else if (board[x-1][j].value == 0) {
@@ -151,54 +198,67 @@ function boardMoveUp(){
   }
   refreshBoard();
 }
-
+/**
+* pre: the game is begined
+* post: Takes all the cells to the buttom side, if two same cells are meeted, then add then together
+*/
 function boardMoveDown(){
   var x;
-  for (var i = 2; i >= 0; i--) {
     for (var j = 0; j < 4; j++) {
+      for (var i = 2; i >= 0; i--) {
+
       if (board[i][j].value != 0) {
         x = i;
         while (x+1 < 4) {
+
           if (board[x+1][j].value == board[x][j].value) {
-            board[x+1][j].value *= 2;
+            board[x+1][j].value = board[x+1][j].value + board[x][j].value;
+            scoreCounter =  board[x+1][j].value + scoreCounter;
             board[x][j].value = 0;
             break;
-          }else if (board[x+1][j].value == 0) {
+
+          }
+          else if (board[x+1][j].value == 0) {
             board[x+1][j].value = board[x][j].value;
             board[x][j].value = 0;
             x++;
           }
+
           else {
             break;
           }
+
         }
       }
     }
   }
   refreshBoard();
 }
-
+/**
+* pre: the game is begined
+* post: Takes all the cells to the left side, if two same cells are meeted, then add then together
+*/
 function boardMoveLeft(){
-  var curNdx;
+  var y;
   for(var i = 0; i < 4; i++)
   {
     for(var j = 1; j < 4; j++)
     {
       if(board[i][j].value !== 0 ) {
-        curNdx = j;
-        while (curNdx-1 >= 0) {
-          if (board[i][curNdx-1].value == board[i][curNdx].value)
+        y = j;
+        while (y-1 >= 0) {
+          if (board[i][y-1].value == board[i][y].value)
           {
-            board[i][curNdx-1].value *= 2;
-            board[i][curNdx].value = 0;
-            scoreCounter =  board[i][curNdx - 1].value + scoreCounter;
+            board[i][y-1].value = board[i][y].value + board[i][y-1].value;
+            scoreCounter =  board[i][y - 1].value + scoreCounter;
+            board[i][y].value = 0;
             break;
           }
-          else if (board[i][curNdx-1].value == 0)
+          else if (board[i][y-1].value == 0)
           {
-            board[i][curNdx-1].value = board[i][curNdx].value;
-            board[i][curNdx].value = 0;
-            curNdx--;
+            board[i][y-1].value = board[i][y].value;
+            board[i][y].value = 0;
+            y--;
           }
           else
           {
@@ -210,7 +270,10 @@ function boardMoveLeft(){
   }
   refreshBoard();
 }
-
+/**
+* pre: the game is begined
+* post: Takes all the cells to the right side, if two same cells are meeted, then add then together
+*/
 function boardMoveRight(){
   var y;
   for(var i = 0; i < 4; i++)
@@ -227,7 +290,7 @@ function boardMoveRight(){
             y++;
           } else if (board[i][y].value == board[i][y + 1].value) {
 
-            board[i][y + 1].value *= 2;
+            board[i][y + 1].value =  board[i][y].value + board[i][y+1].value;
             scoreCounter =  board[i][y + 1].value + scoreCounter;
             board[i][y].value = 0;
             break;

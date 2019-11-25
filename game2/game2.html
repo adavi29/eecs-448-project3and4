@@ -6,11 +6,14 @@
   </head>
   <body>
     <h1>2048</h1>
-    <p id="score">Score:<p>
+    <p id="score">score:0<p>
       <div id="myCanvas">
         <canvas id="canvas" width="500" height="500"></canvas>
       </div>
-      <center><button type="button" name="backToHome" onclick="backHome()">Back To Home Page</button></center>
+      <center>
+        <button type="button" onClick="window.location.reload();"  name="button">start a new game</button>
+        <button type="button" name="backToHome" onclick="backHome()">Back To Home Page</button>
+      </center>
   </body>
   <script src="2048.js"> </script>
   <link rel="stylesheet" href="2048.css">
