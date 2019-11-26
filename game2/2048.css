@@ -25,3 +25,9 @@ p
 #canvas{
     background-color: lightblue;
 }
+
+table, th, td {
+  border: 1px solid lightblue;
+  color: lightblue;
+
+}

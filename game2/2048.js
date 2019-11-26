@@ -118,7 +118,7 @@ document.onkeydown = function (event) {
       boardMoveDown();
       //alert("You pressed Down Arrow");
     }
-    score.innerHTML = "score:" + scoreCounter;
+    score.innerHTML = "Score:" + scoreCounter;
   }
 }
 
@@ -150,7 +150,7 @@ function refreshBoard() {
 */
   if(ableCells == 0 ) {  //&& sameCells == 0
     canvas.style.opacity = '0.7';
-    alert("game Is Over!!!! your score is:"+ scoreCounter);
+    alert("Game Over!!!! Final Score:"+ scoreCounter);
     gameIsOver = true;
     return;
   }

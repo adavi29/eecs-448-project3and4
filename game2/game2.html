@@ -6,13 +6,56 @@
   </head>
   <body>
     <h1>2048</h1>
-    <p id="score">score:0<p>
+    <p id="score">Score:0<p>
       <div id="myCanvas">
         <canvas id="canvas" width="500" height="500"></canvas>
       </div>
       <center>
-        <button type="button" onClick="window.location.reload();"  name="button">start a new game</button>
+        <button type="button" onClick="window.location.reload();"  name="button">New Game</button>
         <button type="button" name="backToHome" onclick="backHome()">Back To Home Page</button>
+        <button type="button" class="test" name="test" id="test" onclick="run2048Tests()">Run Tests</button>
+        <br><br>
+        <table>
+          <tr>
+            <th>Tile Legend:<br>Smallest to Largest</th>
+          </tr>
+          <tr>
+            <th>😁</th>
+          </tr>
+          <tr>
+            <th>😀</th>
+          </tr>
+          <tr>
+            <th>😂</th>
+          </tr>
+          <tr>
+            <th>😎</th>
+          </tr>
+          <tr>
+            <th>😍</th>
+          </tr>
+          <tr>
+            <th>😙</th>
+          </tr>
+          <tr>
+            <th>🤗</th>
+          </tr>
+          <tr>
+            <th>😶</th>
+          </tr>
+          <tr>
+            <th>🙄</th>
+          </tr>
+          <tr>
+            <th>😏</th>
+          </tr>
+          <tr>
+            <th>😮</th>
+          </tr>
+          <tr>
+            <th>😝</th>
+          </tr>
+        </table>
       </center>
   </body>
   <script src="2048.js"> </script>
