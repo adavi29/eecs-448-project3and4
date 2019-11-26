@@ -59,7 +59,7 @@ function ticTacToe() {
 * post: Updates cell contents with X or O, checks for winner, then switches players
 * exception: alert is called when user tries to click on a cell that has already been clicked
 * return: returns when a player wins
-* param: cell: the cell that is affected when click is called
+* @param cell the cell that is affected when click is called
 */
 function click(cell){
     //console.log("clicked cell # "+cell.id);
@@ -251,7 +251,7 @@ function backHome(){
   }
 
 /**
-* pre: winner bool is initialized, BoardReset is implemented, tic tac toe game is fully implemented 
+* pre: winner bool is initialized, BoardReset is implemented, tic tac toe game is fully implemented
 * post: Runs the test suite when the button is pressed and prints results to the webpage
 */
 function ticTacToeTestSuite(){
@@ -452,7 +452,7 @@ function clearBoard(){
         for(let i=2; i>=0; i--){
             table.deleteRow(i);
         }
-    
+
         ticTacToe();
 }
 
@@ -460,7 +460,7 @@ function clearBoard(){
 * pre: must be in test mode
 * post: Only used for testing: places a piece on the board and checks for winners then switches players
 * return: returns when a player wins
-* param: cell: the cell that is affected when click is called
+* @param cell the cell that is affected when click is called
 * difference from click(cell): suppresses the winner alerts
 */
 function clickForTesting(cell){
