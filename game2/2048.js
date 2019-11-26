@@ -12,8 +12,8 @@ drawBoard();
 refreshBoard();
 refreshBoard();
 /**
-* pre: the gameboard cometains 16 cells
-* post: giving each cell a value and an axis on HTML
+* pre: the gameboard contains 16 cells
+* post: gives each cell a value and an axis on HTML
 */
 function initCell(x,y) {
   this.value = 0;
@@ -21,7 +21,7 @@ function initCell(x,y) {
   this.y = x*width + (x+1)*5;
 }
 /**
-* pre: the game board is an existed empty array
+* pre: the game board is an existing empty array
 * post: initialized the gameboard like a 2D array contians 16 cells
 */
 function initBoard () {
@@ -33,8 +33,8 @@ function initBoard () {
   }
 }
 /**
-* pre: every cell on the gameboard contain 0 or higher value
-* post: switch the certain emoji when catch different number
+* pre: every cell on the gameboard contains 0 or higher value
+* post: switches the certain emoji when it catches different number
 */
 function draw(board) {
   ctx.beginPath();
@@ -90,8 +90,8 @@ function draw(board) {
   }
 }
 /**
-* pre: every cell on the gameboard contain 0 or higher value
-* post: switch the certain emoji when catch different number
+* pre: every cell on the gameboard contains 0 or higher value
+* post: switches the certain emoji when it catches a different number
 */
 function drawBoard() {
   for (var i = 0; i < 4; i++) {
@@ -124,9 +124,9 @@ document.onkeydown = function (event) {
 
 /**
 * pre: the game board is created on HTML
-* post: check if all cells are filled then end gameboard
-*check if all cells are filled but some two cells can be combained then don't end the game
-*if the board is not full filed then return a new random cell on the board
+* post: Checks if all cells are filled then end gameboard.
+*Checks if all cells are filled but some two cells can be combained and don't end the game.
+*If the board is not full then return a new random cell on the board.
 */
 function refreshBoard() {
   var ableCells = 0;
@@ -169,7 +169,7 @@ function refreshBoard() {
 }
 /**
 * pre: the game is begined
-* post: Takes all the cells to the top side, if two same cells are meeted, then add then together
+* post: Takes all the cells to the top side, if two same cells meet then they are added together
 */
 function boardMoveUp(){
   var x;
@@ -199,8 +199,8 @@ function boardMoveUp(){
   refreshBoard();
 }
 /**
-* pre: the game is begined
-* post: Takes all the cells to the buttom side, if two same cells are meeted, then add then together
+* pre: the game starts
+* post: Takes all the cells to the buttom side, if two same cells meet then they are added together
 */
 function boardMoveDown(){
   var x;
@@ -235,8 +235,8 @@ function boardMoveDown(){
   refreshBoard();
 }
 /**
-* pre: the game is begined
-* post: Takes all the cells to the left side, if two same cells are meeted, then add then together
+* pre: the game starts
+* post: Takes all the cells to the left side, if two same cells meet then they are added together
 */
 function boardMoveLeft(){
   var y;
@@ -271,8 +271,8 @@ function boardMoveLeft(){
   refreshBoard();
 }
 /**
-* pre: the game is begined
-* post: Takes all the cells to the right side, if two same cells are meeted, then add then together
+* pre: the game starts
+* post: Takes all the cells to the right side, if two same cells meet then they are added together
 */
 function boardMoveRight(){
   var y;
