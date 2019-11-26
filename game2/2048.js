@@ -14,6 +14,8 @@ refreshBoard();
 /**
 * pre: the gameboard contains 16 cells
 * post: gives each cell a value and an axis on HTML
+*@param x cell's current x value
+*@param y cell's current y value
 */
 function initCell(x,y) {
   this.value = 0;
@@ -35,6 +37,7 @@ function initBoard () {
 /**
 * pre: every cell on the gameboard contains 0 or higher value
 * post: switches the certain emoji when it catches different number
+*@param board current boards
 */
 function draw(board) {
   ctx.beginPath();
