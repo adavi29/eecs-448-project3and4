@@ -617,6 +617,7 @@ function test(){
 	test.appendChild(p[u]);
 	u++;
 
+	p[u].innerHTML += "Testing that knight move options are where they should be: ";
 	newTurn();
 	reset();
 	buildTable();
@@ -626,14 +627,111 @@ function test(){
   testCell.pieceName = 'n';
 	testCell.isWhite = true;
 	testCell.innerHTML = "<img src=\"img/wn.png\">";
-
-	p[u].innerHTML += "Testing knight move options: ";
 	table.whiteTurn = true;
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	testCell.onmousedown();
-	worked = table.rows[1].cells[0].option&&table.rows[2].cells[0].option&&table.rows[3].cells[0].option&&table.rows[4].cells[0].option&&table.rows[5].cells[0].option&&table.rows[6].cells[0].option&&table.rows[7].cells[0].option;
+	worked = table.rows[0].cells[1].option&&table.rows[0].cells[3].option&&table.rows[1].cells[0].option&&table.rows[1].cells[4].option&&table.rows[3].cells[0].option&&table.rows[3].cells[4].option&&table.rows[4].cells[1].option&&table.rows[4].cells[3].option;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
+
+	p[u].innerHTML += "Testing that king isn't shown options that are in check: ";
+	reset();
+	buildTable();
+	testCell = document.getElementById(40);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'r';
+	testCell.isWhite = false;
+	testCell.innerHTML = "<img src=\"img/br.png\">";
+
+	testCell = document.getElementById(42);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'r';
+	testCell.isWhite = false;
+	testCell.innerHTML = "<img src=\"img/br.png\">";
+
+	testCell = document.getElementById(1);
+	testCell.hasMoved = true;
+	testCell.hasPiece = true;
+	testCell.pieceName = 'k';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wk.png\">";
+
+	newTurn();
+	newTurn();
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkgray";
+	testCell.onmousedown();
+	worked = !table.rows[0].cells[0].option&&!table.rows[0].cells[2].option&&!table.rows[1].cells[0].option&&table.rows[1].cells[1].option&&!table.rows[1].cells[2].option;
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing piece capture: ";
+	reset();
+	buildTable();
+	testCell = document.getElementById(1);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'b';
+	testCell.isWhite = false;
+	testCell.innerHTML = "<img src=\"img/bb.png\">";
+
+	testCell = document.getElementById(0);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'r';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wr.png\">";
+
+	newTurn();
+	newTurn();
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkgray";
+	testCell.onmousedown();
+	document.getElementById(1).onmousedown();
+	testCell = document.getElementById(1);
+	worked = testCell.hasMoved&&testCell.isWhite&&(testCell.pieceName == 'r')&&(testCell.innerHTML == "<img src=\"img/wr.png\">")&&testCell.hasPiece;
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that player can't move a piece if it would put their own king in check: ";
+	reset();
+	buildTable();
+	testCell = document.getElementById(1);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'b';
+	testCell.isWhite = false;
+	testCell.innerHTML = "<img src=\"img/bb.png\">";
+
+	testCell = document.getElementById(0);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'r';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wr.png\">";
+
+	testCell = document.getElementById(2);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+	testCell.pieceName = 'k';
+	testCell.isWhite = false;
+	testCell.innerHTML = "<img src=\"img/bk.png\">";
+
+	newTurn();
+	table.whiteTurn = false;
+	document.getElementById("body").style.backgroundColor = "black";
+	document.getElementById(1).onmousedown();
+	document.getElementById(8).onmousedown();
+	worked = (document.getElementById(1).pieceName == 'b');
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+
 
 }
