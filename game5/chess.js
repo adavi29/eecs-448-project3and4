@@ -6,12 +6,14 @@
 function chess() {
 	buildTable();
 	placePieces();
-	document.getElementById("reset").onmousedown = function(){ reset()
-		document.getElementById("body").style.backgroundColor = "darkgray";
-		chess(); };
+	document.getElementById("reset").onmousedown = function(){
+		reset()
+		chess();
+	};
 }
 
 function buildTable(){
+	document.getElementById("body").style.backgroundColor = "darkgray";
 	table = document.getElementById("table");
 	table.whiteTurn = true;
 	table.checkingcheck = false;
@@ -480,7 +482,7 @@ function test(){
 	test.style.fontSize = "10px";
 	let u = 0;
 	let p = [];
-	for(m = 0; m < 10; m++){
+	for(m = 0; m < 20; m++){
 		p[m] = document.createElement('p');
 		p[m].style.fontSize = "10px";
 	}
@@ -498,7 +500,7 @@ function test(){
 	test.appendChild(p[u]);
 	u++;
 
-	p[u].innerHTML += "Testing linear non-recursive options: ";
+	p[u].innerHTML += "Testing downwards linear non-recursive move options: ";
 	testCell.onmousedown();
 	(table.rows[1].cells[0].option == true) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
@@ -535,14 +537,103 @@ function test(){
 	test.appendChild(p[u]);
 	u++;
 
-	p[u].innerHTML += "Testing that pawn can only move once after having been moved previously: ";
+	newTurn();
+	reset();
+	buildTable();
+	testCell = document.getElementById(0);
+	testCell.hasPiece = true;
+	table.whiteTurn = true;
+  testCell.pieceName = 'b';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wb.png\">";
+
+	p[u].innerHTML += "Testing recursive diagonal options: ";
 	table.whiteTurn = true;
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	testCell.onmousedown();
-	(table.rows[3].cells[0].option == false) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	let worked = table.rows[1].cells[1].option&&table.rows[2].cells[2].option&&table.rows[3].cells[3].option&&table.rows[4].cells[4].option&&table.rows[5].cells[5].option&&table.rows[6].cells[6].option&&table.rows[7].cells[7].option;
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
 
-	
+
+	newTurn();
+	reset();
+	buildTable();
+	testCell = document.getElementById(0);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'r';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wr.png\">";
+
+	p[u].innerHTML += "Testing vertical linear recursive move options: ";
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkgray";
+	testCell.onmousedown();
+	worked = table.rows[1].cells[0].option&&table.rows[2].cells[0].option&&table.rows[3].cells[0].option&&table.rows[4].cells[0].option&&table.rows[5].cells[0].option&&table.rows[6].cells[0].option&&table.rows[7].cells[0].option;
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing horizontal linear recursive move options: ";
+	worked = table.rows[0].cells[1].option&&table.rows[0].cells[2].option&&table.rows[0].cells[4].option&&table.rows[0].cells[5].option&&table.rows[0].cells[6].option&&table.rows[0].cells[7].option&&table.rows[0].cells[3].option;
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	kingCell = document.getElementById(3);
+	kingCell.hasMoved = false;
+	kingCell.hasPiece = true;
+  kingCell.pieceName = 'k';
+	kingCell.isWhite = true;
+	kingCell.innerHTML = "<img src=\"img/wk.png\">";
+
+
+	p[u].innerHTML += "Testing castling under incorrect conditions: ";
+	document.getElementById(10).hasPiece = true;
+	document.getElementById(10).pieceName = 'r';
+	document.getElementById(10).isWhite = false;
+	document.getElementById(10).innerHTML = "<img src=\"img/br.png\">";
+	checkcheck();
+	kingCell.onmousedown();
+	document.getElementById(1).onmousedown();
+	worked = !((document.getElementById(1).pieceName == 'k')&&(document.getElementById(2).pieceName == 'r'));
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing castling under correct conditions: ";
+	document.getElementById(10).hasPiece = false;
+	document.getElementById(10).pieceName = '';
+	document.getElementById(10).isWhite = false;
+	document.getElementById(10).innerHTML = '';
+	newTurn();
+	newTurn();
+	kingCell.onmousedown();
+	document.getElementById(1).onmousedown();
+	worked = ((document.getElementById(1).pieceName == 'k')&&(document.getElementById(2).pieceName == 'r'));
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	newTurn();
+	reset();
+	buildTable();
+	testCell = document.getElementById(18);
+	testCell.hasMoved = false;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'n';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wn.png\">";
+
+	p[u].innerHTML += "Testing knight move options: ";
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkgray";
+	testCell.onmousedown();
+	worked = table.rows[1].cells[0].option&&table.rows[2].cells[0].option&&table.rows[3].cells[0].option&&table.rows[4].cells[0].option&&table.rows[5].cells[0].option&&table.rows[6].cells[0].option&&table.rows[7].cells[0].option;
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
 
 }
