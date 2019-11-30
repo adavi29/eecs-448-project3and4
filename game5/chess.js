@@ -732,6 +732,25 @@ function test(){
 	test.appendChild(p[u]);
 	u++;
 
+	p[u].innerHTML += "Testing pawn promotion to queen: ";
+	reset();
+	buildTable();
+	testCell = document.getElementById(48);
+	testCell.hasMoved = true;
+	testCell.hasPiece = true;
+  testCell.pieceName = 'p';
+	testCell.isWhite = true;
+	testCell.innerHTML = "<img src=\"img/wp.png\">";
 
+	newTurn();
+	newTurn();
+	table.whiteTurn = true;
+	document.getElementById("body").style.backgroundColor = "darkGrey";
+	document.getElementById(48).onmousedown();
+	document.getElementById(56).onmousedown();
+	worked = (document.getElementById(56).pieceName == 'q');
+	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
 
 }
