@@ -1,3 +1,4 @@
+document.getElementById('clearTests').style.visibility = "hidden";
 const cards = document.querySelectorAll('.memory-card');
 let hasFlippedCard=false;
 let hasFlippedSecondCard=false;
@@ -264,11 +265,30 @@ function runTests2(){
         document.getElementById("test11").innerText = test11 + "FAILED";
       }
     }, 1000);
-
+    document.getElementById('clearTests').style.visibility = "visible";
   }, 2000);
 
 
   madeToUnflip=false;
   madeToDisable=false;
   testing=false;
+}
+/**
+*Post: clears the test suite and resets test button.
+*/
+function clearTests(){
+  document.getElementById('test1').innerText = "";
+  document.getElementById('test2').innerText = "";
+  document.getElementById('test3').innerText = "";
+  document.getElementById('test4').innerText = "";
+  document.getElementById('test5').innerText = "";
+  document.getElementById('test6').innerText = "";
+  document.getElementById('test7').innerText = "";
+  document.getElementById('test8').innerText = "";
+  document.getElementById('test9').innerText = "";
+  document.getElementById('test10').innerText = "";
+  document.getElementById('test11').innerText = "";
+  document.getElementById('clearTests').style.visibility = "hidden";
+  document.getElementById("test").disabled = false;
+
 }
