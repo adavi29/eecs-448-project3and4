@@ -28,16 +28,6 @@ function checkers() {
 				cell.hasPiece = ((cell.id>(n-3)*n-1)||(cell.id<3*n)); //assigns all
 			}
 
-			/*//////######Debug########//////////
-			if(cell.id == 26){
-				cell.isRed = false;
-				cell.hasPiece = true;
-				cell.king = true;
-			}
-			if(cell.id == 51)
-			cell.hasPiece = false;
-
-			////////////////////////////////////*/
 			cell.onmousedown =  function(){
 				for(let i = 0; i<n; i++){
 					for(let j = 0; j < n; j++){
@@ -271,4 +261,97 @@ function resetOptions(){
 */
 function backHome(){
   window.location.replace("../homePage.html");
+}
+
+function testReset(){
+	for(let l = (n-1); l >= 0; l--){
+		table.deleteRow(l);
+	}
+	document.getElementById("body").style.backgroundColor = "darkRed";
+
+	table = document.getElementById("table");
+	table.redTurn = true;
+	table.hasJumped = false;
+	table.from = null;
+	table.canJump = false;
+	n=8; //n is the size of the board
+	for(let i = 0; i < n; i++){
+		table.insertRow(i);
+		for(let j = 0; j < n; j++){
+			table.rows[i].insertCell(j);
+			cell = table.rows[i].cells[j];
+			cell.id = i*n+j;
+			cell.isRed = false;
+			cell.hasPiece = false;
+			cell.king = false;
+			cell.option = false;
+			cell.jump = false;
+
+			if((cell.id)%2 != i%2){
+				cell.style.backgroundColor="grey";
+			}
+
+			cell.onmousedown =  function(){
+				for(let i = 0; i<n; i++){
+					for(let j = 0; j < n; j++){
+						if((i*n+j)%2 != i%2){
+							document.getElementById(i*n+j).style.backgroundColor="grey";
+						}
+					}
+				}
+				click(this, n); };
+			}
+		}
+
+
+
+}
+
+function corporealize(){
+	for(let i = 0; i < n; i++){
+		for(let j = 0; j < n; j++){
+			cell = table.rows[i].cells[j];
+			if(cell.hasPiece){
+				(cell.isRed) ? cell.innerHTML = "&#128308" : cell.innerHTML =  "&#9899";
+			}
+		}
+	}
+}
+
+function test(){
+	testReset();
+	test = document.getElementById("test");
+	test.style.fontSize = "10px";
+	let u = 0;
+	let p = [];
+	for(m = 0; m < 20; m++){
+		p[m] = document.createElement('p');
+		p[m].style.fontSize = "10px";
+	}
+
+	p[u].innerHTML += "Testing piece placement: ";
+	let testCell = document.getElementById(1);
+	testCell.hasPiece = true;
+	testCell.isRed = true;
+	corporealize();
+	(testCell.hasPiece&&testCell.isRed) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing showing piece move options: ";
+	testCell.onmousedown();
+	(document.getElementById(8).option&&document.getElementById(10).option) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing showing piece jump options: ";
+	document.getElementById(10).hasPiece = true;
+	document.getElementById(10).isRed = false;
+	corporealize();
+	testCell.onmousedown();
+	(document.getElementById(8).option&&document.getElementById(19).option) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+
 }
