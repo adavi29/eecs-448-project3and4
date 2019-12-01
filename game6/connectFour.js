@@ -58,8 +58,8 @@ function connectFour() {
 * post: places a piece on the board and checks for winners
 * exception: alert is called when user tries to click on a column that is full
 * return: returns when a player wins
-* param: cell: the cell that is affected when click is called
-* param: col: the column of the cell that is clicked
+* @param cell the cell that is affected when click is called
+* @param col the column of the cell that is clicked
 */
 function click(cell, col){
     //console.log("clicked cell # "+cell.id);
@@ -71,7 +71,7 @@ function click(cell, col){
 
     if(playerRed==true) //player red
     {
-        
+
         let cellSelected=selectCell(cell, col); //finds next available cell at bottom of column and adds emoji to the board
 
         if(winChoice())
@@ -97,8 +97,8 @@ function click(cell, col){
 * pre: a cell is clicked
 * post: updates the table so that when a column is clicked, the next available cell at the bottom of the table is filled
 * return: returns the cell that is actually affected: the cell where a piece is placed
-* param: cell: the cell that is clicked. This changes by the end of the function to return the cell where the piece is placed
-* param: col: the column in which the cell that is clicked lives
+* @param cell the cell that is clicked. This changes by the end of the function to return the cell where the piece is placed
+* @param col the column in which the cell that is clicked lives
 */
 function selectCell(cell, col){
     for(let i=0; i<5; i++)
@@ -198,7 +198,7 @@ function checkVertical(){
             else
             {
                 winCount=0;
-            } 
+            }
         }
     }
     return(winCount);
@@ -237,7 +237,7 @@ function checkHoriz(){
             {
                 winCount=0;
             }
-            
+
         }
     }
     return(winCount);
@@ -270,7 +270,7 @@ function checkDiagDown(){
                    return(true);
                 }
             }
-            
+
         }
     }
     return(false);
@@ -303,7 +303,7 @@ function checkDiagUp(){
                    return(true);
                 }
             }
-            
+
         }
     }
     return(false);
@@ -345,7 +345,7 @@ function clearBoard(){
 }
 
 /**
-* pre: winner bool is initialized, BoardReset is implemented, connect Four game is fully implemented 
+* pre: winner bool is initialized, BoardReset is implemented, connect Four game is fully implemented
 * post: Runs the test suite when the button is pressed and prints results to the webpage
 */
 let test5Bool=false;
@@ -403,7 +403,7 @@ function connectFourTestSuite(){
     {
         document.getElementById("test3").innerHTML=test3 + "FAILED";
     }
-    
+
     //test4
     switchPlayer();
     cell = table.rows[3].cells[4];
@@ -587,13 +587,13 @@ function connectFourTestSuite(){
 * pre: must be in test mode
 * post: Only used for testing: places a piece on the board and checks for winners then switches players
 * return: returns when a player wins
-* param: cell: the cell that is affected when click is called
-* param: col: the column of the cell that is clicked
-* param: testNum: takes in the variable that contains a string that is used to print to the screen by changing the innerHTML
+* @param cell the cell that is affected when click is called
+* @param col the column of the cell that is clicked
+* @param testNum takes in the variable that contains a string that is used to print to the screen by changing the innerHTML
 * difference from click(cell, col): suppresses the winner alerts and takes an extra parameter
 */
 function clickTestMode(cell, col, testNum){
-    
+
     //console.log("clicked cell # "+cell.id);
     if(cell.hasValue)
     {
@@ -603,7 +603,7 @@ function clickTestMode(cell, col, testNum){
 
     if(playerRed==true) //player red
     {
-        
+
         let cellSelected=selectCell(cell, col); //finds next available cell at bottom of column and adds emoji to the board
 
         if(winChoice())
@@ -635,7 +635,7 @@ function clickTestMode(cell, col, testNum){
         {
             document.getElementById("test9").innerHTML=testNum + "FAILED";
         }
-        
+
     }
     else //player yellow
     {

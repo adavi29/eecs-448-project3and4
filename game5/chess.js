@@ -12,6 +12,9 @@ function chess() {
 	};
 }
 
+/**
+*post: generates empty table and initializes variables
+*/
 function buildTable(){
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	table = document.getElementById("table");
@@ -43,6 +46,9 @@ function buildTable(){
 	}
 }
 
+/**
+*post: places all pieces.
+*/
 function placePieces(){
 	for(let i = 0; i < 2*n; i++){
 	 // 	cell.isWhite = (cell.id<2*n);  //assigns initial white
@@ -63,6 +69,9 @@ function placePieces(){
 	}
 }
 
+/**
+*post: resets the table.
+*/
 function reset(){
 		for(let l = (n-1); l >= 0; l--){
 			table.deleteRow(l);
@@ -73,7 +82,6 @@ function reset(){
 * post: decides what to do with click depending on what's within the cell,
 * 		whose turn it is, and if a piece has been clicked or jumped before
 * @param cell the cell that was clicked
-* @param n size of the board
 */
 function click(cell){
 	console.log("cell #", cell.id, "option: ", cell.option, "check: ", cell.check, "white: ", cell.isWhite);
@@ -181,7 +189,12 @@ function showOptions(cell){
 		knightOptions(cell);
 	}
 }
-
+/**
+*post: changes cell colors to denote moving options
+*@param cell cell chosen
+*@param direction the direction to check
+*@param recurse boolean that controls recursion
+*/
 function diagOptions(cell, direction, recurse){
 	let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 	let exists = {bl:false, br:false, tl:false, tr:false};
@@ -211,7 +224,12 @@ function diagOptions(cell, direction, recurse){
 		}
 	}
 }
-
+/**
+*post: changes cell colors to denote moving options
+*@param cell cell chosen
+*@param direction the direction to check
+*@param recurse boolean that controls recursion
+*/
 function linOptions(cell, direction, recurse){
 	let cardinals =  {up:(-n), rt:1, dn:n, lf:(-1)};
 	let exists = {up:false, rt:false, dn:false, lf:false};
@@ -244,7 +262,10 @@ function linOptions(cell, direction, recurse){
 		}
 	}
 }
-
+/**
+*post: determines if there is a castling option
+*@param cell chosen cell
+*/
 function castleOptions(cell){
 	if(!(cell.hasMoved||table.inCheck)){
 		if(!(document.getElementById(parseInt(cell.id)-1).hasPiece||document.getElementById(parseInt(cell.id)-2).hasPiece)){
@@ -269,7 +290,12 @@ function castleOptions(cell){
 		}
 	}
 }
-
+/**
+*pre: castling is possible
+*post: performs castling switch
+*@param fromCell initial cell
+*@param toCell end cell
+*/
 function doCastle(fromCell, toCell){
 	table.isCastling = true;
 	tentativeMove(fromCell, toCell);
@@ -282,8 +308,11 @@ function doCastle(fromCell, toCell){
 	}
 }
 
-
-
+/**
+*pre: a knight was chosen
+*post: displays possible path choices by changing cell colors to light blue
+*@param cell chosen cell
+*/
 function knightOptions(cell){
 	cell_j = cell.id%n;
 	cell_i=Math.floor(cell.id/n);
@@ -318,6 +347,11 @@ function knightOptions(cell){
 
 }
 
+/**
+*pre: cell is part of a potential path
+*post: changes cell's color to lightBlue
+*@param cell current cell
+*/
 function knightSet(cell){
 	if(cell.hasPiece){
 		if((cell.isWhite != table.whiteTurn)||table.checkingcheck){ //if the piece in the toCell is the fromCell's opposite color
@@ -377,7 +411,11 @@ function tentativeMove(fromCell, toCell){
 		}
 }
 
-
+/**
+*pre: called at beginning of new turn
+*post: determines if king is in check
+*@param isWhite true if it is white's turn
+*/
 function checkcheck(isWhite){
 	table.checkingcheck = true;
 	resetCheck();
@@ -444,7 +482,10 @@ function resetOptions(){
 	table.shown = false;
 }
 
-
+/**
+*pre: new turn is called
+*post: resets check variables
+*/
 function resetCheck(){
 	table.inCheck = false;
 	for(let i = 0; i < n; i++){
@@ -455,7 +496,9 @@ function resetCheck(){
 	}
 }
 
-
+/**
+*function used for development testing
+*/
 function showCheck(){
 	checkcheck(table.whiteTurn);
 	for(let i = 0; i < n; i++){
@@ -477,6 +520,10 @@ function backHome(){
   window.location.replace("../homePage.html");
 }
 
+/**
+*pre: test button is clicked.
+*post: runs all tests.
+*/
 function test(){
 	test = document.getElementById("test");
 	test.style.fontSize = "10px";

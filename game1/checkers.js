@@ -318,6 +318,10 @@ function corporealize(){
 	}
 }
 
+/**
+*Pre: Test button was clicked
+*Post: Runs all tests
+*/
 function test(){
 	testReset();
 	test = document.getElementById("test");
