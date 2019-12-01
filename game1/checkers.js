@@ -353,5 +353,35 @@ function test(){
 	test.appendChild(p[u]);
 	u++;
 
+	p[u].innerHTML += "Testing that jump() moves jumper and removes jumpee: ";
+	testCell = document.getElementById(19);
+	testCell.onmousedown();
+	(testCell.hasPiece&&testCell.isRed&&!document.getElementById(10).hasPiece&&!document.getElementById(1).hasPiece) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that move() moves piece to a cell and removes it from previous cell: ";
+	newTurn();
+	table.redTurn = true;
+	testCell = document.getElementById(19);
+	testCell.onmousedown();
+	document.getElementById(26).onmousedown();
+	(document.getElementById(26).hasPiece&&!document.getElementById(19).hasPiece) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+
+	p[u].innerHTML += "Testing that pieces become kings when they reach the opposite end: ";
+	newTurn();
+	table.redTurn = true;
+	testCell = document.getElementById(19);
+	testCell.onmousedown();
+	document.getElementById(26).onmousedown();
+	(document.getElementById(26.king) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	//testing multijumps
+
 
 }
