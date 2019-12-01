@@ -63,8 +63,8 @@ function checkers() {
 * pre: board must exist with cells, click must have happened on a cell
 * post: decides what to do with click depending on what's within the cell,
 * 		whose turn it is, and if a piece has been clicked or jumped before
-* param cell the cell that was clicked
-* param n size of the board
+* @param cell the cell that was clicked
+* @param n size of the board
 */
 function click(cell, n){
 	console.log("click!", cell.id);
@@ -100,7 +100,7 @@ function click(cell, n){
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
 * post: shows any cells that the piece can move or jump to, marks them as options or jump, and
 * prepares the board for the next jump or move.
-* param cell the cell that was clicked
+* @param cell the cell that was clicked
 */
 
 
@@ -162,8 +162,8 @@ function showOptions(cell){
 /**
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it
 * post: Gives the toCell the properties of the fromCell and then resets the fromCell
-* param fromCell the cell you're moving piece from
-* param toCell the cell you're moving it to
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
 */
 
 
@@ -191,8 +191,8 @@ function move(fromCell, toCell){
 /**
 * pre: board must exist with cells, click must have happened on a cell that had a piece in it, piece must be between from and to
 * post: Gives the toCell the properties of the fromCell and then resets the fromCell and the cell between them
-* param fromCell the cell you're moving piece from
-* param toCell the cell you're moving it to
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
 */
 
 function jump(fromCell, toCell){
