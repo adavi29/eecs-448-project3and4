@@ -1,6 +1,6 @@
 /**
 * pre: empty table must exist in HTML
-* post: generates board and cells
+* post: generates board and cells and reset button, afterwards awaits clicks
 */
 
 function chess() {
@@ -11,6 +11,11 @@ function chess() {
 		chess();
 	};
 }
+
+/**
+* pre: chess() must have been run
+* post: builds empty chess table (without pieces), with each cell initialized
+*/
 
 function buildTable(){
 	document.getElementById("body").style.backgroundColor = "darkgray";
@@ -43,6 +48,11 @@ function buildTable(){
 	}
 }
 
+/**
+* pre: board must exist with cells
+* post: places pieces for both sides on the board in their standard positions
+*/
+
 function placePieces(){
 	for(let i = 0; i < 2*n; i++){
 	 // 	cell.isWhite = (cell.id<2*n);  //assigns initial white
@@ -63,6 +73,11 @@ function placePieces(){
 	}
 }
 
+/**
+* pre: board must exist with cells
+* post: deletes all rows and thus also all cells, preparing it to be rebuilt in the original position
+* 			or in a new position for tests
+*/
 function reset(){
 		for(let l = (n-1); l >= 0; l--){
 			table.deleteRow(l);
@@ -182,6 +197,14 @@ function showOptions(cell){
 	}
 }
 
+/**
+* pre: chess() must have been run, showOptions called on a piece that moves diagonally
+* post: lights up options for the piece in the direction noted, possibly recursively
+* @param cell the cell that will be checked by the rules to see if the piece can move there
+* @param direction the direction in which to find the next cell recursively
+* @param recurse boolean flag for whether or not the function should call itself recursively in the same direction
+*/
+
 function diagOptions(cell, direction, recurse){
 	let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 	let exists = {bl:false, br:false, tl:false, tr:false};
@@ -212,6 +235,14 @@ function diagOptions(cell, direction, recurse){
 	}
 }
 
+
+/**
+* pre: chess() must have been run, showOptions called on a piece that moves linearly
+* post: lights up options for the piece in the direction noted in a straight line, possibly recursively
+* @param cell the cell that will be checked by the rules to see if the piece can move there
+* @param direction the direction in which to find the next cell recursively
+* @param recurse boolean flag for whether or not the function should call itself recursively in the same direction
+*/
 function linOptions(cell, direction, recurse){
 	let cardinals =  {up:(-n), rt:1, dn:n, lf:(-1)};
 	let exists = {up:false, rt:false, dn:false, lf:false};
@@ -245,6 +276,12 @@ function linOptions(cell, direction, recurse){
 	}
 }
 
+/**
+* pre: chess() run, a king must have had showOptions run on it
+* post: determines if a king can castle or not
+* @param cell the cell the king rests in
+*/
+
 function castleOptions(cell){
 	if(!(cell.hasMoved||table.inCheck)){
 		if(!(document.getElementById(parseInt(cell.id)-1).hasPiece||document.getElementById(parseInt(cell.id)-2).hasPiece)){
@@ -270,6 +307,12 @@ function castleOptions(cell){
 	}
 }
 
+/**
+* pre: chess() run, castleOptions() run, rook hasn't been moved, king hasn't been moved, no check in between rook and king, king's not in check
+* post: Gives the toCell the properties of the fromCell and then resets the fromCell
+* @param fromCell the cell you're moving piece from
+* @param toCell the cell you're moving it to
+*/
 function doCastle(fromCell, toCell){
 	table.isCastling = true;
 	tentativeMove(fromCell, toCell);
@@ -283,7 +326,11 @@ function doCastle(fromCell, toCell){
 }
 
 
-
+/**
+* pre: chess() must have been run
+* post: marks a cell as an option and colors it blue if it's able to be moved to
+* @param cell the cell that is being considered as a candidate for a knight's move option
+*/
 function knightOptions(cell){
 	cell_j = cell.id%n;
 	cell_i=Math.floor(cell.id/n);
@@ -314,10 +361,14 @@ function knightOptions(cell){
 		if(cell_j<(n-1))
 			knightSet(table.rows[cell_i+2].cells[cell_j+1]);
 	}
-
-
 }
 
+
+/**
+* pre: chess() must have been run
+* post: toggles flags on the cell that knightOptions has calculated
+* @param cell the cell that is being considered as a candidate for a knight's move option
+*/
 function knightSet(cell){
 	if(cell.hasPiece){
 		if((cell.isWhite != table.whiteTurn)||table.checkingcheck){ //if the piece in the toCell is the fromCell's opposite color
@@ -377,7 +428,11 @@ function tentativeMove(fromCell, toCell){
 		}
 }
 
-
+/**
+* pre: chess() must have been run
+* post: uses showOptions on all the pieces that could put the given color in check, marks all cells that are "options" as "check", and then resets options.
+* @param isWhite is a boolean: true means white, false means black
+*/
 function checkcheck(isWhite){
 	table.checkingcheck = true;
 	resetCheck();
@@ -444,6 +499,10 @@ function resetOptions(){
 	table.shown = false;
 }
 
+/**
+* pre: chess() must have been run
+* post: goes through each cell and sets cell.check to false
+*/
 
 function resetCheck(){
 	table.inCheck = false;
@@ -477,6 +536,10 @@ function backHome(){
   window.location.replace("../homePage.html");
 }
 
+/**
+* pre: chess() must have been run
+* post: performs tests of basic machanics and edge cases
+*/
 function test(){
 	test = document.getElementById("test");
 	test.style.fontSize = "10px";
