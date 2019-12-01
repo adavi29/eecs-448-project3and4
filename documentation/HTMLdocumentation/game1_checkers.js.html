@@ -56,16 +56,6 @@ function checkers() {
 				cell.hasPiece = ((cell.id>(n-3)*n-1)||(cell.id&lt;3*n)); //assigns all
 			}
 
-			/*//////######Debug########//////////
-			if(cell.id == 26){
-				cell.isRed = false;
-				cell.hasPiece = true;
-				cell.king = true;
-			}
-			if(cell.id == 51)
-			cell.hasPiece = false;
-
-			////////////////////////////////////*/
 			cell.onmousedown =  function(){
 				for(let i = 0; i&lt;n; i++){
 					for(let j = 0; j &lt; n; j++){
@@ -93,6 +83,7 @@ function checkers() {
 			for(let l = (n-1); l >= 0; l--){
 				table.deleteRow(l);
 			}
+			document.getElementById("body").style.backgroundColor = "darkRed";
 			checkers()};
 		}
 
@@ -152,8 +143,8 @@ function showOptions(cell){
 
 
 	if(cell.isRed||cell.king){
-		can.bl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) + n &lt; n*n));
-		can.br = ((parseInt(cell.id)%n != (n-1))&amp;&amp;(parseInt(cell.id) + n &lt; n*n));
+		can.bl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) + parseInt(n) &lt; n*n));
+		can.br = ((parseInt(cell.id)%n != (n-1))&amp;&amp;(parseInt(cell.id) + parseInt(n) &lt; n*n));
 	}
 	if(!(cell.isRed)||cell.king){
 		can.tl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) - n >= 0));
@@ -161,19 +152,19 @@ function showOptions(cell){
 	}
 	for(let direction in can){
 		if(can[direction]){
-			nearCell = document.getElementById(parseInt(cell.id)+alg[direction]);
+			nearCell = document.getElementById(parseInt(cell.id)+parseInt(alg[direction]));
 			if(nearCell.hasPiece){
 				if(nearCell.isRed!=cell.isRed){
 					if(cell.isRed||cell.king){
-						far.bl = ((parseInt(nearCell.id)%n != 0)&amp;&amp;(parseInt(nearCell.id) + n &lt; n*n));
-						far.br = ((parseInt(nearCell.id)%n != (n-1))&amp;&amp;(parseInt(nearCell.id) + n &lt; n*n));
+						far.bl = ((parseInt(nearCell.id)%n != 0)&amp;&amp;(parseInt(nearCell.id) + parseInt(n) &lt; n*n));
+						far.br = ((parseInt(nearCell.id)%n != (n-1))&amp;&amp;(parseInt(nearCell.id) + parseInt(n) &lt; n*n));
 					}
 					if(!(cell.isRed)||cell.king){
 						far.tl = ((parseInt(nearCell.id)%n != 0)&amp;&amp;(parseInt(nearCell.id) - n >= 0));
 						far.tr = ((parseInt(nearCell.id)%n != (n-1))&amp;&amp;(parseInt(nearCell.id) - n >= 0));
 					}
 					if(far[direction]){
-						farCell = document.getElementById(parseInt(cell.id)+dub[direction]);
+						farCell = document.getElementById(parseInt(cell.id)+parseInt(dub[direction]));
 						if(!farCell.hasPiece){
 							farCell.style.backgroundColor="lightgrey";
 							farCell.option = true;
@@ -181,7 +172,7 @@ function showOptions(cell){
 							table.canJump = true;
 						}
 						else{
-							table.canJump = false;
+							table.canJump = table.canJump||false;
 						}
 					}
 				}
@@ -234,7 +225,8 @@ function move(fromCell, toCell){
 
 function jump(fromCell, toCell){
 	if(toCell.option){
-		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(toCell.id-fromCell.id)/2)
+
+		midCell = document.getElementById(parseInt(fromCell.id)+parseInt(parseInt(toCell.id-fromCell.id)/2))
 
 		midCell.hasPiece = false;
 		midCell.king = false;
@@ -296,7 +288,153 @@ function resetOptions(){
 * post: Takes the user back to the home page of the arcade
 */
 function backHome(){
-  window.location.replace("https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/homePage.html");
+  window.location.replace("../homePage.html");
+}
+
+function testReset(){
+	for(let l = (n-1); l >= 0; l--){
+		table.deleteRow(l);
+	}
+	document.getElementById("body").style.backgroundColor = "darkRed";
+
+	table = document.getElementById("table");
+	table.redTurn = true;
+	table.hasJumped = false;
+	table.from = null;
+	table.canJump = false;
+	n=8; //n is the size of the board
+	for(let i = 0; i &lt; n; i++){
+		table.insertRow(i);
+		for(let j = 0; j &lt; n; j++){
+			table.rows[i].insertCell(j);
+			cell = table.rows[i].cells[j];
+			cell.id = i*n+j;
+			cell.isRed = false;
+			cell.hasPiece = false;
+			cell.king = false;
+			cell.option = false;
+			cell.jump = false;
+
+			if((cell.id)%2 != i%2){
+				cell.style.backgroundColor="grey";
+			}
+
+			cell.onmousedown =  function(){
+				for(let i = 0; i&lt;n; i++){
+					for(let j = 0; j &lt; n; j++){
+						if((i*n+j)%2 != i%2){
+							document.getElementById(i*n+j).style.backgroundColor="grey";
+						}
+					}
+				}
+				click(this, n); };
+			}
+		}
+
+
+
+}
+
+function corporealize(){
+	for(let i = 0; i &lt; n; i++){
+		for(let j = 0; j &lt; n; j++){
+			cell = table.rows[i].cells[j];
+			if(cell.hasPiece){
+				(cell.isRed) ? cell.innerHTML = "&amp;#128308" : cell.innerHTML =  "&amp;#9899";
+			}
+		}
+	}
+}
+
+/**
+*Pre: Test button was clicked
+*Post: Runs all tests
+*/
+function test(){
+	testReset();
+	test = document.getElementById("test");
+	test.style.fontSize = "10px";
+	let u = 0;
+	let p = [];
+	for(m = 0; m &lt; 20; m++){
+		p[m] = document.createElement('p');
+		p[m].style.fontSize = "10px";
+	}
+
+	p[u].innerHTML += "Testing piece placement: ";
+	let testCell = document.getElementById(1);
+	testCell.hasPiece = true;
+	testCell.isRed = true;
+	corporealize();
+	(testCell.hasPiece&amp;&amp;testCell.isRed) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing showing piece move options: ";
+	testCell.onmousedown();
+	(document.getElementById(8).option&amp;&amp;document.getElementById(10).option) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing showing piece jump options: ";
+	document.getElementById(10).hasPiece = true;
+	document.getElementById(10).isRed = false;
+	corporealize();
+	testCell.onmousedown();
+	(document.getElementById(8).option&amp;&amp;document.getElementById(19).option) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that jump() moves jumper and removes jumpee: ";
+	testCell = document.getElementById(19);
+	testCell.onmousedown();
+	(testCell.hasPiece&amp;&amp;testCell.isRed&amp;&amp;!document.getElementById(10).hasPiece&amp;&amp;!document.getElementById(1).hasPiece) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing that move() moves piece to a cell and removes it from previous cell: ";
+	newTurn();
+	table.redTurn = true;
+	testCell = document.getElementById(19);
+	testCell.onmousedown();
+	document.getElementById(26).onmousedown();
+	(document.getElementById(26).hasPiece&amp;&amp;!document.getElementById(19).hasPiece) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+
+	p[u].innerHTML += "Testing that pieces become kings when they reach the opposite end: ";
+	newTurn();
+	testReset();
+
+	table.redTurn = true;
+	testCell = document.getElementById(51);
+	testCell.hasPiece = true;
+	testCell.isRed = true;
+	testCell.onmousedown();
+	document.getElementById(60).onmousedown();
+	(document.getElementById(60).king) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+	p[u].innerHTML += "Testing multijumping: ";
+	table.redTurn = true;
+	testCell = document.getElementById(51);
+
+	document.getElementById(53).isRed = false;
+	document.getElementById(53).hasPiece = true;
+	document.getElementById(37).isRed = false;
+	document.getElementById(37).hasPiece = true;
+	corporealize();
+	testCell.onmousedown();
+	document.getElementById(60).onmousedown();
+	document.getElementById(46).onmousedown();
+	document.getElementById(28).onmousedown();
+	(!document.getElementById(53).hasPiece&amp;&amp;!document.getElementById(37).hasPiece&amp;&amp;document.getElementById(28).hasPiece&amp;&amp;document.getElementById(28).king) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
+
+
 }
 </code></pre>
         </article>
@@ -308,13 +446,13 @@ function backHome(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#boardMoveDown">boardMoveDown</a></li><li><a href="global.html#boardMoveLeft">boardMoveLeft</a></li><li><a href="global.html#boardMoveRight">boardMoveRight</a></li><li><a href="global.html#boardMoveUp">boardMoveUp</a></li><li><a href="global.html#buildTable">buildTable</a></li><li><a href="global.html#canNotMove">canNotMove</a></li><li><a href="global.html#castleOptions">castleOptions</a></li><li><a href="global.html#checkcheck">checkcheck</a></li><li><a href="global.html#checkDiagDown">checkDiagDown</a></li><li><a href="global.html#checkDiagUp">checkDiagUp</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#checkForMatch">checkForMatch</a></li><li><a href="global.html#checkHoriz">checkHoriz</a></li><li><a href="global.html#checkVertical">checkVertical</a></li><li><a href="global.html#chess">chess</a></li><li><a href="global.html#clearBoard">clearBoard</a></li><li><a href="global.html#clearTests">clearTests</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#clickForTesting">clickForTesting</a></li><li><a href="global.html#clickTestMode">clickTestMode</a></li><li><a href="global.html#connectFour">connectFour</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#diagOptions">diagOptions</a></li><li><a href="global.html#disableCards">disableCards</a></li><li><a href="global.html#doCastle">doCastle</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#drawBoard">drawBoard</a></li><li><a href="global.html#flipCard">flipCard</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initCell">initCell</a></li><li><a href="global.html#isChanged">isChanged</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#knightOptions">knightOptions</a></li><li><a href="global.html#knightSet">knightSet</a></li><li><a href="global.html#linOptions">linOptions</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#placePieces">placePieces</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetBoard">resetBoard</a></li><li><a href="global.html#resetCheck">resetCheck</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#runMemoryTests">runMemoryTests</a></li><li><a href="global.html#runTest">runTest</a></li><li><a href="global.html#runTests2">runTests2</a></li><li><a href="global.html#selectCell">selectCell</a></li><li><a href="global.html#showCheck">showCheck</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#shuffleCards">shuffleCards</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#tentativeMove">tentativeMove</a></li><li><a href="global.html#test">test</a></li><li><a href="global.html#test5Bool">test5Bool</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#ticTacToeTestSuite">ticTacToeTestSuite</a></li><li><a href="global.html#unflipCards">unflipCards</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 03 2019 19:27:31 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 16:36:54 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

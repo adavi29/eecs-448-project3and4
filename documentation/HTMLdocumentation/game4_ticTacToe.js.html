@@ -28,6 +28,8 @@
         <article>
             <pre class="prettyprint source linenums"><code>let playerX=true;
 let playerO=false;
+let winnerX=false;
+let winnerO=false;
 
 /**
 * post: Manages gameplay
@@ -37,6 +39,9 @@ let playerO=false;
 * the anonymous function deletes the table when 'new game' is clicked and then calls ticTacToe() function again to start a new game.
 */
 function ticTacToe() {
+    winnerX=false;
+    winnerO=false;
+    playerX=true;
     table = document.getElementById("gameBoard");
 
     for(let i = 0; i &lt; 3; i++){
@@ -63,6 +68,17 @@ function ticTacToe() {
         for(let i=2; i>=0; i--){
             table.deleteRow(i);
         }
+
+        document.getElementById("test1").innerHTML="";
+        document.getElementById("test2").innerHTML="";
+        document.getElementById("test3").innerHTML="";
+        document.getElementById("test4").innerHTML="";
+        document.getElementById("test5").innerHTML="";
+        document.getElementById("test6").innerHTML="";
+        document.getElementById("test7").innerHTML="";
+        document.getElementById("test8").innerHTML="";
+        document.getElementById("test9").innerHTML="";
+
         ticTacToe()};
 }
 
@@ -89,6 +105,7 @@ function click(cell){
         if(winChoice(cell))
         {
             printWinner();
+            //winner=true;
             return;
         }
     }
@@ -100,6 +117,7 @@ function click(cell){
         if(winChoice(cell))
         {
             printWinner();
+            //winner=true;
             return;
         }
     }
@@ -134,38 +152,47 @@ function winChoice(cell){
         {
             if(document.getElementById(0).innerHTML=="X" &amp;&amp; document.getElementById(1).innerHTML=="X" &amp;&amp; document.getElementById(2).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(0).innerHTML=="X" &amp;&amp; document.getElementById(3).innerHTML=="X" &amp;&amp; document.getElementById(6).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(0).innerHTML=="X" &amp;&amp; document.getElementById(1).innerHTML=="X" &amp;&amp; document.getElementById(2).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(0).innerHTML=="X" &amp;&amp; document.getElementById(4).innerHTML=="X" &amp;&amp; document.getElementById(8).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(1).innerHTML=="X" &amp;&amp; document.getElementById(4).innerHTML=="X" &amp;&amp; document.getElementById(7).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(2).innerHTML=="X" &amp;&amp; document.getElementById(4).innerHTML=="X" &amp;&amp; document.getElementById(6).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(2).innerHTML=="X" &amp;&amp; document.getElementById(5).innerHTML=="X" &amp;&amp; document.getElementById(8).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(3).innerHTML=="X" &amp;&amp; document.getElementById(4).innerHTML=="X" &amp;&amp; document.getElementById(5).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else if(document.getElementById(6).innerHTML=="X" &amp;&amp; document.getElementById(7).innerHTML=="X" &amp;&amp; document.getElementById(8).innerHTML=="X")
             {
+                winnerX=true;
                 return(true);
             }
             else
@@ -177,38 +204,47 @@ function winChoice(cell){
         {
             if(document.getElementById(0).innerHTML=="O" &amp;&amp; document.getElementById(1).innerHTML=="O" &amp;&amp; document.getElementById(2).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(0).innerHTML=="O" &amp;&amp; document.getElementById(3).innerHTML=="O" &amp;&amp; document.getElementById(6).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(0).innerHTML=="O" &amp;&amp; document.getElementById(1).innerHTML=="O" &amp;&amp; document.getElementById(2).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(0).innerHTML=="O" &amp;&amp; document.getElementById(4).innerHTML=="O" &amp;&amp; document.getElementById(8).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(1).innerHTML=="O" &amp;&amp; document.getElementById(4).innerHTML=="O" &amp;&amp; document.getElementById(7).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(2).innerHTML=="O" &amp;&amp; document.getElementById(4).innerHTML=="O" &amp;&amp; document.getElementById(6).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(2).innerHTML=="O" &amp;&amp; document.getElementById(5).innerHTML=="O" &amp;&amp; document.getElementById(8).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(3).innerHTML=="O" &amp;&amp; document.getElementById(4).innerHTML=="O" &amp;&amp; document.getElementById(5).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else if(document.getElementById(6).innerHTML=="O" &amp;&amp; document.getElementById(7).innerHTML=="O" &amp;&amp; document.getElementById(8).innerHTML=="O")
             {
+                winnerO=true;
                 return(true);
             }
             else
@@ -239,8 +275,254 @@ function printWinner(){
 * post: Takes the user back to the home page of the arcade
 */
 function backHome(){
-    window.location.replace("https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/homePage.html");
+    window.location.replace("../homePage.html");
   }
+
+/**
+* pre: winner bool is initialized, BoardReset is implemented, tic tac toe game is fully implemented
+* post: Runs the test suite when the button is pressed and prints results to the webpage
+*/
+function ticTacToeTestSuite(){
+    clearBoard();
+    let test1="Test 1: Clicking a cell changes inner text to X when it is X's turn: ";
+    let test2="Test 2: Clicking a cell changes inner text to O when it is O's turn: ";
+    let test3="Test 3: Each time a click occurs, it becomes the other player's turn: ";
+    let test4="Test 4: Three X's in a row horizontally results in X winning: ";
+    let test5="Test 5: Three O's in a row horizontally results in O winning: ";
+    let test6="Test 6: Three X's in a row vertically results in X winning: ";
+    let test7="Test 7: Three O's in a row vertically results in O winning: ";
+    let test8="Test 8: Three X's in a row diagonally results in X winning: ";
+    let test9="Test 9: Three O's in a row diagonally results in O winning: ";
+
+    //test 1
+    cell = table.rows[0].cells[0];
+    clickForTesting(cell);
+    if(cell.innerHTML=="X")
+    {
+        document.getElementById("test1").innerHTML=test1 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test1").innerHTML=test1 + "FAILED";
+    }
+
+    //test 2
+    cell = table.rows[0].cells[1];
+    clickForTesting(cell);
+    if(cell.innerHTML=="O")
+    {
+        document.getElementById("test2").innerHTML=test2 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test2").innerHTML=test2 + "FAILED";
+    }
+
+    //test 3
+    if(playerX==true)
+    {
+        cell=table.rows[0].cells[2];
+        clickForTesting(cell);
+        if(playerO==true)
+        {
+            document.getElementById("test3").innerHTML=test3 + "PASSED";
+        }
+        else
+        {
+            document.getElementById("test3").innerHTML=test3 + "FAILED";
+        }
+    }
+    else
+    {
+        document.getElementById("test3").innerHTML=test3 + "FAILED";
+    }
+
+    //test 4
+    clearBoard();
+    cell=table.rows[0].cells[0]; //X
+    clickForTesting(cell);
+    cell=table.rows[1].cells[1]; //O
+    clickForTesting(cell);
+    cell=table.rows[0].cells[1]; //X
+    clickForTesting(cell);
+    cell=table.rows[2].cells[2]; //O
+    clickForTesting(cell);
+    cell=table.rows[0].cells[2]; //X
+    clickForTesting(cell);
+    if(winnerX==true)
+    {
+        document.getElementById("test4").innerHTML=test4 + "PASSED";
+    }
+    else
+    {
+        document.getElementById("test4").innerHTML=test4 + "FAILED";
+    }
+
+     //test 5
+     clearBoard();
+     cell=table.rows[0].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[1].cells[1]; //O
+     clickForTesting(cell);
+     cell=table.rows[2].cells[2]; //X
+     clickForTesting(cell);
+     cell=table.rows[1].cells[0]; //O
+     clickForTesting(cell);
+     cell=table.rows[2].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[1].cells[2]; //O
+     clickForTesting(cell);
+     if(winnerO==true)
+     {
+         document.getElementById("test5").innerHTML=test5 + "PASSED";
+     }
+     else
+     {
+         document.getElementById("test5").innerHTML=test5 + "FAILED";
+     }
+
+     //test 6
+     clearBoard();
+     cell=table.rows[0].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[0].cells[1]; //O
+     clickForTesting(cell);
+     cell=table.rows[1].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[2].cells[1]; //O
+     clickForTesting(cell);
+     cell=table.rows[2].cells[0]; //X
+     clickForTesting(cell);
+     if(winnerX==true)
+     {
+         document.getElementById("test6").innerHTML=test6 + "PASSED";
+     }
+     else
+     {
+         document.getElementById("test6").innerHTML=test6 + "FAILED";
+     }
+
+     //test 7
+     clearBoard();
+     cell=table.rows[0].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[0].cells[2]; //O
+     clickForTesting(cell);
+     cell=table.rows[2].cells[1]; //X
+     clickForTesting(cell);
+     cell=table.rows[2].cells[2]; //O
+     clickForTesting(cell);
+     cell=table.rows[0].cells[1]; //X
+     clickForTesting(cell);
+     cell=table.rows[1].cells[2]; //O
+     clickForTesting(cell);
+     if(winnerO==true)
+     {
+         document.getElementById("test7").innerHTML=test7 + "PASSED";
+     }
+     else
+     {
+         document.getElementById("test7").innerHTML=test7 + "FAILED";
+     }
+
+     //test 8
+     clearBoard();
+     cell=table.rows[0].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[0].cells[1]; //O
+     clickForTesting(cell);
+     cell=table.rows[1].cells[1]; //X
+     clickForTesting(cell);
+     cell=table.rows[2].cells[1]; //O
+     clickForTesting(cell);
+     cell=table.rows[2].cells[2]; //X
+     clickForTesting(cell);
+     if(winnerX==true)
+     {
+         document.getElementById("test8").innerHTML=test8 + "PASSED";
+     }
+     else
+     {
+         document.getElementById("test8").innerHTML=test8 + "FAILED";
+     }
+
+     //test 9
+     clearBoard();
+     cell=table.rows[0].cells[1]; //X
+     clickForTesting(cell);
+     cell=table.rows[0].cells[0]; //O
+     clickForTesting(cell);
+     cell=table.rows[0].cells[2]; //X
+     clickForTesting(cell);
+     cell=table.rows[1].cells[1]; //O
+     clickForTesting(cell);
+     cell=table.rows[2].cells[0]; //X
+     clickForTesting(cell);
+     cell=table.rows[2].cells[2]; //O
+     clickForTesting(cell);
+     if(winnerO==true)
+     {
+         document.getElementById("test9").innerHTML=test9 + "PASSED";
+     }
+     else
+     {
+         document.getElementById("test9").innerHTML=test9 + "FAILED";
+     }
+
+     clearBoard();
+}
+
+/**
+* pre: the ticTacToe method is implemented
+* post: Clears the table and reruns the game
+*/
+function clearBoard(){
+        for(let i=2; i>=0; i--){
+            table.deleteRow(i);
+        }
+
+        ticTacToe();
+}
+
+/**
+* pre: must be in test mode
+* post: Only used for testing: places a piece on the board and checks for winners then switches players
+* return: returns when a player wins
+* @param cell the cell that is affected when click is called
+* difference from click(cell): suppresses the winner alerts
+*/
+function clickForTesting(cell){
+    //console.log("clicked cell # "+cell.id);
+    if(cell.hasValue)
+    {
+        alert("Cannot click here.");
+        return;
+    }
+
+    if(playerX==true)
+    {
+        cell.innerHTML="&amp;#88"; //X
+        cell.hasValue=true;
+        cell.isX=true;
+        if(winChoice(cell))
+        {
+            //printWinner();
+            return;
+        }
+    }
+    else
+    {
+        cell.innerHTML="&amp;#79"; //O
+        cell.hasValue=true;
+        cell.isO=true;
+        if(winChoice(cell))
+        {
+            //printWinner();
+            return;
+        }
+    }
+    switchPlayer();
+}
 </code></pre>
         </article>
     </section>
@@ -251,13 +533,13 @@ function backHome(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#boardMoveDown">boardMoveDown</a></li><li><a href="global.html#boardMoveLeft">boardMoveLeft</a></li><li><a href="global.html#boardMoveRight">boardMoveRight</a></li><li><a href="global.html#boardMoveUp">boardMoveUp</a></li><li><a href="global.html#buildTable">buildTable</a></li><li><a href="global.html#canNotMove">canNotMove</a></li><li><a href="global.html#castleOptions">castleOptions</a></li><li><a href="global.html#checkcheck">checkcheck</a></li><li><a href="global.html#checkDiagDown">checkDiagDown</a></li><li><a href="global.html#checkDiagUp">checkDiagUp</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#checkForMatch">checkForMatch</a></li><li><a href="global.html#checkHoriz">checkHoriz</a></li><li><a href="global.html#checkVertical">checkVertical</a></li><li><a href="global.html#chess">chess</a></li><li><a href="global.html#clearBoard">clearBoard</a></li><li><a href="global.html#clearTests">clearTests</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#clickForTesting">clickForTesting</a></li><li><a href="global.html#clickTestMode">clickTestMode</a></li><li><a href="global.html#connectFour">connectFour</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#diagOptions">diagOptions</a></li><li><a href="global.html#disableCards">disableCards</a></li><li><a href="global.html#doCastle">doCastle</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#drawBoard">drawBoard</a></li><li><a href="global.html#flipCard">flipCard</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initCell">initCell</a></li><li><a href="global.html#isChanged">isChanged</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#knightOptions">knightOptions</a></li><li><a href="global.html#knightSet">knightSet</a></li><li><a href="global.html#linOptions">linOptions</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#placePieces">placePieces</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetBoard">resetBoard</a></li><li><a href="global.html#resetCheck">resetCheck</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#runMemoryTests">runMemoryTests</a></li><li><a href="global.html#runTest">runTest</a></li><li><a href="global.html#runTests2">runTests2</a></li><li><a href="global.html#selectCell">selectCell</a></li><li><a href="global.html#showCheck">showCheck</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#shuffleCards">shuffleCards</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#tentativeMove">tentativeMove</a></li><li><a href="global.html#test">test</a></li><li><a href="global.html#test5Bool">test5Bool</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#ticTacToeTestSuite">ticTacToeTestSuite</a></li><li><a href="global.html#unflipCards">unflipCards</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 03 2019 19:27:31 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 16:36:54 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
