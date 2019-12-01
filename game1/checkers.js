@@ -373,15 +373,34 @@ function test(){
 
 	p[u].innerHTML += "Testing that pieces become kings when they reach the opposite end: ";
 	newTurn();
+	testReset();
+
 	table.redTurn = true;
-	testCell = document.getElementById(19);
+	testCell = document.getElementById(51);
+	testCell.hasPiece = true;
+	testCell.isRed = true;
 	testCell.onmousedown();
-	document.getElementById(26).onmousedown();
-	(document.getElementById(26.king) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	document.getElementById(60).onmousedown();
+	(document.getElementById(60).king) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
 
-	//testing multijumps
+	p[u].innerHTML += "Testing multijumping: ";
+	table.redTurn = true;
+	testCell = document.getElementById(51);
+
+	document.getElementById(53).isRed = false;
+	document.getElementById(53).hasPiece = true;
+	document.getElementById(37).isRed = false;
+	document.getElementById(37).hasPiece = true;
+	corporealize();
+	testCell.onmousedown();
+	document.getElementById(60).onmousedown();
+	document.getElementById(46).onmousedown();
+	document.getElementById(28).onmousedown();
+	(!document.getElementById(53).hasPiece&&!document.getElementById(37).hasPiece&&document.getElementById(28).hasPiece&&document.getElementById(28).king) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	test.appendChild(p[u]);
+	u++;
 
 
 }
