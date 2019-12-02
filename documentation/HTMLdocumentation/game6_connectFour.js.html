@@ -1,4 +1,32 @@
-let playerRed=true; //red
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: game6/connectFour.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: game6/connectFour.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let playerRed=true; //red
 let playerYellow=false; //yellow
 
 /**
@@ -13,10 +41,10 @@ function connectFour() {
     playerYellow=false; //yellow
     table = document.getElementById("gameBoard");
 
-    for(let i = 0; i < 6; i++){
+    for(let i = 0; i &lt; 6; i++){
         //console.log("got here row"+i);
 		table.insertRow(i);
-		for(let j = 0; j < 7; j++){
+		for(let j = 0; j &lt; 7; j++){
             //console.log("got here col"+j);
 			table.rows[i].insertCell(j);
             cell = table.rows[i].cells[j];
@@ -101,13 +129,13 @@ function click(cell, col){
 * @param col the column in which the cell that is clicked lives
 */
 function selectCell(cell, col){
-    for(let i=0; i<5; i++)
+    for(let i=0; i&lt;5; i++)
     {
-        for(let j=0; j<7; j++)
+        for(let j=0; j&lt;7; j++)
         {
             if(j==col)
             {
-                if(cell.hasValue==false && table.rows[i+1].cells[j].hasValue==false) //if cell has no value yet, move down to the next cell
+                if(cell.hasValue==false &amp;&amp; table.rows[i+1].cells[j].hasValue==false) //if cell has no value yet, move down to the next cell
                 {
                     cell=table.rows[i+1].cells[j]; //this will move it to the bottom of the table
                 }
@@ -118,12 +146,12 @@ function selectCell(cell, col){
     cell.hasValue=true;
     if(playerRed==true)
     {
-        cell.innerHTML="&#x1F534;"; //red
+        cell.innerHTML="&amp;#x1F534;"; //red
         cell.isRed=true;
     }
     else //if yellow turn
     {
-        cell.innerHTML="&#x1F601"; //yellow
+        cell.innerHTML="&amp;#x1F601"; //yellow
         cell.isYellow=true;
     }
     return(cell);
@@ -174,12 +202,12 @@ function winChoice(){
 function checkVertical(){
     let winCount=0;
     let cell=table.rows[0].cells[0];
-    for(let i=0; i<7; i++)
+    for(let i=0; i&lt;7; i++)
     {
-        for(let j=0; j<6; j++)
+        for(let j=0; j&lt;6; j++)
         {
             cell=table.rows[j].cells[i];
-            if(playerRed==true && cell.isRed)
+            if(playerRed==true &amp;&amp; cell.isRed)
             {
                 winCount++;
                 if(winCount>=4)
@@ -187,7 +215,7 @@ function checkVertical(){
                     return(winCount);
                 }
             }
-            else if(playerYellow==true && cell.isYellow)
+            else if(playerYellow==true &amp;&amp; cell.isYellow)
             {
                 winCount++;
                 if(winCount>=4)
@@ -212,12 +240,12 @@ function checkVertical(){
 function checkHoriz(){
     let winCount=0;
     let cell=table.rows[0].cells[0];
-    for(let i=0; i<6; i++)
+    for(let i=0; i&lt;6; i++)
     {
-        for(let j=0; j<7; j++)
+        for(let j=0; j&lt;7; j++)
         {
             cell=table.rows[i].cells[j];
-            if(playerRed==true && cell.isRed)
+            if(playerRed==true &amp;&amp; cell.isRed)
             {
                 winCount++;
                 if(winCount>=4)
@@ -225,7 +253,7 @@ function checkHoriz(){
                     return(winCount);
                 }
             }
-            else if(playerYellow==true && cell.isYellow)
+            else if(playerYellow==true &amp;&amp; cell.isYellow)
             {
                 winCount++;
                 if(winCount>=4)
@@ -250,22 +278,22 @@ function checkHoriz(){
 */
 function checkDiagDown(){
     let cell=table.rows[0].cells[0];
-    for(let i=3; i<6; i++)
+    for(let i=3; i&lt;6; i++)
     {
-        for(let j=0; j<4; j++)
+        for(let j=0; j&lt;4; j++)
         {
             cell=table.rows[i].cells[j];
 
             if(playerRed==true)
             {
-                if(cell.isRed && table.rows[i-1].cells[j+1].isRed && table.rows[i-2].cells[j+2].isRed && table.rows[i-3].cells[j+3].isRed)
+                if(cell.isRed &amp;&amp; table.rows[i-1].cells[j+1].isRed &amp;&amp; table.rows[i-2].cells[j+2].isRed &amp;&amp; table.rows[i-3].cells[j+3].isRed)
                 {
                    return(true);
                 }
             }
             else
             {
-                if(cell.isYellow && table.rows[i-1].cells[j+1].isYellow && table.rows[i-2].cells[j+2].isYellow && table.rows[i-3].cells[j+3].isYellow)
+                if(cell.isYellow &amp;&amp; table.rows[i-1].cells[j+1].isYellow &amp;&amp; table.rows[i-2].cells[j+2].isYellow &amp;&amp; table.rows[i-3].cells[j+3].isYellow)
                 {
                    return(true);
                 }
@@ -283,22 +311,22 @@ function checkDiagDown(){
 */
 function checkDiagUp(){
     let cell=table.rows[0].cells[0];
-    for(let i=3; i<6; i++)
+    for(let i=3; i&lt;6; i++)
     {
-        for(let j=3; j<7; j++)
+        for(let j=3; j&lt;7; j++)
         {
             cell=table.rows[i].cells[j];
 
             if(playerRed==true)
             {
-                if(cell.isRed && table.rows[i-1].cells[j-1].isRed && table.rows[i-2].cells[j-2].isRed && table.rows[i-3].cells[j-3].isRed)
+                if(cell.isRed &amp;&amp; table.rows[i-1].cells[j-1].isRed &amp;&amp; table.rows[i-2].cells[j-2].isRed &amp;&amp; table.rows[i-3].cells[j-3].isRed)
                 {
                    return(true);
                 }
             }
             else
             {
-                if(cell.isYellow && table.rows[i-1].cells[j-1].isYellow && table.rows[i-2].cells[j-2].isYellow && table.rows[i-3].cells[j-3].isYellow)
+                if(cell.isYellow &amp;&amp; table.rows[i-1].cells[j-1].isYellow &amp;&amp; table.rows[i-2].cells[j-2].isYellow &amp;&amp; table.rows[i-3].cells[j-3].isYellow)
                 {
                    return(true);
                 }
@@ -372,7 +400,7 @@ function connectFourTestSuite(){
     cell = table.rows[0].cells[0];
     let cellSelected=selectCell(cell, 0);
     console.log("inner html:" + cellSelected.innerHTML);
-    if(cellSelected.hasValue==true && cellSelected==table.rows[5].cells[0])
+    if(cellSelected.hasValue==true &amp;&amp; cellSelected==table.rows[5].cells[0])
     {
         document.getElementById("test1").innerHTML=test1 + "PASSED";
     }
@@ -395,7 +423,7 @@ function connectFourTestSuite(){
     cell = table.rows[3].cells[4];
     cellSelected=selectCell(cell, 4);
     console.log("inner html:" + cellSelected.innerHTML);
-    if(cellSelected.innerHTML=="😁" && cellSelected==table.rows[5].cells[4])
+    if(cellSelected.innerHTML=="😁" &amp;&amp; cellSelected==table.rows[5].cells[4])
     {
         document.getElementById("test3").innerHTML=test3 + "PASSED";
     }
@@ -409,7 +437,7 @@ function connectFourTestSuite(){
     cell = table.rows[3].cells[4];
     cellSelected=selectCell(cell, 4);
     console.log("inner html:" + cellSelected.innerHTML);
-    if(cellSelected.innerHTML=="🔴" && cellSelected==table.rows[4].cells[4])
+    if(cellSelected.innerHTML=="🔴" &amp;&amp; cellSelected==table.rows[4].cells[4])
     {
         document.getElementById("test4").innerHTML=test4 + "PASSED";
     }
@@ -673,3 +701,26 @@ function clickTestMode(cell, col, testNum){
     }
     switchPlayer();
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#boardMoveDown">boardMoveDown</a></li><li><a href="global.html#boardMoveLeft">boardMoveLeft</a></li><li><a href="global.html#boardMoveRight">boardMoveRight</a></li><li><a href="global.html#boardMoveUp">boardMoveUp</a></li><li><a href="global.html#buildTable">buildTable</a></li><li><a href="global.html#canNotMove">canNotMove</a></li><li><a href="global.html#castleOptions">castleOptions</a></li><li><a href="global.html#checkcheck">checkcheck</a></li><li><a href="global.html#checkDiagDown">checkDiagDown</a></li><li><a href="global.html#checkDiagUp">checkDiagUp</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#checkForMatch">checkForMatch</a></li><li><a href="global.html#checkHoriz">checkHoriz</a></li><li><a href="global.html#checkVertical">checkVertical</a></li><li><a href="global.html#chess">chess</a></li><li><a href="global.html#clearBoard">clearBoard</a></li><li><a href="global.html#clearTests">clearTests</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#clickForTesting">clickForTesting</a></li><li><a href="global.html#clickTestMode">clickTestMode</a></li><li><a href="global.html#connectFour">connectFour</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#diagOptions">diagOptions</a></li><li><a href="global.html#disableCards">disableCards</a></li><li><a href="global.html#doCastle">doCastle</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#drawBoard">drawBoard</a></li><li><a href="global.html#flipCard">flipCard</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initCell">initCell</a></li><li><a href="global.html#isChanged">isChanged</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#knightOptions">knightOptions</a></li><li><a href="global.html#knightSet">knightSet</a></li><li><a href="global.html#linOptions">linOptions</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#placePieces">placePieces</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetBoard">resetBoard</a></li><li><a href="global.html#resetCheck">resetCheck</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#runMemoryTests">runMemoryTests</a></li><li><a href="global.html#runTest">runTest</a></li><li><a href="global.html#runTests2">runTests2</a></li><li><a href="global.html#selectCell">selectCell</a></li><li><a href="global.html#showCheck">showCheck</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#shuffleCards">shuffleCards</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#tentativeMove">tentativeMove</a></li><li><a href="global.html#test">test</a></li><li><a href="global.html#test5Bool">test5Bool</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#ticTacToeTestSuite">ticTacToeTestSuite</a></li><li><a href="global.html#unflipCards">unflipCards</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 16:36:54 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

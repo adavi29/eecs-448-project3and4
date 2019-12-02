@@ -26,23 +26,299 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const cards = document.querySelectorAll('.memory-card');
+            <pre class="prettyprint source linenums"><code>document.getElementById('clearTests').style.visibility = "hidden";
+const cards = document.querySelectorAll('.memory-card');
+let hasFlippedCard=false;
+let hasFlippedSecondCard=false;
+let firstCard, secondCard, thirdCard;
+let lockBoard=false;
+let numCorrect=0;
+let testing=false;
+let madeToDisable=false;
+let madeToUnflip=false;
+let madeToReset=false;
 
-/*
-*Not finished yet, but will end up controlling what happens when a card is flipped
-*/
-function flipCard(){
-  this.classList.toggle('flip');
-}
-
-cards.forEach(card => card.addEventListener('click', flipCard))
+cards.forEach(card => card.addEventListener('click', flipCard));
+shuffleCards();
 
 /**
-* pre: the HTML button exists
-* post: Takes the user back to the home page of the arcade
+*Post: assigns clicked on cards to firstCard, secondCard, and thirdCard based on how many cards have already been flipped.
+*Also checks that the card hasn't been clicked before.
+*Once all three cards have been assigned, it calls function to check for a match
+*/
+function flipCard(){
+  if(lockBoard){
+    return;
+  }
+  if(this === firstCard || this === secondCard){
+    return;
+  }
+  this.classList.add('flip');
+  if(!hasFlippedCard){
+    hasFlippedCard=true;
+    firstCard=this;
+    return;
+  }
+  if(!hasFlippedSecondCard){
+    hasFlippedSecondCard=true;
+    secondCard=this;
+    return;
+  }
+  thirdCard=this;
+
+  checkForMatch();
+}
+
+/**
+*Pre: Three cards have been chosen
+*Post: Determines whether the three cards are matches.
+*Disables cards if they match and unlfips them if they don't.
+*Also tracks how many are correct to alert the user when they win.
+*/
+function checkForMatch(){
+  if(firstCard.dataset.framework == secondCard.dataset.framework &amp;&amp; firstCard.dataset.framework == thirdCard.dataset.framework &amp;&amp; thirdCard.dataset.framework == secondCard.dataset.framework){
+    disableCards();
+    numCorrect++;
+    if(numCorrect==4){
+      document.getElementById('youWin').innerText = "You Win!";
+    }
+    return;
+  }
+  unflipCards();
+}
+
+/**
+*Pre: The three cards chosen all match
+*Post: Removes event listeners on the three cards and resets board
+*/
+function disableCards(){
+  firstCard.removeEventListener('click', flipCard);
+  secondCard.removeEventListener('click', flipCard);
+  thirdCard.removeEventListener('click', flipCard);
+  if(testing=true){
+    madeToDisable=true;
+  }
+  resetBoard();
+}
+
+/**
+*Pre: The three cards chosen do not match
+*Post: Locks board, unflips the three cards, and resets board.
+*/
+function unflipCards(){
+  if(testing=true){
+    madeToUnflip=true;
+  }
+  lockBoard=true;
+  setTimeout(() => {
+    firstCard.classList.remove('flip');
+    secondCard.classList.remove('flip');
+    thirdCard.classList.remove('flip');
+    resetBoard();}, 1200);
+}
+
+/**
+*Pre: Cards have either been disabled or unflipped
+*Post: Resets the following variables: hasFlippedCard, hasFlippedSecondCard, lockBoard, firstCard, secondCard, and thirdCard.
+*/
+function resetBoard(){
+  hasFlippedCard=false;
+  hasFlippedSecondCard=false;
+  lockBoard=false;
+  firstCard=null;
+  secondCard= null;
+  thirdCard=null;
+  if(testing){
+    madeToReset=true;
+  }
+}
+
+/**
+*Pre: card variable has been declared
+*Post: shuffles the order id's for all cards to shuffle them
+*/
+function shuffleCards(){
+  cards.forEach(card => {
+    let random = Math.floor(Math.random() * 12);
+    card.style.order = random;
+  });
+}
+
+/**
+*Pre: User clicks new game.
+*Post: Resets all variables, unflips all cards, resets card event listeners, and shuffles cards after 1000 ms.
+*/
+function clearBoard(){
+  document.getElementById('youWin').innerText = "";
+  hasFlippedCard=false;
+  hasFlippedSecondCard=false;
+  firstCard=null;
+  secondCard= null;
+  thirdCard=null;
+  lockBoard=false;
+  numCorrect=0;
+  cards.forEach((card) => {
+    if(card.classList.contains('flip')){
+      card.classList.remove('flip');
+      card.addEventListener('click', flipCard)
+    }
+  });
+  setTimeout(shuffleCards, 1000);
+}
+
+/**
+* Pre: the HTML button exists
+* Post: Takes the user back to the home page of the arcade
 */
 function backHome(){
-  window.location.replace("https://people.eecs.ku.edu/~a035d579/eecs-448-project3and4/homePage.html");
+  window.location.replace("../homePage.html");
+}
+
+/**
+*Post: Runs first round of tests.
+*/
+function runMemoryTests(){
+  clearBoard();
+  testing=true;
+  document.getElementById("test").disabled = true;
+  document.getElementById("card1").click();
+  let test1 = "Test 1: hasFlippedCard is true and hasFlippedSecondCard is false when one card is clicked: ";
+  let test2 = "Test 2: firstCard is not null after one card has been clicked: ";
+  let test3 = "Test 3: secondCard and thirdCard are null if same first card is clicked again: ";
+  let test4 = "Test 4: firstCard and secondCard are not null after two cards have been clicked: ";
+  let test5 = "Test 5: Disable function is called when three of the same card were flipped: ";
+  let test6 = "Test 6: Reset function is called from disable function: ";
+  let test7 = "Test 7: firstCard, secondCard, and thirdCard are null after reset has been called: ";
+
+  if(hasFlippedCard==true &amp;&amp; hasFlippedSecondCard==false){
+    document.getElementById("test1").innerText = test1 + "PASSED";
+  } else {
+    document.getElementById("test1").innerText = test1 + "FAILED";
+  }
+  if(firstCard!=null){
+    document.getElementById("test2").innerText = test2 + "PASSED";
+  }else {
+    document.getElementById("test2").innerText = test2 + "FAILED";
+  }
+
+  document.getElementById("card1").click();
+  if(firstCard!=null &amp;&amp; secondCard==null &amp;&amp; thirdCard==null){
+    document.getElementById("test3").innerText = test3 + "PASSED";
+  }else {
+    document.getElementById("test3").innerText = test3 + "FAILED";
+  }
+
+  document.getElementById("card2").click();
+  if(firstCard!=null &amp;&amp; secondCard!=null &amp;&amp; thirdCard==null){
+    document.getElementById("test4").innerText = test4 + "PASSED";
+  }else {
+    document.getElementById("test4").innerText = test4 + "FAILED";
+  }
+  document.getElementById("card3").click();
+  if(madeToDisable){
+    document.getElementById("test5").innerText = test5 + "PASSED";
+  }else {
+    document.getElementById("test5").innerText = test5 + "FAILED";
+  }
+  if(madeToReset){
+    document.getElementById("test6").innerText = test6 + "PASSED";
+  } else {
+    document.getElementById("test6").innerText = test6 + "FAILED";
+  }
+  if(firstCard==null &amp;&amp; secondCard==null &amp;&amp; thirdCard==null){
+    document.getElementById("test7").innerText = test7 + "PASSED";
+  } else {
+    document.getElementById("test7").innerText = test7 + "FAILED";
+  }
+setTimeout(()=>{runTests2();}, 2000);
+
+
+}
+
+/**
+*Pre: Initial tests are complete.
+*Post: Runs second round of tests.
+*/
+function runTests2(){
+  let test8 = "Test 8: Unflip function is called after three unmatching cards were flipped: ";
+  let test9 = "Test 9: All cards are unflipped after calling clearBoard: ";
+  let test10 = "Test 10: Cards have a different order after calling clearBoard: ";
+  let test11 = "Test 11: Three cards can be chosen after calling clearBoard: ";
+
+  document.getElementById("card4").click();
+  document.getElementById("card7").click();
+  document.getElementById("card8").click();
+
+  if(madeToUnflip){
+    document.getElementById("test8").innerText = test8 + "PASSED";
+  } else {
+    document.getElementById("test8").innerText = test8 + "FAILED";
+  }
+  madeToUnflip=false;
+  madeToDisable=false;
+  setTimeout(()=>{
+    let cardOrderBefore=[];
+    cards.forEach((card) => {
+      cardOrderBefore.push(card.style.order);
+    });
+    clearBoard();
+    let cardsUnflipped=true;
+    cards.forEach((card) => {
+      if(card.classList.contains('flip')){
+        cardsUnflipped=false;
+      }
+    });
+    if(cardsUnflipped){
+      document.getElementById("test9").innerText = test9 + "PASSED";
+    }else {
+      document.getElementById("test9").innerText = test9 + "FAILED";
+    }
+    document.getElementById("card4").click();
+    let cardOrderAfter=[];
+    cards.forEach((card) => {
+      cardOrderAfter.push(card.style.order);
+    });
+    if(cardOrderBefore != cardOrderAfter){
+      document.getElementById("test10").innerText = test10 + "PASSED";
+    }else {
+      document.getElementById("test10").innerText = test10 + "FAILED";
+    }
+    setTimeout(()=>{
+      document.getElementById("card3").click();
+      document.getElementById("card6").click();
+      document.getElementById("card9").click();
+      if(madeToUnflip || madeToDisable){
+        document.getElementById("test11").innerText = test11 + "PASSED";
+      } else {
+        document.getElementById("test11").innerText = test11 + "FAILED";
+      }
+    }, 1000);
+    document.getElementById('clearTests').style.visibility = "visible";
+  }, 2000);
+
+
+  madeToUnflip=false;
+  madeToDisable=false;
+  testing=false;
+}
+/**
+*Post: clears the test suite and resets test button.
+*/
+function clearTests(){
+  document.getElementById('test1').innerText = "";
+  document.getElementById('test2').innerText = "";
+  document.getElementById('test3').innerText = "";
+  document.getElementById('test4').innerText = "";
+  document.getElementById('test5').innerText = "";
+  document.getElementById('test6').innerText = "";
+  document.getElementById('test7').innerText = "";
+  document.getElementById('test8').innerText = "";
+  document.getElementById('test9').innerText = "";
+  document.getElementById('test10').innerText = "";
+  document.getElementById('test11').innerText = "";
+  document.getElementById('clearTests').style.visibility = "hidden";
+  document.getElementById("test").disabled = false;
+
 }
 </code></pre>
         </article>
@@ -54,13 +330,13 @@ function backHome(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#boardMoveDown">boardMoveDown</a></li><li><a href="global.html#boardMoveLeft">boardMoveLeft</a></li><li><a href="global.html#boardMoveRight">boardMoveRight</a></li><li><a href="global.html#boardMoveUp">boardMoveUp</a></li><li><a href="global.html#buildTable">buildTable</a></li><li><a href="global.html#canNotMove">canNotMove</a></li><li><a href="global.html#castleOptions">castleOptions</a></li><li><a href="global.html#checkcheck">checkcheck</a></li><li><a href="global.html#checkDiagDown">checkDiagDown</a></li><li><a href="global.html#checkDiagUp">checkDiagUp</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#checkForMatch">checkForMatch</a></li><li><a href="global.html#checkHoriz">checkHoriz</a></li><li><a href="global.html#checkVertical">checkVertical</a></li><li><a href="global.html#chess">chess</a></li><li><a href="global.html#clearBoard">clearBoard</a></li><li><a href="global.html#clearTests">clearTests</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#clickForTesting">clickForTesting</a></li><li><a href="global.html#clickTestMode">clickTestMode</a></li><li><a href="global.html#connectFour">connectFour</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#diagOptions">diagOptions</a></li><li><a href="global.html#disableCards">disableCards</a></li><li><a href="global.html#doCastle">doCastle</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#drawBoard">drawBoard</a></li><li><a href="global.html#flipCard">flipCard</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initCell">initCell</a></li><li><a href="global.html#isChanged">isChanged</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#knightOptions">knightOptions</a></li><li><a href="global.html#knightSet">knightSet</a></li><li><a href="global.html#linOptions">linOptions</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#placePieces">placePieces</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetBoard">resetBoard</a></li><li><a href="global.html#resetCheck">resetCheck</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#runMemoryTests">runMemoryTests</a></li><li><a href="global.html#runTest">runTest</a></li><li><a href="global.html#runTests2">runTests2</a></li><li><a href="global.html#selectCell">selectCell</a></li><li><a href="global.html#showCheck">showCheck</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#shuffleCards">shuffleCards</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#tentativeMove">tentativeMove</a></li><li><a href="global.html#test">test</a></li><li><a href="global.html#test5Bool">test5Bool</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#ticTacToeTestSuite">ticTacToeTestSuite</a></li><li><a href="global.html#unflipCards">unflipCards</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Nov 03 2019 19:27:31 GMT-0600 (Central Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 16:36:54 GMT-0600 (Central Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

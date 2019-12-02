@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: game5/chess.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: game5/chess.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
 * pre: empty table must exist in HTML
 * post: generates board and cells
 */
@@ -24,9 +52,9 @@ function buildTable(){
 	table.inCheck = false;
 	table.isCastling = false;
 	n=8; //n is the size of the board
-	for(let i = 0; i < n; i++){
+	for(let i = 0; i &lt; n; i++){
 		table.insertRow(i);
-		for(let j = 0; j < n; j++){
+		for(let j = 0; j &lt; n; j++){
 			table.rows[i].insertCell(j);
 			cell = table.rows[i].cells[j];
 			cell.id = i*n+j;
@@ -50,9 +78,9 @@ function buildTable(){
 *post: places all pieces.
 */
 function placePieces(){
-	for(let i = 0; i < 2*n; i++){
-	 // 	cell.isWhite = (cell.id<2*n);  //assigns initial white
-	 // 	cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id<2*n)); //assigns all
+	for(let i = 0; i &lt; 2*n; i++){
+	 // 	cell.isWhite = (cell.id&lt;2*n);  //assigns initial white
+	 // 	cell.hasPiece = ((cell.id>(n-2)*n-1)||(cell.id&lt;2*n)); //assigns all
 			whitePiece = document.getElementById(i);
 			blackPiece = document.getElementById(n*n-i-1);
 			whitePiece.isWhite = true;
@@ -64,8 +92,8 @@ function placePieces(){
 			whitePiece.pieceName = "rnbkqbnrpppppppp".charAt(i);
 			blackPiece.pieceName = "rnbqkbnrpppppppp".charAt(i);
 
-			whitePiece.innerHTML = "<img src=\"img/w" + "rnbkqbnrpppppppp".charAt(i) + ".png\">";
-			blackPiece.innerHTML = "<img src=\"img/b" + "rnbqkbnrpppppppp".charAt(i) + ".png\">";
+			whitePiece.innerHTML = "&lt;img src=\"img/w" + "rnbkqbnrpppppppp".charAt(i) + ".png\">";
+			blackPiece.innerHTML = "&lt;img src=\"img/b" + "rnbqkbnrpppppppp".charAt(i) + ".png\">";
 	}
 }
 
@@ -93,7 +121,7 @@ function click(cell){
 		}
 	}
 	else{
-		if((table.from.isWhite==cell.isWhite)&&(cell.hasPiece)){
+		if((table.from.isWhite==cell.isWhite)&amp;&amp;(cell.hasPiece)){
 			resetOptions();
 			showOptions(cell);
 		}
@@ -198,10 +226,10 @@ function showOptions(cell){
 function diagOptions(cell, direction, recurse){
 	let diagonals = {tr:1-n, br:1+n, bl:-1+n, tl:-1-n};
 	let exists = {bl:false, br:false, tl:false, tr:false};
-	exists.tr = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) - n >= 0));
-	exists.br = ((parseInt(cell.id)%n != (n-1))&&(parseInt(cell.id) + parseInt(n) < n*n));
-	exists.bl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) + parseInt(n) < n*n));
-	exists.tl = ((parseInt(cell.id)%n != 0)&&(parseInt(cell.id) - n >= 0));
+	exists.tr = ((parseInt(cell.id)%n != (n-1))&amp;&amp;(parseInt(cell.id) - n >= 0));
+	exists.br = ((parseInt(cell.id)%n != (n-1))&amp;&amp;(parseInt(cell.id) + parseInt(n) &lt; n*n));
+	exists.bl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) + parseInt(n) &lt; n*n));
+	exists.tl = ((parseInt(cell.id)%n != 0)&amp;&amp;(parseInt(cell.id) - n >= 0));
 
 	if(exists[direction]){
 		nearCell = document.getElementById(parseInt(cell.id)+parseInt(diagonals[direction]));
@@ -236,7 +264,7 @@ function linOptions(cell, direction, recurse){
 
 	exists.up = (parseInt(cell.id) - parseInt(n) >= 0);
 	exists.rt = (parseInt(cell.id)%n != (n-1));
-	exists.dn = (parseInt(cell.id) + parseInt(n) < n*n);
+	exists.dn = (parseInt(cell.id) + parseInt(n) &lt; n*n);
 	exists.lf = (parseInt(cell.id)%n != 0);
 
 	if(exists[direction]){
@@ -319,28 +347,28 @@ function knightOptions(cell){
 	if(cell_i>=2){
 		if(cell_j>=1)
 			knightSet(table.rows[cell_i-2].cells[cell_j-1]);
-		if(cell_j<(n-1))
+		if(cell_j&lt;(n-1))
 			knightSet(table.rows[cell_i-2].cells[cell_j+1]);
 	}
 
 	if(cell_i>=1){
 		if(cell_j>=2)
 			knightSet(table.rows[cell_i-1].cells[cell_j-2]);
-		if(cell_j<(n-2))
+		if(cell_j&lt;(n-2))
 			knightSet(table.rows[cell_i-1].cells[cell_j+2]);
 	}
 
-	if(cell_i<(n-1)){
+	if(cell_i&lt;(n-1)){
 		if(cell_j>=2)
 			knightSet(table.rows[cell_i+1].cells[cell_j-2]);
-		if(cell_j<(n-2))
+		if(cell_j&lt;(n-2))
 			knightSet(table.rows[cell_i+1].cells[cell_j+2]);
 	}
 
-	if(cell_i<(n-2)){
+	if(cell_i&lt;(n-2)){
 		if(cell_j>=1)
 			knightSet(table.rows[cell_i+2].cells[cell_j-1]);
-		if(cell_j<(n-1))
+		if(cell_j&lt;(n-1))
 			knightSet(table.rows[cell_i+2].cells[cell_j+1]);
 	}
 
@@ -401,9 +429,9 @@ function tentativeMove(fromCell, toCell){
 		else{
 			toCell.hasMoved = true; //pretty sure this never needs to be reset to false EVER
 			fromCell.hasMoved = true;
-			if((toCell.pieceName == 'p')&&((toCell.id < n)||(toCell.id >= n*(n-1)))){ //promote pawn
+			if((toCell.pieceName == 'p')&amp;&amp;((toCell.id &lt; n)||(toCell.id >= n*(n-1)))){ //promote pawn
 				toCell.pieceName = 'q';
-				(table.whiteTurn) ? toCell.innerHTML = "<img src=\"img/wq.png\">" : 	toCell.innerHTML = "<img src=\"img/bq.png\">";
+				(table.whiteTurn) ? toCell.innerHTML = "&lt;img src=\"img/wq.png\">" : 	toCell.innerHTML = "&lt;img src=\"img/bq.png\">";
 			}
 			if(!table.isCastling){
 				newTurn();
@@ -420,9 +448,9 @@ function checkcheck(isWhite){
 	table.checkingcheck = true;
 	resetCheck();
 	resetOptions();
-	for(let i = 0; i < n*n; i++){
+	for(let i = 0; i &lt; n*n; i++){
 		cell = document.getElementById(i);
-		if((cell.hasPiece)&&(cell.isWhite != isWhite)){
+		if((cell.hasPiece)&amp;&amp;(cell.isWhite != isWhite)){
 			if(cell.pieceName != 'p'){
 				showOptions(cell);
 			}
@@ -438,10 +466,10 @@ function checkcheck(isWhite){
 			}
 		}
 	}
-	for(let i = 0; i < n*n; i++){
+	for(let i = 0; i &lt; n*n; i++){
 		cell = document.getElementById(i);
 		cell.check = cell.option;
-		if ((cell.isWhite == isWhite)&&cell.check&&(cell.pieceName == 'k')){
+		if ((cell.isWhite == isWhite)&amp;&amp;cell.check&amp;&amp;(cell.pieceName == 'k')){
 			table.inCheck = true;
 			console.log("king's in check!");
 		}
@@ -471,8 +499,8 @@ function newTurn() {
 */
 
 function resetOptions(){
-	for(let i = 0; i < n; i++){
-		for(let j = 0; j < n; j++){
+	for(let i = 0; i &lt; n; i++){
+		for(let j = 0; j &lt; n; j++){
 			cell = document.getElementById(i*n+j);
 			cell.option = false;
 			cell.castle = false;
@@ -488,8 +516,8 @@ function resetOptions(){
 */
 function resetCheck(){
 	table.inCheck = false;
-	for(let i = 0; i < n; i++){
-		for(let j = 0; j < n; j++){
+	for(let i = 0; i &lt; n; i++){
+		for(let j = 0; j &lt; n; j++){
 			cell = document.getElementById(i*n+j);
 			cell.check = false;
 		}
@@ -501,8 +529,8 @@ function resetCheck(){
 */
 function showCheck(){
 	checkcheck(table.whiteTurn);
-	for(let i = 0; i < n; i++){
-		for(let j = 0; j < n; j++){
+	for(let i = 0; i &lt; n; i++){
+		for(let j = 0; j &lt; n; j++){
 			cell = document.getElementById(i*n+j);
 			if(cell.check){
 				cell.style.backgroundColor="red";
@@ -529,7 +557,7 @@ function test(){
 	test.style.fontSize = "10px";
 	let u = 0;
 	let p = [];
-	for(m = 0; m < 20; m++){
+	for(m = 0; m &lt; 20; m++){
 		p[m] = document.createElement('p');
 		p[m].style.fontSize = "10px";
 	}
@@ -540,10 +568,10 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'p';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wp.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wp.png\">";
 
 	p[u].innerHTML += "Testing piece placement: ";
-	(testCell.hasPiece&&(testCell.pieceName == 'p')) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	(testCell.hasPiece&amp;&amp;(testCell.pieceName == 'p')) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
 
@@ -561,7 +589,7 @@ function test(){
 	p[u].innerHTML += "Testing tentativeMove() function: ";
 	testCell = table.rows[1].cells[0];
 	testCell.onmousedown();
-	(testCell.hasPiece&&(testCell.pieceName == 'p')) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
+	(testCell.hasPiece&amp;&amp;(testCell.pieceName == 'p')) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
 
@@ -592,13 +620,13 @@ function test(){
 	table.whiteTurn = true;
   testCell.pieceName = 'b';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wb.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wb.png\">";
 
 	p[u].innerHTML += "Testing recursive diagonal options: ";
 	table.whiteTurn = true;
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	testCell.onmousedown();
-	let worked = table.rows[1].cells[1].option&&table.rows[2].cells[2].option&&table.rows[3].cells[3].option&&table.rows[4].cells[4].option&&table.rows[5].cells[5].option&&table.rows[6].cells[6].option&&table.rows[7].cells[7].option;
+	let worked = table.rows[1].cells[1].option&amp;&amp;table.rows[2].cells[2].option&amp;&amp;table.rows[3].cells[3].option&amp;&amp;table.rows[4].cells[4].option&amp;&amp;table.rows[5].cells[5].option&amp;&amp;table.rows[6].cells[6].option&amp;&amp;table.rows[7].cells[7].option;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -612,19 +640,19 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'r';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wr.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wr.png\">";
 
 	p[u].innerHTML += "Testing vertical linear recursive move options: ";
 	table.whiteTurn = true;
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	testCell.onmousedown();
-	worked = table.rows[1].cells[0].option&&table.rows[2].cells[0].option&&table.rows[3].cells[0].option&&table.rows[4].cells[0].option&&table.rows[5].cells[0].option&&table.rows[6].cells[0].option&&table.rows[7].cells[0].option;
+	worked = table.rows[1].cells[0].option&amp;&amp;table.rows[2].cells[0].option&amp;&amp;table.rows[3].cells[0].option&amp;&amp;table.rows[4].cells[0].option&amp;&amp;table.rows[5].cells[0].option&amp;&amp;table.rows[6].cells[0].option&amp;&amp;table.rows[7].cells[0].option;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
 
 	p[u].innerHTML += "Testing horizontal linear recursive move options: ";
-	worked = table.rows[0].cells[1].option&&table.rows[0].cells[2].option&&table.rows[0].cells[4].option&&table.rows[0].cells[5].option&&table.rows[0].cells[6].option&&table.rows[0].cells[7].option&&table.rows[0].cells[3].option;
+	worked = table.rows[0].cells[1].option&amp;&amp;table.rows[0].cells[2].option&amp;&amp;table.rows[0].cells[4].option&amp;&amp;table.rows[0].cells[5].option&amp;&amp;table.rows[0].cells[6].option&amp;&amp;table.rows[0].cells[7].option&amp;&amp;table.rows[0].cells[3].option;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -634,18 +662,18 @@ function test(){
 	kingCell.hasPiece = true;
   kingCell.pieceName = 'k';
 	kingCell.isWhite = true;
-	kingCell.innerHTML = "<img src=\"img/wk.png\">";
+	kingCell.innerHTML = "&lt;img src=\"img/wk.png\">";
 
 
 	p[u].innerHTML += "Testing that castling under incorrect conditions doesn't work: ";
 	document.getElementById(10).hasPiece = true;
 	document.getElementById(10).pieceName = 'r';
 	document.getElementById(10).isWhite = false;
-	document.getElementById(10).innerHTML = "<img src=\"img/br.png\">";
+	document.getElementById(10).innerHTML = "&lt;img src=\"img/br.png\">";
 	checkcheck();
 	kingCell.onmousedown();
 	document.getElementById(1).onmousedown();
-	worked = !((document.getElementById(1).pieceName == 'k')&&(document.getElementById(2).pieceName == 'r'));
+	worked = !((document.getElementById(1).pieceName == 'k')&amp;&amp;(document.getElementById(2).pieceName == 'r'));
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -659,7 +687,7 @@ function test(){
 	newTurn();
 	kingCell.onmousedown();
 	document.getElementById(1).onmousedown();
-	worked = ((document.getElementById(1).pieceName == 'k')&&(document.getElementById(2).pieceName == 'r'));
+	worked = ((document.getElementById(1).pieceName == 'k')&amp;&amp;(document.getElementById(2).pieceName == 'r'));
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -673,11 +701,11 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'n';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wn.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wn.png\">";
 	table.whiteTurn = true;
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	testCell.onmousedown();
-	worked = table.rows[0].cells[1].option&&table.rows[0].cells[3].option&&table.rows[1].cells[0].option&&table.rows[1].cells[4].option&&table.rows[3].cells[0].option&&table.rows[3].cells[4].option&&table.rows[4].cells[1].option&&table.rows[4].cells[3].option;
+	worked = table.rows[0].cells[1].option&amp;&amp;table.rows[0].cells[3].option&amp;&amp;table.rows[1].cells[0].option&amp;&amp;table.rows[1].cells[4].option&amp;&amp;table.rows[3].cells[0].option&amp;&amp;table.rows[3].cells[4].option&amp;&amp;table.rows[4].cells[1].option&amp;&amp;table.rows[4].cells[3].option;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -690,28 +718,28 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'r';
 	testCell.isWhite = false;
-	testCell.innerHTML = "<img src=\"img/br.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/br.png\">";
 
 	testCell = document.getElementById(42);
 	testCell.hasMoved = false;
 	testCell.hasPiece = true;
   testCell.pieceName = 'r';
 	testCell.isWhite = false;
-	testCell.innerHTML = "<img src=\"img/br.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/br.png\">";
 
 	testCell = document.getElementById(1);
 	testCell.hasMoved = true;
 	testCell.hasPiece = true;
 	testCell.pieceName = 'k';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wk.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wk.png\">";
 
 	newTurn();
 	newTurn();
 	table.whiteTurn = true;
 	document.getElementById("body").style.backgroundColor = "darkgray";
 	testCell.onmousedown();
-	worked = !table.rows[0].cells[0].option&&!table.rows[0].cells[2].option&&!table.rows[1].cells[0].option&&table.rows[1].cells[1].option&&!table.rows[1].cells[2].option;
+	worked = !table.rows[0].cells[0].option&amp;&amp;!table.rows[0].cells[2].option&amp;&amp;!table.rows[1].cells[0].option&amp;&amp;table.rows[1].cells[1].option&amp;&amp;!table.rows[1].cells[2].option;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -724,14 +752,14 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'b';
 	testCell.isWhite = false;
-	testCell.innerHTML = "<img src=\"img/bb.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/bb.png\">";
 
 	testCell = document.getElementById(0);
 	testCell.hasMoved = false;
 	testCell.hasPiece = true;
   testCell.pieceName = 'r';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wr.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wr.png\">";
 
 	newTurn();
 	newTurn();
@@ -740,7 +768,7 @@ function test(){
 	testCell.onmousedown();
 	document.getElementById(1).onmousedown();
 	testCell = document.getElementById(1);
-	worked = testCell.hasMoved&&testCell.isWhite&&(testCell.pieceName == 'r')&&(testCell.innerHTML == "<img src=\"img/wr.png\">")&&testCell.hasPiece;
+	worked = testCell.hasMoved&amp;&amp;testCell.isWhite&amp;&amp;(testCell.pieceName == 'r')&amp;&amp;(testCell.innerHTML == "&lt;img src=\"img/wr.png\">")&amp;&amp;testCell.hasPiece;
 	(worked) ? p[u].innerHTML += "Passed\n" : p[u].innerHTML += "Failed\n";
 	test.appendChild(p[u]);
 	u++;
@@ -753,21 +781,21 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'b';
 	testCell.isWhite = false;
-	testCell.innerHTML = "<img src=\"img/bb.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/bb.png\">";
 
 	testCell = document.getElementById(0);
 	testCell.hasMoved = false;
 	testCell.hasPiece = true;
   testCell.pieceName = 'r';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wr.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wr.png\">";
 
 	testCell = document.getElementById(2);
 	testCell.hasMoved = false;
 	testCell.hasPiece = true;
 	testCell.pieceName = 'k';
 	testCell.isWhite = false;
-	testCell.innerHTML = "<img src=\"img/bk.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/bk.png\">";
 
 	newTurn();
 	table.whiteTurn = false;
@@ -787,7 +815,7 @@ function test(){
 	testCell.hasPiece = true;
   testCell.pieceName = 'p';
 	testCell.isWhite = true;
-	testCell.innerHTML = "<img src=\"img/wp.png\">";
+	testCell.innerHTML = "&lt;img src=\"img/wp.png\">";
 
 	newTurn();
 	newTurn();
@@ -801,3 +829,26 @@ function test(){
 	u++;
 
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#backHome">backHome</a></li><li><a href="global.html#boardMoveDown">boardMoveDown</a></li><li><a href="global.html#boardMoveLeft">boardMoveLeft</a></li><li><a href="global.html#boardMoveRight">boardMoveRight</a></li><li><a href="global.html#boardMoveUp">boardMoveUp</a></li><li><a href="global.html#buildTable">buildTable</a></li><li><a href="global.html#canNotMove">canNotMove</a></li><li><a href="global.html#castleOptions">castleOptions</a></li><li><a href="global.html#checkcheck">checkcheck</a></li><li><a href="global.html#checkDiagDown">checkDiagDown</a></li><li><a href="global.html#checkDiagUp">checkDiagUp</a></li><li><a href="global.html#checkers">checkers</a></li><li><a href="global.html#checkForMatch">checkForMatch</a></li><li><a href="global.html#checkHoriz">checkHoriz</a></li><li><a href="global.html#checkVertical">checkVertical</a></li><li><a href="global.html#chess">chess</a></li><li><a href="global.html#clearBoard">clearBoard</a></li><li><a href="global.html#clearTests">clearTests</a></li><li><a href="global.html#click">click</a></li><li><a href="global.html#clickForTesting">clickForTesting</a></li><li><a href="global.html#clickTestMode">clickTestMode</a></li><li><a href="global.html#connectFour">connectFour</a></li><li><a href="global.html#copy">copy</a></li><li><a href="global.html#diagOptions">diagOptions</a></li><li><a href="global.html#disableCards">disableCards</a></li><li><a href="global.html#doCastle">doCastle</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#drawBoard">drawBoard</a></li><li><a href="global.html#flipCard">flipCard</a></li><li><a href="global.html#goToGame">goToGame</a></li><li><a href="global.html#initBoard">initBoard</a></li><li><a href="global.html#initCell">initCell</a></li><li><a href="global.html#isChanged">isChanged</a></li><li><a href="global.html#jump">jump</a></li><li><a href="global.html#knightOptions">knightOptions</a></li><li><a href="global.html#knightSet">knightSet</a></li><li><a href="global.html#linOptions">linOptions</a></li><li><a href="global.html#move">move</a></li><li><a href="global.html#newTurn">newTurn</a></li><li><a href="global.html#nextGame">nextGame</a></li><li><a href="global.html#placePieces">placePieces</a></li><li><a href="global.html#previousGame">previousGame</a></li><li><a href="global.html#printWinner">printWinner</a></li><li><a href="global.html#refreshBoard">refreshBoard</a></li><li><a href="global.html#reset">reset</a></li><li><a href="global.html#resetBoard">resetBoard</a></li><li><a href="global.html#resetCheck">resetCheck</a></li><li><a href="global.html#resetOptions">resetOptions</a></li><li><a href="global.html#runMemoryTests">runMemoryTests</a></li><li><a href="global.html#runTest">runTest</a></li><li><a href="global.html#runTests2">runTests2</a></li><li><a href="global.html#selectCell">selectCell</a></li><li><a href="global.html#showCheck">showCheck</a></li><li><a href="global.html#showOptions">showOptions</a></li><li><a href="global.html#shuffleCards">shuffleCards</a></li><li><a href="global.html#switchPlayer">switchPlayer</a></li><li><a href="global.html#tentativeMove">tentativeMove</a></li><li><a href="global.html#test">test</a></li><li><a href="global.html#test5Bool">test5Bool</a></li><li><a href="global.html#ticTacToe">ticTacToe</a></li><li><a href="global.html#ticTacToeTestSuite">ticTacToeTestSuite</a></li><li><a href="global.html#unflipCards">unflipCards</a></li><li><a href="global.html#winChoice">winChoice</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Dec 01 2019 16:36:54 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

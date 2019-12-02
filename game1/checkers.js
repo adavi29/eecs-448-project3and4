@@ -263,10 +263,6 @@ function backHome(){
   window.location.replace("../homePage.html");
 }
 
-/**
-* pre: checkers() has been called
-* post: empties the board and rebuilds it without any pieces
-*/
 function testReset(){
 	for(let l = (n-1); l >= 0; l--){
 		table.deleteRow(l);
@@ -306,12 +302,11 @@ function testReset(){
 				click(this, n); };
 			}
 		}
+
+
+
 }
 
-/**
-* pre: checkers() must have been run
-* post: the innerHTML of any cell that hasPiece becomes an emoji of the proper color
-*/
 function corporealize(){
 	for(let i = 0; i < n; i++){
 		for(let j = 0; j < n; j++){
@@ -324,8 +319,8 @@ function corporealize(){
 }
 
 /**
-* pre: checkers() must have been run
-* post: performs tests of basic machanics and edge cases
+*Pre: Test button was clicked
+*Post: Runs all tests
 */
 function test(){
 	testReset();

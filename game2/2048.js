@@ -126,7 +126,11 @@ document.onkeydown = function (event) {
   }
 }
 
-
+/**
+*pre: there is an existing board to be copied
+*post: creates copy of board passed in
+*@param board previously created board to be copied
+*/
 function copy(board){
   var copyBoard = [];
   for (var i = 0; i < 4; i++) {
@@ -139,6 +143,12 @@ function copy(board){
   return copyBoard;
 }
 
+/**
+*pre: two boards are passed in
+*post: returns boolean if the board has changed (true) or not (false)
+*@param board1 initial board
+*@param board2 board that could have changed
+*/
 function isChanged(board1,board2){
   for (var i = 0; i < 4; i++) {
     for (var j = 0; j < 4; j++) {
@@ -150,14 +160,10 @@ function isChanged(board1,board2){
   return false;
 }
 
-function canNotMove() {
-
 /**
-* pre: the game board is created on HTML
-* post: Checks if all cells are filled then end gameboard.
-*Checks if all cells are filled but some two cells can be combained and don't end the game.
-*If the board is not full then return a new random cell on the board.
+*post: determines if there is a move that can be made on the board
 */
+function canNotMove() {
 
   var ableCells = 0;
   for(var i = 0; i < 4; i++) {
@@ -410,6 +416,7 @@ function backHome(){
 
 
 /**
+*Pre: Test button is clicked
 *Post: Runs first round of tests.
 */
 
