@@ -12,7 +12,7 @@ Notebook Background Effect created by Sarah Backhouse: https://leaverou.github.i
 
 Text Effect on Homepage created using tutorial by Iggy: https://line25.com/tutorials/how-to-create-a-cool-anaglyphic-text-effect-with-css
 
-Game 3 Matching Game: created by following tutorial on https://marina-ferreira.github.io/tutorials/js/memory-game/ written by Marina Ferreira 
+Game 3 Matching Game: created by following tutorial on https://marina-ferreira.github.io/tutorials/js/memory-game/ written by Marina Ferreira
 
 Emoji Unicode for Connect 4 and 2048: https://www.quackit.com/character_sets/emoji/emoji_v3.0/unicode_emoji_v3.0_characters_all.cfm
 
@@ -21,3 +21,5 @@ Diagonal Connect 4 win Algorithms: Loosely followed the diagonal algorithms on t
 Game 2 2048 Game: created by the following tutorial on https://www.youtube.com/watch?v=tveTp3w3Wsg written by Criticaster
 
 Free logo maker used to create pictures for homepage: https://logomakr.com/
+
+All chess images by NikNaks from wikimedia (https://commons.wikimedia.org/wiki/Category:White_chess_king_symbols#/media/File:Chess_klt26.svg) (CC BY-SA 3.0)
